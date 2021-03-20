@@ -1,0 +1,23 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{1} %% Numéro du chapitre précédent ;)
+\dominitoc
+\faketableofcontents
+\fi
+
+\chapter{Chapitre2}
+\minitoc
+
+\section{section1}
+\subsection{subsection1a}
+
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{these}
+\end{document}
+\fi
