@@ -1,0 +1,28 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{5} %% Numéro du chapitre précédent ;)
+\dominitoc
+\faketableofcontents
+\fi
+
+\chapter{Cas d'implémentation de l'Agent de Monit. \& Contrôle}
+\minitoc
+
+%%%% CONTENU %%%%
+    \section{Framework et Architecture Logicielle}
+        \subsection{Présentation de Xenomai}
+    \section{Benchmark MiBench}
+        \subsection{Présentation}
+        \subsection{Demandes d'adaptation/modification des tâches}
+    \section{Agent de Monitoring et Control}
+    
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{these}
+\end{document}
+\fi

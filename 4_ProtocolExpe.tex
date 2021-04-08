@@ -1,0 +1,32 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{4} %% Numéro du chapitre précédent ;)
+\dominitoc
+\faketableofcontents
+\fi
+
+\chapter{Protocole et démarche expérimentale}
+\minitoc
+
+%%%% CONTENU %%%%
+\section{Phase de Design}
+    \subsection{Profil des tâches en isolation}
+    \subsection{Profil des tâches avec stress imposé}
+    \subsection{Chaine de tâches avec système complet sans Contrôle}
+\section{Phase de Calibration}
+    \subsection{Chaine de tâches avec stress forcé}
+    \subsection{Chaine de tâche en isolation}
+    \subsection{Chaine de tâche avec mécanisme de Contrôle}
+\section{Phase de Validation en exécution}
+    \subsection{Chaine de tâches avec système complet et mécanisme de Contrôle}
+    
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{these}
+\end{document}
+\fi

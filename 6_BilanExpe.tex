@@ -1,0 +1,37 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{6} %% Numéro du chapitre précédent ;)
+\dominitoc
+\faketableofcontents
+\fi
+
+\chapter{Bilan de l'expérimentation}
+\minitoc
+
+%%%% CONTENU %%%%
+    \section{Solutions adoptées à la complexité d'implémentation}
+        Difficultés rencontrées dans la mise en place de ce concept et leçons apprises (en cas de volonté de reproduction)
+      
+\chapter{Mise en Application expérimentale}
+    \section{Application à MiBench du Protocole}
+        \subsection{Phase de Design}
+            Profil des tâches en isolation
+            Profil des tâches avec stress imposé
+            Chaine de tâches avec système complet sans Contrôle
+        \subsection{Phase de Calibration}
+            Chaine de tâches avec stress forcé
+            Chaine de tâche en isolation
+            Chaine de tâche avec mécanisme de Contrôle
+        \subsection{Phase de Validation en exécution}
+            Chaine de tâches avec système complet et mécanisme de Contrôle
+    \section{Conclusions expérimentales générales}  
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{these}
+\end{document}
+\fi

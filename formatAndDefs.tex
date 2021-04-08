@@ -7,6 +7,7 @@
 \usepackage{lmodern}
 \usepackage{tabularx}
 %\usepackage{tabular}
+\usepackage[inline]{enumitem}
 \usepackage{multirow}
 
 \usepackage{hhline}
@@ -22,6 +23,52 @@
 % Use \minitoc where to put a table of contents
 
 \usepackage{aecompl}
+
+%% Package cosmetic meilleur layout du texte en jouant sur le spacing par caractères
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[absolute,overlay]{textpos} 
+\setlength{\TPHorizModule}{\paperwidth}\setlength{\TPVertModule}{\paperheight}
+
+%%%%% Insertion graphiques format PGF
+\usepackage{pgfplots}
+\pgfplotsset{width=\linewidth, compat=1.16}%, compat=1.17}
+\usepackage{adjustbox}          %%% PERMET DE LES RECADRER + FACILEMENT
+
+%%%%%%%%%%% JOLIS TABLEAUX
+\usepackage{booktabs}
+
+%%%%%%%%%% Bullets de listes sans saut de ligne %%%%%%%%%%
+\usepackage{xparse}
+
+\ExplSyntaxOn%
+\seq_new:N \l_local_enum_seq
+
+\newcommand{\storethestuff}[1]{%
+  \seq_set_from_clist:Nn \l_local_enum_seq {#1}%
+}
+
+\newcommand{\dotheenumstuff}{%
+\int_zero:N \l_tmpa_int
+\seq_map_inline:Nn \l_local_enum_seq {%
+    \int_incr:N \l_tmpa_int% Increase the counter
+    \item ##1
+    % Check whether the list has reached the end -- if so, use '.' instead of ','
+    %\int_compare:nNnTF 
+    % { \l_tmpa_int } < {\seq_count:N \l_local_enum_seq} 
+    % {,} {.}
+  }
+}
+\ExplSyntaxOff
+
+\NewDocumentCommand{\linebullets}{+m}{%
+  \storethestuff{#1}%
+  \begin{enumerate*}[label={\alph*)},font={\bfseries},itemjoin={{, }}]
+    \dotheenumstuff%
+  \end{enumerate*}
+}
+
+%%%%%%%%%% ECRITURE CARACTERES DANS UN CERCLE %%%%%%%%%%
+\def\circleTxt[#1]{\raisebox{.5pt}{\textcircled{\raisebox{-1pt}{#1}}}}
 
 % Glossary / list of abbreviations
 
@@ -40,8 +87,8 @@
 
 \ifpdf
   \usepackage[pdftex]{graphicx}
-  \DeclareGraphicsExtensions{.jpg}
-  \usepackage[a4paper,pagebackref,hyperindex=true]{hyperref}
+  \DeclareGraphicsExtensions{.pdf,PDF,.png,PNG,.jpg,JPG}
+  \usepackage[pagebackref,hyperindex=true]{hyperref} %% use \autoref{} instead of Table~\ref{}.
   \usepackage{tikz}
   \usetikzlibrary{arrows,shapes,calc}
 \else
@@ -50,7 +97,7 @@
   \usepackage[a4paper,dvipdfm,pagebackref,hyperindex=true]{hyperref}
 \fi
 
-\graphicspath{{.}{images/}}
+\graphicspath{{.}{schemas/}{graphiques/}{Autre/}}
 
 %% nicer backref links. NOTE: The flag ThesisInEnglish is used to define the
 % language in the back references. Read more about it in These.tex
@@ -94,8 +141,8 @@
 \hypersetup
 {
 bookmarksopen=true,
-pdftitle="Évaluation de la sécurité des équipements grand public connectés à Internet",
-pdfauthor="Yann BACHY", %auteur du document
+pdftitle="Prévention des fautes temporelles sur architectures multicœur pour les systèmes à criticité mixte",
+pdfauthor="Daniel LOCHE", %auteur du document
 pdfsubject="Thèse", %sujet du document
 %pdftoolbar=false, %barre d'outils non visible
 pdfmenubar=true, %barre de menu visible

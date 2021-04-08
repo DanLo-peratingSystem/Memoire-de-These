@@ -4,7 +4,7 @@
 % Note2: You will have an error if you change the language of the document and
 %        compile it without cleaning the auxiliary files. Compiling it again
 %        should solve the problem.
-\documentclass[french, a4paper, 11pt, twoside]{StyleThese}
+\documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \usepackage{iflang}
 \usepackage{bibentry}
 \newcommand{\included}{}
@@ -13,7 +13,7 @@
 \sloppy
 \begin{document}
 
-\include{page_de_garde}
+\include{0_Garde}
 
     \makeflyleaf
 
@@ -25,24 +25,14 @@
 
  \cleardoublepage
 
-% Here you can see an example of how to create text conditioned by the language
-% variable. The \iftoggle command:
-%
-%   \IfLanguageName{english}{%
-%   <your-text-in-english>
-%   }{%
-%   <your-text-in-french>
-%   }
-%
-% will compile only one of the two blocks, depending on the variable you set at
-% the beginning of this document. Language selection is managed this way in the
-% formatAndDefs.tex file. You too can create sections of your thesis that is
-% language dependend this way, although you probably won't need it. Another use
-% of \iftoggle can be found at the end of this file.
+%Another use of \iftoggle can be found at the end of this file.
 \IfLanguageName{english}{%
 \section*{Acknowledgments}
 }{%
 \section*{Remerciements}
+\addstarredchapter{Remerciements}
+
+
 }
 
 A faire en dernier :-) 
@@ -57,109 +47,18 @@ A faire en dernier :-)
 %
 % You should not use \mtcfixnomenclature if you have no glossary (that means,
 % if you don't use \printnomenclature or if your glossary is empty).
-%\mtcfixnomenclature
+\mtcfixnomenclature
 
 \mainmatter
+\include{0_Introduction}
+\include{1_Enjeux}
+\include{2_StateOfArt}
+\include{3_PrincipeArchi}
+\include{4_ProtocolExpe}
+\include{5_ImplemCase}
+\include{6_BilanExpe}
 
-\chapter{Introduction, contexte}
-    \section{Systèmes embarqués automobiles}
-        \subsection{Évolutions des systèmes embarqués}
-            Système mécanique => système cyber-physique
-        \subsection{Architectures EE}
-            => Augmentation complexité architecture EE
-            => augmentation des besoins (puissance de calcul, ADAS, voiture connectée/autonome...)
-    \section{Tendances et Contraintes actuelles}
-        \subsection{Tendances}
-            => Nouvelles architectures EE fédérées, virtualisation + multi-coeurs
-                Présentation des différents risques d'interférence multicoeur
-            => Évolutivité (Adaptive AUTOSAR, car as a service)
-        \subsection{Contraintes et limitations}
-            Difficulté de transition
-            Complexité
-            Coûts
-    \section{Objectif(s), contribution et Problématique}
-        Transition partie II - enjeux des fautes temporelles à cause des tendances
-\chapter{Enjeux des systèmes à criticité multiple sur processeurs multi-coeurs}
-    \section{Présentation des architectures Hardware}
-        \subsection{Mono/Multi/Many Cores et GPU}
-        \subsection{Architectures mémoires, cas des multi-coeurs}
-    \section{Risques d'interférences}
-    \section{criticité mixte \& contraintes temporelles}
-        \subsection{Enjeux des usages des multicoeurs avec contraintes temporelles}
-        \subsection{Problématique :  criticité multiple : comment optimiser l'usage des ressources avec garanties temporelles}
-transition - presentation contenu Etat de l'Art
-\chapter{Etat de l'Art}
-    \section{Optimisation des ressources CPU}
-        \subsection{Fair scheduling - OS General Purpose}
-        \subsection{Parallelisme et load balancing}
-        \subsection{Autres considérations}
-            en général on va rarement optimiser à 100\%, mais du coup exploiter d'autres critères comme la con somation d'énergie, la chauffe etc... Des critères d'isolation des tâches pour des raison de sécurité peuvent aussi être faits... on abordera pas plus que cela ces éléments dans cette thèse.
-    \section{Respect d'exigences temporelles}
-        \subsection{Mécanismes de contrôle - Modèle à 1 niveau de criticité}
-            ordonnancements statiques
-            partitionnements spatio-temporels
-                exemple Hyperviseur PikeOS
-            Automotive case : AUTOSAR
-                timing constraints
-            Avionic Case : ARINC653
-        \subsection{Mécanismes réactifs, Modèles à criticité multiple}
-            Ordonnancement dynamique
-            Stratégies dynamiques, modes de fonctionnement (nominal, dégradés)
-                sur la mémoire => thèse Antoine Blin typiquement
-                sur l'ordonnancement
-\chapter{Principe et architecture pour la gestion de fautes temporelles}
-    Mécanisme d'anticipation dynamique pour gérer fautes temporelles
-    \section{Un modèle basé sur des chaînes de tâches pour garantir les contraintes temporelles}
-        \subsection{Modèle de tâches}
-        \subsection{modélisation en chaînes de tâches}
-        \subsection{exigence bout-en-bout de la chaîne de tâche, définition}
-    \section{Principe de mécanisme d'anticipation - structure Moniteur \& Commande}
-        \subsection{Méthode d'anticipation}
-        \subsection{Mode dégradé et tâches non vitales}
-        \subsection{Méthode de recouvrement}
-        \subsection{structure en Moniteur + Commande - Architecture Logicielle}
-    \section{Application au domaine  automobile (diag. fonctionnel, SWC, etc)}
-\chapter{Protocole et démarche expérimentale}
-        \section{Phase de Design}
-            \subsection{Profil des tâches en isolation}
-            \subsection{Profil des tâches avec stress imposé}
-            \subsection{Chaine de tâches avec système complet sans Contrôle}
-        \section{Phase de Calibration}
-            \subsection{Chaine de tâches avec stress forcé}
-            \subsection{Chaine de tâche en isolation}
-            \subsection{Chaine de tâche avec mécanisme de Contrôle}
-        \section{Phase de Validation en exécution}
-            \subsection{Chaine de tâches avec système complet et mécanisme de Contrôle}
-\chapter{Cas d'implémentation de l'Agent de Monit. & Contrôle}
-    \section{Framework et Architecture Logicielle}
-        \subsection{Présentation de Xenomai}
-    \section{Benchmark MiBench}
-        \subsection{Présentation}
-        \subsection{Demandes d'adaptation/modification des tâches}
-    \section{Agent de Monitoring et Control}
-\chapter{Mise en Application expérimentale}
-    \section{Application à MiBench du Protocole}
-        \subsection{Phase de Design}
-            Profil des tâches en isolation
-            Profil des tâches avec stress imposé
-            Chaine de tâches avec système complet sans Contrôle
-        \subsection{Phase de Calibration}
-            Chaine de tâches avec stress forcé
-            Chaine de tâche en isolation
-            Chaine de tâche avec mécanisme de Contrôle
-        \subsection{Phase de Validation en exécution}
-            Chaine de tâches avec système complet et mécanisme de Contrôle
-    \section{Conclusions expérimentales générales}
-\chapter{Bilan de l'expérimentation}
-    \section{Solutions adoptées à la complexité d'implémentation}
-        Difficultés rencontrées dans la mise en place de ce concept et leçons apprises (en cas de volonté de reproduction)
-\chapter{Conclusions et Perspectives}
-    \section{Conclusion}
-    \section{Perspectives et améliorations possibles}
-        \subsection{Mode dégradé multi-niveau}
-        \subsection{mode dégradé par mécanismes de contrôle hardware}
-\chapter{Conclusion}
-
+\include{Conclusion}
 
 \appendix
 

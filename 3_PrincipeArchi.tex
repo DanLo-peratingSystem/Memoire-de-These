@@ -1,0 +1,32 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{3} %% Numéro du chapitre précédent ;)
+\dominitoc
+\faketableofcontents
+\fi
+
+\chapter{Principe et architecture pour la gestion de fautes temporelles}
+\minitoc
+
+Mécanisme d'anticipation dynamique pour gérer fautes temporelles
+\section{Un modèle basé sur des chaînes de tâches pour garantir les contraintes temporelles}
+    \subsection{Modèle de tâches}
+    \subsection{modélisation en chaînes de tâches}
+    \subsection{exigence bout-en-bout de la chaîne de tâche, définition}
+\section{Principe de mécanisme d'anticipation - structure Moniteur \& Commande}
+    \subsection{Méthode d'anticipation}
+    \subsection{Mode dégradé et tâches non vitales}
+    \subsection{Méthode de recouvrement}
+    \subsection{structure en Moniteur + Commande - Architecture Logicielle}
+\section{Application au domaine  automobile (diag. fonctionnel, SWC, etc)}
+
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{these}
+\end{document}
+\fi

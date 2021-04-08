@@ -4,22 +4,26 @@
 \include{formatAndDefs}
 \sloppy
 \begin{document}
-\setcounter{chapter}{0} %% Numéro du chapitre précédent ;)
+\setcounter{chapter}{1} %% Numéro du chapitre précédent ;)
 \dominitoc
 \faketableofcontents
 \fi
 
-\chapter{Contexte scientifique \& État~de~l'art}
+\chapter{Enjeux des systèmes à criticité multiple sur processeurs multi-coeurs}
 \minitoc
 
-\section{section1}
-\subsection{subsection1a}
+\section{Présentation des architectures Hardware}
+    \subsection{Mono/Multi/Many Cores et GPU}
+    \subsection{Architectures mémoires, cas des multi-coeurs}
+\section{Risques d'interférences}
+\section{criticité mixte \& contraintes temporelles}
+    \subsection{Enjeux des usages des multicoeurs avec contraintes temporelles}
+    \subsection{Problématique :  criticité multiple : comment optimiser l'usage des ressources avec garanties temporelles}
+transition - presentation contenu Etat de l'Art
 
 Il faut utiliser au moins une citation (exemple: \cite{loche_safe_2020}) pour bien
 compiler le document. Regardez le document These.bib pour les details de
 comment organiser la bibliographie.
-
-\subsection{subsection1b}
 
 Pour ajouter un symbole à la liste des abréviations il faut utiliser
 \verb|\nomenclature{<symbole>}{<description>}|. Par exemple, je peux ajouter

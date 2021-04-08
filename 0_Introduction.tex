@@ -1,0 +1,36 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\fi
+
+
+\chapter*{Introduction}
+\addstarredchapter{Introduction} %Sinon cela n'apparait pas dans la table des matières
+
+\section{Systèmes embarqués automobiles}
+    \subsection{Évolutions des systèmes embarqués}
+        Système mécanique => système cyber-physique
+    \subsection{Architectures EE}
+        => Augmentation complexité architecture EE
+        => augmentation des besoins (puissance de calcul, ADAS, voiture connectée/autonome...)
+\section{Tendances et Contraintes actuelles}
+    \subsection{Tendances}
+        => Nouvelles architectures EE fédérées, virtualisation + multi-coeurs
+            Présentation des différents risques d'interférence multicoeur
+        => Évolutivité (Adaptive AUTOSAR, car as a service)
+    \subsection{Contraintes et limitations}
+        Difficulté de transition
+        Complexité
+        Coûts
+\section{Objectif(s), contribution et Problématique}
+    Transition partie II - enjeux des fautes temporelles à cause des tendances
+
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{These}
+\end{document}
+\fi
