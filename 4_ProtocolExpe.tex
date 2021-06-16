@@ -1,6 +1,6 @@
 \ifdefined\included
 \else
-\documentclass[a4paper,11pt,twoside]{StyleThese}
+\documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \include{formatAndDefs}
 \sloppy
 \begin{document}
@@ -13,20 +13,65 @@
 \minitoc
 
 %%%% CONTENU %%%%
+\section{Principe Général et Objectifs}
+        We present in this section the experimental protocol proposed to characterise the system tasks (the ``workload") and calibrate the Monitoring and Control agent. The experimental protocol is divided in 7 steps separated in 3 phases~: \begin{enumerate*} \item Design phase, \item Calibration phase, and \item Run-time validation phase\end{enumerate*} as resumed in \autoref{tab:ExpeResume}.
+        
+        \begin{table}
+            \centering
+            \caption{Experimental Flowchart}
+            \label{tab:ExpeResume}
+            \includegraphics[width=\linewidth]{TableauRecapExperimentations.pdf}
+        \end{table}
+       
+        The experimental steps are incremental following two inputs, final step being the complete system with task chain monitoring and control. The first input is the functional load under test that is executed on the real-time framework. It can be either~: 
+        \begin{enumerate}
+            \item single task~: a specific task from the workload is executed~;
+            \item task chain~: a specific task chain, made of multiple tasks, is executed and monitored~;
+            \item Task Chain with Monitoring \& Control mechanism.
+        \end{enumerate}
+        
+        
+        Second input is the system load executed along with the functional load to influence its execution. It can be either~: 
+        \begin{enumerate}
+            \item none, to test an isolated functional load~;
+            \item forced stress~: strong cache, memory and CPU stress from linux \texttt{Stress-ng} tool set~;
+            \item real-time tasks~: the LO-criticality tasks of the workload are executed.
+        \end{enumerate} 
+        \smallbreak
+        Those inputs results in a two entry table as shown in \autoref{tab:ExpeResume} with each box corresponding to a step in the protocol.
+
 \section{Phase de Design}
+            This phase is needed if the workload involved don't come with a detailed specification, including their behavior and execution times. This is the case of our experiments as we select tasks from an already existing benchmark and we have no information about tasks execution times or even their compatibility with our real-time environment. Thus this phase is to characterise the available task set and define the workload specifications. It will be split into the HI-criticality task chain and LO-criticality tasks with their characteristics (min/avg/max execution time, periodicity...). This phase is defined by steps \circleTxt[1], \circleTxt[2], \circleTxt[3] in \autoref{tab:ExpeResume}.
+            
     \subsection{Profil des tâches en isolation}
+                    First objective is to get a global idea of tasks execution time profiles. One experiment is made per task, the task being executed individually with the framework. The task is called periodically with a given input, and task response times are logged.
+                    
     \subsection{Profil des tâches avec stress imposé}
+                    We add to the precedent step an artificial system load to cause high stress on cache, memory, I/O and computing use while the tasks are executed one by one. The output is a table with a profile for each task made of the min/average/max execution times and system metrics (system calls, context switches, scheduling interrupts, eventual period misses...). Such profile allow to categorise the tasks following their sensitivity to interferences compared to previous step \circleTxt[1]. This allows to define which tasks can be used for the HI-criticality task chain or as stressing LO-criticality tasks but also discard any task that would not fit our needs.
+                    
     \subsection{Chaine de tâches avec système complet sans Contrôle}
+                	Previous step classified the task set between HI and LO-criticality tasks. We define on this step the specific task chain and LO tasks that will be studied next and verify the pertinence of such choice. We check the workload schedulability in the soft real-time sense (i.e. schedulable if deadlines tardiness are bounded by a reasonably small constant). We also measure the task chain response time profile under ``realistic" conditions without the Control mechanism enabled. Expected result is a schedulable system with reference task chain response times with interferences.
+                	
+                	
 \section{Phase de Calibration}
+            This phase is mandatory to configure the Control mechanism to the software and hardware specificities and lower false-positive rate. It is made of steps \circleTxt[4], \circleTxt[5], \circleTxt[6] in orange boxes of \autoref{tab:ExpeResume}. Configuration includes task chain worst-case response time and intermediary response times in isolation. Performance optimisation consist in tweaking the switch time $t_{sw}$ and anticipation execution frequency $W_{max}$ constants, in the objective of lowering false-positive anticipation rates.
+            
     \subsection{Chaine de tâches avec stress forcé}
+                    The task chain is then tested under a worst-case scenario. It is executed with the artificial system load, to stress as much as possible the task chain similarly to step \circleTxt[2]. We get a baseline of the worst-case chain response time. This value is important because if the end-to-end deadline is always greater than the worst-case response time observed then the mechanism would be of no use (i.e. deadline never broken from temporal faults). This step gives a quantification of the task chain sensitivity to interferences and thus indicates the pertinence of using a Monitoring and Control Agent to manage them.
+                    
     \subsection{Chaine de tâche en isolation}
+                    The objective is to calibrate Control mechanism parameters~: $rWCRT(\tau_i)$, Core Control Component period ($T_{CCC}$) and switch time ($t_{sw}$) to degraded mode. The task chain is executed alone with the MCA but with the Control mode switch disabled. We log every chain intermediary and end-to-end response times. The result gives the data of all the remaining response times obtained during the test. We set the $rWCRT(\tau_i)$ parameters as an upper limits of the remaining response times registered.
+                    
     \subsection{Chaine de tâche avec mécanisme de Contrôle}
+                	Finally, the Control mechanism is enabled, with the parameters set on previous step. As this step does not include the LO tasks that bring interferences to the task chain, the Core Control Component should not trigger any switch to degraded mode. This step is important for the final analysis as it already points out the base false positive rate obtained with chosen parameters. A qualitative MCA should have the least degraded mode switch possible. Otherwise it could mean that either the CCC parameters are not ideally set (typically $W_{max}$), or the expected timing delays caused from interferences are too close to the usual timing variation of the task chain execution even in isolation. In other words, the Control Component is not able to differentiate response time variations due to temporal faults from ones due to nominal execution time variations. Another possibility is the end-to-end deadline requirement is too close to the nominal end-to-end response time in isolation. %If this has no effect then it could just mean that regarding step \circleTxt[4], the task chain is not subject to timing faults.
+                	
+                	
 \section{Phase de Validation en exécution}
     \subsection{Chaine de tâches avec système complet et mécanisme de Contrôle}
-    
+                    The validation phase implies a last step (\circleTxt[7] in green box of \autoref{tab:ExpeResume}), which is with the whole final system being executed~: HI task chain and LO tasks with the MCA enabled. The objective is to collect the concluding information on the Monitoring and Control Agent behavior to measure the 3 quantification criteria (efficiency, performance and quality) of the solution explained in \autoref{MCAcriteria}. We also use the data from steps \circleTxt[3] and \circleTxt[6] as a reference for the conclusions.
 \ifdefined\included
 \else
-\bibliographystyle{acm}
+\bibliographystyle{StyleThese}
 \bibliography{these}
 \end{document}
 \fi

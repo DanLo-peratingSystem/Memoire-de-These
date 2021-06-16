@@ -1,16 +1,18 @@
 \ifdefined\included
 \else
-\documentclass[a4paper,11pt,twoside]{StyleThese}
+\documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \include{formatAndDefs}
 \sloppy
 \begin{document}
-\setcounter{chapter}{1} %% Numéro du chapitre précédent ;)
+\setcounter{chapter}{1}
 \dominitoc
 \faketableofcontents
 \fi
 
 \chapter{Enjeux des systèmes à criticité multiple sur processeurs multi-coeurs}
 \minitoc
+
+L'évolution des système cyber-physiques a progressivement déplacé la complexité des systèmes vers les aspects logiciels, au sein d'une architecture Électrique et Électronique (AEE) de plus en plus complexe. C'est ainsi que l'automobile est successivement passées du tout mécanique vers l'électrification 
 
 \section{Présentation des architectures Hardware}
     \subsection{Mono/Multi/Many Cores et GPU}
@@ -19,21 +21,12 @@
 \section{criticité mixte \& contraintes temporelles}
     \subsection{Enjeux des usages des multicoeurs avec contraintes temporelles}
     \subsection{Problématique :  criticité multiple : comment optimiser l'usage des ressources avec garanties temporelles}
-transition - presentation contenu Etat de l'Art
+transition - présentation contenu Etat de l'Art
 
-Il faut utiliser au moins une citation (exemple: \cite{loche_safe_2020}) pour bien
-compiler le document. Regardez le document These.bib pour les details de
-comment organiser la bibliographie.
-
-Pour ajouter un symbole à la liste des abréviations il faut utiliser
-\verb|\nomenclature{<symbole>}{<description>}|. Par exemple, je peux ajouter
-$\beta$\nomenclature{$\beta$}{La deuxième lettre de l'alphabet grec} et
-$\alpha$\nomenclature{$\alpha$}{La première lettre de l'alphabet grec} comme
-symboles dans ce document.
 
 \ifdefined\included
 \else
-\bibliographystyle{acm}
+\bibliographystyle{StyleThese}
 \bibliography{these}
 \end{document}
 \fi

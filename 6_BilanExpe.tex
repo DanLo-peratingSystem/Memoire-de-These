@@ -1,6 +1,6 @@
 \ifdefined\included
 \else
-\documentclass[a4paper,11pt,twoside]{StyleThese}
+\documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \include{formatAndDefs}
 \sloppy
 \begin{document}
@@ -9,29 +9,164 @@
 \faketableofcontents
 \fi
 
-\chapter{Bilan de l'expérimentation}
+\chapter{Mise en Application expérimentale}
+
 \minitoc
 
 %%%% CONTENU %%%%
-    \section{Solutions adoptées à la complexité d'implémentation}
-        Difficultés rencontrées dans la mise en place de ce concept et leçons apprises (en cas de volonté de reproduction)
       
-\chapter{Mise en Application expérimentale}
     \section{Application à MiBench du Protocole}
+            Using Mibench as a workload had advantages but also drawbacks. It allows to get specific tasks with a defined and already studied behavior \cmnt{(cache use, computing resources needs, I/O...) }but we are dependent on the way they are initially programmed. They might not completely fit our needs to simulate embedded applications or have incompatibilities with the chosen real-time environment. First step in using this benchmark is to check those criteria to select precisely the tasks from MiBench we use.
         \subsection{Phase de Design}
-            Profil des tâches en isolation
-            Profil des tâches avec stress imposé
-            Chaine de tâches avec système complet sans Contrôle
+            \subsubsection{Profil des tâches en isolation}
+            
+                    We need to establish the execution time profile of each task of the bench. As a result some tasks will be removed from the tests, either due to execution time magnitude differences or inconsistent behaviors between experiments. 
+                    %%because the adaptation to Xenomai did not succeeded.
+                    Accordingly, we measure on each experiment the min, max and median execution times, but also some system counters as the Xenomai mode switches and the amount of linux system calls. Without interferences, the execution time characteristics should have low  variations.% Task adapted for real-time context should have almost no mode switches and system calls.
+                    We see in \autoref{tab:xenoIsol} a sample of the tasks characteristics collected, for 3 different profiles.
+            
+                    \begin{table}[ht]
+                        \centering
+                        \caption{Tasks profiles in \textit{Xenomai} environment}
+                        \begin{tabular}{@{}lrrcrr@{}}
+                        \toprule
+                        Task & \multicolumn{2}{c}{execution times (ms)} & \phantom{} & \multicolumn{2}{c}{System Counters} \\ % pas sûr
+                        \cmidrule{2-3} \cmidrule{5-6}
+                                    &   Median      &   Max    &&   Mode Switch & Sys. Call     \\
+                        \midrule
+                        Patricia    &   0.026       &   0.099       &&  10051        & 10338    \\
+                        FFT         &   7.36        &   7.39        &&  58           & 2343      \\
+                        rijndaelE   &   140,11      &   141.81      &&  158          & 446       \\
+                        \bottomrule
+                        \end{tabular}
+                                \label{tab:xenoIsol}
+                    \end{table}
+                    \smallbreak
+                
+                    With such data, we identified the majority execution time range in MiBench task set around 10ms (from 2-3ms to 20-30 ms) and the basic system calls and mode switch amounts due to initialisation phase (respectively 58 mode switches and $\approx$hundreds of system calls).
+            
+                    %We want to use the information on the runtime of the task to understand which task becomes unusable.  \textit{Patricia}, for example, has 70 µs for runtime in \textit{Xenomai} environment. 
+                    %Compare to Patricia in Linux environment, we couldn't manage to change its code for \textit{Xenomai}.
+                    %However, \textit{FFT (L)} has 7.2 ms of runtime, which are representative of it behaviour in both environment.
+                    %Compare to the \textit{FFT\_L} task which has 50 syscalls and 7.2 ms, the system calls \textit{Patricia} but don't run anything. We consider that \textit{Patricia} is aberrant and doesn't represent it normal behaviour. % before modification
+                    Consequently, we discard tasks out of the execution time magnitude like \textit{adpcmCaudio\_L } with an average execution time of 432 ms.
+                    By the end of step \circleTxt[1], we retained 34 tasks~: Bitcount\_L,       Bitcount\_S, Basicmath\_S, Basicmath\_L, Dijkstra\_L, Dijkstra\_S, Fft\_inv\_L, Fft\_inv\_S, Fft\_L, Fft\_S, GsmToast\_L, GsmToast\_S, GsmUToast\_L, GsmUToast\_S, RijndaelE\_S, RijndaelD\_S, Sha\_L, Sha\_S, Stringsearch\_L, Stringsearch\_S, AdpcmCaudio\_L, AdpcmCaudio\_S, AdpcmDaudio\_L, AdpcmDaudio\_S, Cjpeg\_L, Cjpeg\_S, Djpeg\_L, Djpeg\_S, Susan\_L\_corners, Susan\_S\_corners, Susan\_L\_edges, Susan\_S\_edges, Susan\_L\_smooth, Susan\_S\_smooth.  
+
+
+
+            \subsubsection{Profil des tâches avec stress imposé}
+                        We add stress on cache level and communication bus from previous step experiments.  
+                        The objective is to discriminate our tasks in two groups depending on their reaction under stress. If it increases execution time too significantly (more than x10 from average time in isolation) it means the tested task is not suited for the tested environment and suffers not only from interferences but also from LO-criticality tasks preemption. A significant increase in mode switches also indicates such behavior. The tasks that do not pass correctly this test will be either ignored or used LO-criticality stress tasks. 
+                        %Some examples can be seen in \autoref{fig:UnusableTasks}. 
+                        Tasks without an exploding execution time or huge increase of mode switches will be used to generate the HI-criticality task chain. 
+                        Execution time profiles of task used for this purpose are in \autoref{tab:Stress}. We finally retained 22 tasks at the end of step~\circleTxt[2].
+                        %Bitcount\_L, %Bitcount\_S, Basicmath\_S, Dijkstra\_L, Dijkstra\_S, Fft\_inv\_L, Fft\_inv\_S, Fft\_L, Fft\_S, GsmToast\_L, GsmUToast\_L, RijndaelE\_S, Sha\_L, Sha\_S, Stringsearch\_L, Stringsearch\_S, AdpcmCaudio\_L, AdpcmDaudio\_L, Cjpeg\_S, Susan\_S\_corners, Susan\_S\_edges, Susan\_S\_smooth.
+                        %Execution time profiles of task used for this purpose are in \autoref{fig:usableTasks}. 
+                        \begin{table}[ht]
+                            \centering
+                            \caption{Tasks profiles in \textit{Xenomai} environment}
+                            \label{tab:Stress}
+                        \begin{tabular}{@{}lrrcrr@{}}  %% r = right | l = left | c = center
+                        \toprule
+                        Task & \multicolumn{2}{c}{execution times isolated} & \phantom{abc}& \multicolumn{2}{c}{execution times stressed} \\
+                        \cmidrule{2-3} \cmidrule{5-6} 
+                                    &   Median (ms) &   Max (ms)    &&   Median (ms) &   Max (ms)     \\
+                        \midrule
+                        djpeg       &  1.97     &  2.28      &&  19.91       & 211.53    \\
+                        rjindaelD   &   8.80    &  9.77      && 35.02        & 526.33    \\
+                        FFT         &   1.85    &  1.86      &&  2.03        & 14.8     \\
+                        FFT$^{-1}$  &   3.56    &   3.57     &&  4.05        & 19.74    \\
+                        bitcount    &   8.36    &  9.52      &&  9.98        & 45.18    \\
+                        \hline
+                        \end{tabular}
+                                \label{tab:xenoIsolMinMax}
+                    \end{table}
+                    
+            \subsubsection{Chaine de tâches avec système complet sans Contrôle}
+                        At this point, we defined our task set, composed of the LO-criticality tasks used as ``real" stress and the task chain made of 5 tasks~: 
+                        \centerline{ $ FFT \rightarrow Bitcount  \rightarrow Basicmath  \rightarrow FFT^{-1} \rightarrow sha $.}
+                        We need to verify the validity of our choice in term of schedulability and effectiveness of the LO-criticality tasks as interferences. Executing the whole task set together allow to verify both for this step~\circleTxt[3].
+                         
+                         %%We set the WCET with table phase 2 of our tasks in the task chains. We have~: % Formule
+                    
+                        %mettre une seule image (premiere en end to end) expliquer les differences (que c'est un chaines de taches) 
+                        %reprend phase new 3 
+                        %\input{Images/Phase3ChainTaskRealStress.pgf}
+                    
+                        The right part (blue) of \autoref{fig:taskchain_with_real_tasks_as_perturbation} shows the task chain response time distribution profile with the full workload executed (i.e. LO-criticality tasks included). We see the perturbation due to the LO tasks on the critical task chain execution. Our workload is schedulable (no execution drops and deadline misses have reasonable overheads) and the task chain meets high response times compared to its average ``nominal" response time for $\approx10\%$ of the executions (above 200ms response time). We arbitrarily define the task chain deadline $D = 160$ms. 
+                        
         \subsection{Phase de Calibration}
-            Chaine de tâches avec stress forcé
-            Chaine de tâche en isolation
-            Chaine de tâche avec mécanisme de Contrôle
+                    This phase is dedicated to configure the Core Control Component parameters  ($rWCRT_i(\tau_i)$, $t_{sw}$ and $W_{max}$) and run the reference experiments of the task chain behavior on a worst-case stress context (step~\circleTxt[4]).
+     
+            \subsubsection{Chaine de tâches avec stress forcé}
+                        In this part we use \textit{Stress-ng} to simulate a worst case stress condition. The task chain potential worst case response time in this context raises at 300ms.
+                        Such increase by 100\% of the max chain response time under this scenario indicates the pertinence of using a MCA. Regarding such result, our workload stresses the task chain in a significant magnitude.
+                        \cmnt{
+                        \begin{figure}[ht]
+                        \begin{adjustbox}{clip,trim=0.5cm 0.3cm 1.5cm 1cm,max width=\linewidth}   % TRIM~: left, bottom, right, top    
+                            \input{Images/Stress-tache_sha_nocut.pgf}
+                        \end{adjustbox}
+                            \caption{Tasks chain end-to-end rWCRT distribution with stress-ng}
+                            \label{fig:Taskchain_stress_phase4}
+                        \end{figure}
+                        }
+                        
+            \subsubsection{Chaine de tâche en isolation}
+                        For step~\circleTxt[5], we execute the task chain in isolation (i.e. degraded mode). Execution time profile is on the left part (blue) of \autoref{fig:taskchain_with_real_tasks_as_perturbation}.
+                        We calibrate the Monitor \& Control mechanism parameters. We need the different $rWCRT$s for each value of $\tau_i$ as defined in \autoref{def:chainState}. For such linear 5-task chain we logically have $i \in \{1,5\}$. At run-time, the remaining response times are logged in degraded mode, i.e. the task chain in isolation, and we keep an upper value of the worst measured remaining response time for each $\tau_i$ as its $rWCRT(\tau_i)$ in \autoref{tab:rWCRT_i}.         Finally, regarding previous results from step~\circleTxt[3], we set $W_{max} = 1$ms, and $t_{sw} = 500\mu$s for our platform.
+                
+                        \begin{table}[ht]
+                            \renewcommand{\arraystretch}{1}
+                            \centering
+                            \caption{Task Chain $rWCRT(\tau_i)$ values in degraded mode}
+                            \label{tab:rWCRT_i}
+                            \begin{tabular}{@{}lrrrrr@{}}
+                            \toprule
+                             $ rWCRT$ & $\tau_0$ & $\tau_1$ & $\tau_2$ & $\tau_3$  & $\tau_4$\\
+                             \midrule
+                                time (ms)         & 129     &    93   &     68  &  49.5    &   25 \\
+                             \bottomrule
+                            \end{tabular}
+                        \end{table}
+        
+            \subsubsection{Chaine de tâche avec mécanisme de Contrôle}
+                    \begin{figure}[ht]
+                        \begin{adjustbox}{clip,trim=0.3cm 0.18cm 1.2cm 1cm,max width=\linewidth}   % TRIM~: left, bottom, right, top    
+                        \input{graphiques/Final_legende.pgf}
+                        \end{adjustbox}
+                        \caption{Task Chain response time profile from steps \circleTxt[3], \circleTxt[6], \circleTxt[7]}
+                        \label{fig:chainResponseProfiles}
+                    \end{figure}
+                        With the previous calibration, we can execute the task chain alone with the Control mechanism enabled. In this isolation case, we should see almost no switch to degraded mode (and on a perfect case, no switches at all) as they must be false-positive. 
+                        This experiment allows to validate the parameters set on the previous step.
+                        On our tests, we measured 0.3\% of false positive triggers to degraded mode. The task chain in degraded mode response time distribution profile is illustrated in \autoref{fig:chainResponseProfiles}.
+            
         \subsection{Phase de Validation en exécution}
-            Chaine de tâches avec système complet et mécanisme de Contrôle
-    \section{Conclusions expérimentales générales}  
+            \subsubsection{Chaine de tâches avec système complet et mécanisme de Contrôle}
+                    As a final experiment, we test the complete workload (HI and LO tasks) with the Monitoring \& Control Agent enabled and configured from previous step. 
+                    First we observe the MCA CPU use, that is inferior to 1\%. For a 120s long experiment, it ran for 1.3s overall (including setup time). We were not able to find any difference regarding CPU percentage use with and without our mechanism, either with a big task sets (small tasks only, CPU usage around 80\% displayed) and with smaller task sets (e.g. only the task chain described above). Such footprint is low enough to include easily such mechanism. 
+     
+                    In term of \textbf{efficiency}, our MCA prevented every task chain execution over a 170ms response time. Only 6 occurrences (0.1\%) missed the deadline set at 160ms. \cmnt{while without the Control enabled, we measured in step \circleTxt[3] 84\% of deadline misses.} The MCA brought down the average response time of the chain from 168ms (no Control enabled) to 129ms. Such value is way closer to the average task response time profile in isolation (125ms). The few missed deadlines can be explained by the implementation framework we used, with a workload (MiBench tasks) not fully compliant with real-time programming constructs recommendations that causes uncontrolled linux system calls for instance. In conjunction with the exacting deadline we arbitrarily set at 160ms while the general workload is demanding (generating 84\% deadline misses without the MCA in step \circleTxt[3]), this explains this non-perfect result. We could use more pessimistic $rWCRT(\tau_i)$ values to achieve no deadline misses, at the expense of a worse result on the quality criteria. By the end it is a question of compromise, depending on the specific needs.
+                    %%%% On peut jouer sur les réglages du système pour améliorer/limiter le nombre de deadline misses mais ce sera au prix de l'exécution des LO tasks. 
+                    %%%% Ces deadline misses s'expliquent par l'environnement sur lequel les tests ont été faits et le nvieau d'exigence de la deadline fixée.
+                 
+                    The \textbf{quality} of our calibration seems promising as there were less switches to degraded mode with the Control enabled than the number of deadline misses with no Control at all. This implies that preventing a deadline miss had a more general impact reducing the overall number of timing faults.
+                 
+                    In term of \textbf{performance}, the system maintained LO-criticality mode for 82s / 120s total, i.e. a performance factor of 0.69 for a loss of 31\% of the time in degraded mode.
+                 
+                    All those metrics are promising for the use of a Monitoring and Control Agent in order to change a chain response time at an optimum value to avoid the great majority of the deadline misses and on the same time still take few compromises on the LO-criticality tasks execution.
+                 %No control~: 310/368 deadline misses. Average~: 168ms
+                 %Isolation~: 3 false-positives. Average~: 126ms
+                 %Control~: 6/215/493. Average~: 129ms
+            
+               %• deadline misses for efficiency;
+               %• the CPU time given to LO-criticality tasks, compared to the CPU time given with no guarantee on the task chain from step3©, for performance;
+               %• switches  to  degraded  mode,  compared  to  the  actual amount of deadline misses with no guarantees from the MCA, obtained in step 3, for quality
+               
+    \section{Conclusions expérimentales}  
 \ifdefined\included
 \else
-\bibliographystyle{acm}
+\bibliographystyle{StyleThese}
 \bibliography{these}
 \end{document}
 \fi

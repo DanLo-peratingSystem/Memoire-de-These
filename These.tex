@@ -5,19 +5,18 @@
 %        compile it without cleaning the auxiliary files. Compiling it again
 %        should solve the problem.
 \documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
-\usepackage{iflang}
-\usepackage{bibentry}
+
 \newcommand{\included}{}
 
 \include{formatAndDefs}
-\sloppy
+
 \begin{document}
 
 \include{0_Garde}
 
-    \makeflyleaf
+\makeflyleaf
 
- \cleardoublepage
+\cleardoublepage
 
 \dominitoc
 
@@ -31,8 +30,6 @@
 }{%
 \section*{Remerciements}
 \addstarredchapter{Remerciements}
-
-
 }
 
 A faire en dernier :-) 
@@ -60,6 +57,17 @@ A faire en dernier :-)
 
 \include{Conclusion}
 
+\cmnt{
+Il faut utiliser au moins une citation (exemple: \cite{loche_safe_2020}) pour bien
+compiler le document. Regardez le document These.bib pour les details de
+comment organiser la bibliographie.
+
+Pour ajouter un symbole à la liste des abréviations il faut utiliser
+\verb|\nomenclature{<symbole>}{<description>}|. Par exemple, je peux ajouter
+$\beta$\nomenclature{$\beta$}{La deuxième lettre de l'alphabet grec} et
+$\alpha$\nomenclature{$\alpha$}{La première lettre de l'alphabet grec} comme
+symboles dans ce document.
+}
 \appendix
 
 \include{Annexe1}

@@ -1,6 +1,6 @@
 \ifdefined\included
 \else
-\documentclass[a4paper,11pt,twoside]{StyleThese}
+\documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \include{formatAndDefs}
 \sloppy
 \begin{document}
@@ -13,27 +13,32 @@
 \minitoc
 
 \section{Optimisation des ressources CPU}
-    \subsection{Fair scheduling - OS General Purpose}
-    \subsection{Parallelisme et load balancing}
-    \subsection{Autres considérations}
-        en général on va rarement optimiser à 100\%, mais du coup exploiter d'autres critères comme la con somation d'énergie, la chauffe etc... Des critères d'isolation des tâches pour des raison de sécurité peuvent aussi être faits... on abordera pas plus que cela ces éléments dans cette thèse.
-\section{Respect d'exigences temporelles}
-    \subsection{Mécanismes de contrôle - Modèle à 1 niveau de criticité}
-        ordonnancements statiques
+    \subsection{Allocation des tâches - optimisation d'ordonnancement}
+    
+        \subsubsection{Fair scheduling - OS General Purpose}
+        \subsubsection{Systèmes à criticité mixte}
+                ordonnancements statiques
         partitionnements spatio-temporels
             exemple Hyperviseur PikeOS
         Automotive case : AUTOSAR
             timing constraints
         Avionic Case : ARINC653
-    \subsection{Mécanismes réactifs, Modèles à criticité multiple}
-        Ordonnancement dynamique
-        Stratégies dynamiques, modes de fonctionnement (nominal, dégradés)
-            sur la mémoire => thèse Antoine Blin typiquement
+    \subsection{Autres considérations}
+        en général on va rarement optimiser à 100\%, mais du coup exploiter d'autres critères comme la consommation d'énergie, la chauffe etc... Des critères d'isolation des tâches pour des raison de sécurité peuvent aussi être faits... on abordera pas plus que cela ces éléments dans cette thèse.
+\subsection{Limitations et systèmes plus réalistes}
+    \subsubsection{Limitations des solutions actuelles}
+    \subsubsection{Systèmes à modes dégradés et améliorations}
+    Disponibilité des tâches à criticité basse.
+    Diminution de priorités.
+    Élongation des tâches à criticité basses et contrôle de budget. sur la mémoire, \cite{blin_vers_2017} typiquement
             sur l'ordonnancement
+    Migration de tâches.
+
+
 
 \ifdefined\included
 \else
-\bibliographystyle{acm}
+\bibliographystyle{StyleThese}
 \bibliography{these}
 \end{document}
 \fi
