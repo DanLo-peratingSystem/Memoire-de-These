@@ -1,5 +1,7 @@
 #!/bin/sh
 
 git add .
-git commit -m "Autosave %date%-%time:~0,8%"
+FILENAME=`date "+%Y-%m-%d_%H:%M:%S_%Z"`
+FILENAME="Autosave_$FILENAME"
+git commit -m "$FILENAME"
 git push
