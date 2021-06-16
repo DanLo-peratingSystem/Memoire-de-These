@@ -1,7 +1,0 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.1}Pr\IeC {\'e}sentation des architectures Hardware}{\reset@font\mtcSfont 3}{section.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1.1}Mono/Multi/Many Cores et GPU}{\reset@font\mtcSSfont 3}{subsection.1.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1.2}Architectures m\IeC {\'e}moires, cas des multi-coeurs}{\reset@font\mtcSSfont 3}{subsection.1.1.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.2}Risques d'interf\IeC {\'e}rences}{\reset@font\mtcSfont 3}{section.1.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.3}criticit\IeC {\'e} mixte \& contraintes temporelles}{\reset@font\mtcSfont 3}{section.1.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3.1}Enjeux des usages des multicoeurs avec contraintes temporelles}{\reset@font\mtcSSfont 3}{subsection.1.3.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3.2}Probl\IeC {\'e}matique : criticit\IeC {\'e} multiple : comment optimiser l'usage des ressources avec garanties temporelles}{\reset@font\mtcSSfont 3}{subsection.1.3.2}}
