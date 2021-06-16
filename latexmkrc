@@ -1,2 +1,3 @@
-$ENV{'TEXINPUTS'}='./tex//:' . $ENV{'TEXINPUTS'}; 
-$ENV{'BSTINPUTS'}='./tex//:' . $ENV{'BSTINPUTS'};
+ensure_path( 'TEXINPUTS', './tex//' );
+ensure_path( 'BSTINPUTS', './tex//' );
+
