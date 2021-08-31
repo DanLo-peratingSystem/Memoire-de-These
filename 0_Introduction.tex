@@ -10,22 +10,31 @@
 \chapter*{Introduction}
 \addstarredchapter{Introduction} %Sinon cela n'apparait pas dans la table des matières
 
-\section{Systèmes embarqués automobiles}
-    \subsection{Évolutions des systèmes embarqués}
+La complexité des systèmes cyber-physiques s’est accrue dramatiquement  ces dernières décennies. 
+
+C'est ainsi que le domaine de l'automobile est successivement passé du tout mécanique a des architectures Électrique et Électronique (AEE) de plus en plus sophistiquées. Bien évidemment, cette tendance lourde s’appuyant sur les progrès des techniques numériques a permis de rendre aux clients des services plus pertinents, ils ont gagné en intelligence, tout particulièrement en s’appuyant sur du logiciel prépondérant. 
+
+Ces évolutions progressives dans la voiture ont menées à des ajouts de calculateurs ayant chacun son lot de fonctionnalités avancées, potentiellement accompagnées des capteurs (température de l'habitacle, présence sur les sièges...) mais aussi des actionneurs (système d'air conditionné, vitres, verrouillage centralisé...) nécessaires.
+C'est de cette façon que l'architecture distribuée dans l'automobile s'est étoffée pour atteindre jusqu'à 70 calculateurs dans un même véhicule. A terme, cette approche ne semble plus soutenable au vu de la demande de fonctionnalités supplémentaires liées aux véhicules autonome et connecté.
+
+C’est pour cette raison que la tendance est en train de s’inverser en profitant de l’émergence de calculateurs multi-cœurs puissants qui peuvent se substituer a nombre d’ECU élémentaires. L’architecture actuelle s’oriente donc vers des architectures fédérées mettant en jeu des processeurs sur lesquels la coexistence d’applications critiques et non-critiques (niveau d’ASIL). Ces systèmes a criticité multiple  induisent des problèmes de partage de ressources et de sûreté de fonctionnement.
+
+\section*{Systèmes embarqués automobiles}
+    \subsection*{Évolutions des systèmes embarqués}
         Système mécanique => système cyber-physique
-    \subsection{Architectures EE}
+    \subsection*{Architectures EE}
         => Augmentation complexité architecture EE
         => augmentation des besoins (puissance de calcul, ADAS, voiture connectée/autonome...)
-\section{Tendances et Contraintes actuelles}
-    \subsection{Tendances}
+\section*{Tendances et Contraintes actuelles}
+    \subsection*{Tendances}
         => Nouvelles architectures EE fédérées, virtualisation + multi-coeurs
             Présentation des différents risques d'interférence multicoeur
         => Évolutivité (Adaptive AUTOSAR, car as a service)
-    \subsection{Contraintes et limitations}
+    \subsection*{Contraintes et limitations}
         Difficulté de transition
         Complexité
         Coûts
-\section{Objectif(s), contribution et Problématique}
+\section*{Objectif(s), contribution et Problématique}
     Transition partie I - enjeux des fautes temporelles à cause des tendances
 
 \ifdefined\included
