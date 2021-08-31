@@ -669,9 +669,9 @@
 }
 % textline
 \newcommand\textline[4][t]{%
-  \par\noindent\parbox[#1]{.333\textwidth}{\raggedright{\scshape #2}}%
-  \parbox[#1]{.333\textwidth}{\centering#3}%
-  \parbox[#1]{.333\textwidth}{\raggedleft#4}\par%
+  \par\noindent\parbox[#1]{.35\textwidth}{\raggedright{\scshape #2}}  % BEFORE WAS .333 each ! Changed to fit First/Last Names.
+  \parbox[#1]{.340\textwidth}{\centering#3}%
+  \parbox[#1]{.300\textwidth}{\raggedleft#4}\par%
 }
 % makesomeone
 \gdef\showline{show}% Permet de tester si la ligne doit etre affichee
@@ -680,15 +680,17 @@
 	\expandafter\ifstrequal\makesomeonearg{judge}{}{%FALSE
 		\expandafter\ifstrequal\makesomeonearg{referee}{}{%FALSE
 			\expandafter\ifstrequal\makesomeonearg{boss}{}{%FALSE
-				\PackageError{tlsflyleaf-makesomeone}{%
-                    '#1' is not a possible argument
-                }
-                {%
-                    First argument could be in {judge, referee, boss}
-                }
-	        }%
-        }%
-    }%
+%				\expandafter\ifstrequal\makesomeonearg{invitee}{}{%FALSE
+					\PackageError{tlsflyleaf-makesomeone}{%
+	                    '#1' is not a possible argument
+	                }
+	                {%
+	                    First argument could be in {judge, referee, boss, invitee}
+	                }
+%                }% invitee
+	        }% boss
+        }% referee
+    }% judge
 	\expandafter\gdef\csname @#1N#2\endcsname{#3}
 	\expandafter\gdef\csname @#1P#2\endcsname{#4}
 	\expandafter\gdef\csname @#1L#2\endcsname{#5}
@@ -737,6 +739,8 @@
 \def\nreferee#1{\gdef\@nreferee{#1}}
 % Judge
 \def\njudge#1{\gdef\@njudge{#1}}
+%% Invitee
+%\def\ninvitee#1{\gdef\@ninvitee{#1}}
 
 % ============================================================
 % Set default value for author and title
@@ -771,10 +775,14 @@
             \njudge{5}
             \makesomeone{judge}{1}{Nom}{Professeur}{Pr\'esident}
             \makesomeone{judge}{2}{Nom}{Directeur de recherche}{Membre}
-            \makesomeone{judge}{3}{Nom}{Directeur de recherche}{Membre}
-            \makesomeone{judge}{4}{Nom}{Directeur de recherche}{Membre}
+            \makesomeone{judge}{3}{Nom}{Ma\^itre de Conf\'erence}{Membre}
+            \makesomeone{judge}{4}{Nom}{Enseignant-Chercheur}{Membre}
             \makesomeone{judge}{5}{~}{\dots\textit{(Pr\'eciser la qualit\'e de chacun des membres)}}{~}
         \fi
+%        \ifx\@ninvitee\undefined
+%        \ninvitee{1}
+%        \makesomeone{invitee}{1}{Noms des invités (cas échéant)}{}{}
+%        \fi
         %% Test if \@variable exist %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % White page
         \if@emptysheetbefore
@@ -907,6 +915,32 @@
                                 }
                             }
                         }
+                    
+%	                    \ifnumgreater{\@ninvitee}{1}{%TRUE
+%	                    	{\raggedright\bfseries Invités :\\}
+%	                    }{%FALSE
+%	                    	{\raggedright\bfseries Invité :\\}
+%	                    }
+%	                    \hfill\parbox[t]{0.92\textwidth}{
+%	                    	\foreach \n in {1,...,\@ninvitee}{%
+%	                    		\edef\mytemp{{\csname @inviteeS\n\endcsname}{\showline}}%
+%	                    		\ifnumgreater{\n}{1}{%TRUE
+%	                    			\ifnumgreater{\n}{\@ninvitee-1}{%TRUE
+%	                    				\expandafter\ifstrequal\mytemp{%
+%	                    					\ et \textit{\csname @inviteeN\n\endcsname}\ignorespaces
+%	                    				}{}%
+%	                    			}{%FALSE
+%	                    				\expandafter\ifstrequal\mytemp{%
+%	                    					, \textit{\csname @inviteeN\n\endcsname}\ignorespaces
+%	                    				}{}%
+%	                    			}
+%	                    		}{%FALSE
+%	                    			\expandafter\ifstrequal\mytemp{%TRUE
+%	                    				\textit{\csname @inviteeN\n\endcsname}\ignorespaces
+%	                    			}{}%
+%	                    		}
+%	                    	}
+%	                    }
                         \vfill
                                         
                     \end{center}
