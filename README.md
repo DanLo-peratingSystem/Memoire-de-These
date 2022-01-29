@@ -24,6 +24,6 @@ Le reste par défaut.
 - formatAndDefs.tex => Ajout fonctions, paramètres d'ajustement + Packages nécessaires (pourrait être clean)
 
 - these.bib => Bibliographie synchronisée Zotero via Overleaf.
-- parems.bib => Paramètres overwrite bibliographie + bibliographie custom
+- params.bib => Paramètres overwrite bibliographie + bibliographie custom
 
 OUTPUT : _These.pdf_

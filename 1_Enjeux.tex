@@ -2,72 +2,323 @@
 \else
 \documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \include{formatAndDefs}
+\DeclareUnicodeCharacter{202F}{\,}
 \sloppy
+
 \begin{document}
 \setcounter{chapter}{1}
 \dominitoc
 \faketableofcontents
 \fi
 
-\chapter{Enjeux des systèmes à criticité multiple sur processeurs multi-c\oe{}urs}
+\chapter{Contexte et Enjeux des Systèmes Embarqués} \label{chap:1_EnjeuxIntro}
 \minitoc
 
-La conception des systèmes embarqué, typiquement automobiles, a subit de fortes évolutions orientées vers de nouvelles fonctionnalités centrées sur le logiciel. Ces évolutions demandent des capacités de calcul de plus en plus importantes et donc des architectures matérielles pour supporter la demande grandissante en fonctionnalités. Par ailleurs le contexte industriel mène à la disparition des calculateurs d'antan, monoc\oe{}urs, pour se focaliser sur des calculateurs plus complexes et puissants, multic\oe{}urs. Cette tendance au multic\oe{}ur provient à la fois d'une limitation technologique et d'un besoin grandissant : la façon d'augmenter les capacités de calculs par les méthodes classiques (montée en fréquence) atteint ses limites et les capacités d'exécution concourante de logiciel est de plus en plus demandée dans un contextes aux contraintes financières et de time-to-market fortes. C'est ainsi que né la volonté de passer sur des architectures électriques et électroniques plus centralisées via l'utilisation d'une quantité d'unités de calcul réduite mais intégrant un plus grand nombre de fonctionnalités en leur sein. Cette volonté implique cependant une superposition des difficultés inhérentes aux architectures matérielles plus complexes avec les contraintes de sûreté de fonctionnement du logiciel. Nous faisons donc face à des systèmes à criticité mixte exécutés sur des calculateurs aux mécanismes complexes. Nous verrons donc dans ce chapitre quels sont les aspects essentiels de ce contexte et ses spécificités à prendre en compte pour proposer de nouveaux éléments de réponse dans la conception de systèmes à criticité mixte sur processeurs multic\oe{}urs. Nous concluront cette partie avec la présentation de la problématique à laquelle on tentera de répondre par la suite ainsi que la présentation des différents chapitres de contribution de cette thèse.
+La conception des systèmes embarqués, typiquement automobiles, a subi de fortes évolutions orientées vers de nouvelles fonctionnalités centrées sur le logiciel. Ces évolutions demandent des capacités de calcul de plus en plus importantes et donc des architectures matérielles pour supporter la demande grandissante en fonctionnalités. Par ailleurs le contexte industriel mène à la disparition des calculateurs d'antan, monocœurs, pour se focaliser sur des calculateurs plus complexes et puissants, multicœurs. Cette tendance au multicœur provient à la fois d'une limitation technologique et d'un besoin grandissant~: la façon d'augmenter les capacités de calculs par les méthodes classiques (montée en fréquence) atteint ses limites et les capacités d'exécution concourante de logiciel est de plus en plus demandée dans un contexte aux contraintes financières et de \textit{time-to-market} fortes. C'est ainsi que né la volonté de passer sur des architectures électriques et électroniques plus centralisées via l'utilisation d'une quantité réduite d'unités de calcul, mais intégrant un plus grand nombre de fonctionnalités de traitement en leur sein ; en un mot, des processeurs multicœurs. Cette volonté implique cependant une superposition des difficultés inhérentes aux architectures matérielles plus complexes avec les contraintes de sûreté de fonctionnement du logiciel. Nous faisons donc face à des systèmes à criticité mixte exécutés sur des calculateurs aux mécanismes complexes. Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce contexte et ses spécificités à prendre en compte pour proposer de nouveaux éléments de réponse dans la conception de systèmes à criticité mixte sur processeurs multicœurs. Nous conclurons cette partie avec la présentation de la problématique à laquelle nous tenterons de répondre ainsi que la présentation des différents chapitres de cette thèse.
 
-\section{Evolutions des Systèmes embarqués}
+\section{Évolutions des Systèmes embarqués}
 	\subsection{Nouveaux systèmes intelligents et connectés}
-		Le contexte industriel actuel fait émerger de nouvelles technologies basées sur des logiciels de plus en plus complexes et performants. On retrouve ainsi un nombre grandissant de fonctionnalités directement embarquées dans l'automobile, l'avion, le train pour répondre à la fois à des besoins fonctionnels essentiels : assistance à la conduite/pilotage, tableaux de bord, etc. et des besoins de confort d'usage : info-divertissement, connectivité... 
+		Si l'on prend le cas du domaine automobile, depuis près de 30 ans l'industrie n'a cessé de faire évoluer la façon de concevoir les véhicules et notamment leurs systèmes sous-jacents. Comme illustré avec le  diagramme~\ref{fig:evo_sys_automobile}, la transition s'est faite de modifications purement mécaniques vers des évolutions électriques, puis électroniques et de plus en plus intelligentes. Les systèmes de divertissement du consommateur ont été les premiers, dans le milieu des années 1920, à introduire des composants électroniques au sein des véhicules sous la forme de récepteurs radio à lampes ! Si l’apparition de transistors, dans les années 1950, a contribué à
+		l’amélioration des capacités techniques des appareils et à la diffusion massive des autoradios au sein des automobiles, le concept de base a peu évolué jusqu'à la fin des années 1970. L’introduction des premiers systèmes de navigation dans les années 1980, puis des systèmes multimédia dans les années 2000 a changé la donne. Désormais, l'ancienne façade de l’autoradio devient un écran de commande nommée \emph{head unit} et concentre 70\% du code du véhicule.
+		Les voitures se sont modernisées avec l'ajout de calculateurs dédiés à des fonctions internes ou des services. Le développement des technologies de l'industrie {4.0} mène à une augmentation exponentielle du logiciel embarqué dans l'automobile au cours des 15 dernières années~\cite{blanchet_industrie_2016}, avec la présence de plus de 60 calculateurs embarqués dans certains modèles. Les contrôles mécaniques et autres systèmes électriques "simples" cèdent la place au monde du numérique. Les équipements électroniques et logiciels se multiplient au sein du véhicule pour l’aide à la conduite (\textit{Advanced Driver-Assistance System -- ADAS}) et l’ajout de services~\cite{schmidt_automotive_2010}. De fait, le système multimédia moderne a un rôle qui va bien au-delà de celui du simple autoradio~: il devient l'interaction principale entre le consommateur et le véhicule et devient un critère de choix prépondérant à l'achat.
 		
-		Si l'on prend l'exemple du domaine automobile, depuis près de 30 ans l'industrie n'a cessé de faire évoluer la façon de concevoir les véhicules et notamment leurs systèmes sous-jacents. Les voitures se sont modernisées avec l'ajout de calculateurs dédiés à des fonctions internes ou des services. Ainsi le développement des technologies de l'industrie 4.0 mène à une augmentation exponentielle du logiciel embarqué dans l'automobile au cours des 15 dernières années \cite{blanchet_industrie_2016}, avec la présence de plus de 60 calculateurs embarqués dans certains modèles. Les contrôles mécaniques et autres systèmes électriques cèdent la place au monde du numérique. Les équipements électroniques et logiciels se multiplient au sein du véhicule pour l’aide à la conduite (\textit{ADAS}) et l’ajout de services~\cite{schmidt_automotive_2010}.
 		% le nombre de fonctionnalité d'aide à la conduite a explosé. 
-		
-		Ainsi, du simple Système Anti-blocage des roues (ABS), on a introduit des Assitants à la Conduite tel que le Freinage d'Urgence (\textit{Emergency Braking System}) ou encore le Système de Gestion de Ligne (\textit{Lane Support System}) qui permet à la fois l'Avertissement de Dépassement de Ligne (\textit{Lane Departure Warning}), l'Assistant de Maintient de Ligne (\textit{Lane Keeping Assist}) et le Maintien de Ligne d'Urgence (\textit{Emergency Lane Keeping})... et il ne s'agit là que de 2 fonctionnalités supplémentaires~! En parallèle, cette voiture qui devient de plus en plus automatisée voire autonome gagne aussi en connectivité avec la prise en compte de données extérieurs et un lien direct au cloud pour proposer une diversité de services : météo, divertissement, trafic routier etc.
-		Les systèmes embarqués deviennent donc aussi connectés. Typiquement on parle de communications \emph{car-to-car} ou \emph{car-to-infrastructure}. Cette ouverture du système à son environnement est à double tranchant. D'une part cela offre de nouveaux horizons, avec des possibilités d'évolutivité simplifiée. Cela transforme la voiture en un concept de \textit{"Car-as-a-service"}, qui va pouvoir évoluer et se mettre à jour régulièrement à distance (\textit{Over-the-Air Updates}).
-		
-		On se dirige de cette façon vers un nouveau paradigme, où la voiture n'est plus un système mécanique sur lequel on adjoint du logiciel, mais à l'inverse un super-ordinateur multifonctionnel auquel on implante des roues et un moteur. Cette disruption apporte de nouveaux enjeux, notamment de sécurité, vie privée mais aussi sur la prédictibilité du système de par sa complexification. Cela fait donc évoluer les systèmes embarqués dans un environnement profondément à risques mais qui en plus s'accompagne de contraintes fortes.
-		
-		%%	Depuis près de 30 ans, l'industrie automobile n'a cessé de faire évoluer la façon de concevoir les véhicules et notamment leurs systèmes sous-jacents. Les voitures se modernisent de plus en plus avec l'ajout de calculateurs dédiés à des fonctions internes ou des services. Ainsi le développement des technologies de l'industrie 4.0 mène à une augmentation exponentielle du logiciel embarqué dans l'automobile au cours des 15 dernières années \cite{blanchet_industrie_2016}, avec la présence de plus de 60 calculateurs embarqués dans certains modèles. Les contrôles mécaniques et autres systèmes électriques cèdent la place au monde du numérique. Les équipements électroniques et logiciels se multiplient au sein du véhicule pour l’aide à la conduite et l’ajout de services~\cite{OD003}.
-		
-		%%	De plus les véhicules sont de plus en plus connectés. On parle de communications \emph{car-to-car} ou \emph{car-to-infrastructure}, qui ouvrent la voie aux systèmes automobiles distribués. Cette ouverture du système à son environnement est à double tranchant. D'une part cela offre de nouveaux horizons, avec des possibilités d'évolutivité simplifiée, mais d'autre part cela pose des problèmes de sécurité-immunité, et complexifie la prédictibilité comme on le verra dans cet état de l'art. Cela fait évoluer les systèmes embarqués dans un environnement profondément à risques. 
-		
-		
-	\subsection{Enjeux industriels et économiques}
-		Les enjeux industriels peuvent être variables selon les domaines. Ceci étant dit on peut nommer des éléments prépondérants, qui sont ceux que l'on va tenter de prendre en considération dans cette étude. La première d'entre elle est l'imposition de capacités de déploiement rapides (\textit{"Time-to-market" réduit}). Les itérations entre générations demandent des coûts de développement les moins importants possibles. Cela permet des cycles courts et réactifs qui s'adaptent aux évolutions technologiques. Cette contrainte industrielle est structurante sur les choix de conception, ce qui nous ramène souvent au principe "KISS", i.e. "Keep It Safe and Simple" dans notre cas. C'est une philosophie que j'ai souhaité maintenir le long de cette thèse afin de tenter une approche un peu différente des principales recherches actuelles qui tentent souvent d'aller dans des niveaux de détails toujours plus précis et complexes pour répondre aux difficultés technologiques. Comme on le verra plus tard, il existe ainsi des solutions très sophistiquées qui donnent de bons résultats théoriques, mais qui ne se sont pas généralisés dans un contexte industriel. Les question de complexité d'implémentation et simplicité de maintenance dans un cas réel semblent donc relativement déterminantes pour mesurer la pertinence d'une nouvelle contribution à la sûreté des systèmes embarqués.
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.9\linewidth]{schemas/Evo_Sys_Automobile}
+			\caption[Évolutions des Systèmes Automobiles]{Principaux domaines d'évolution des systèmes automobiles au fil du temps}
+			\label{fig:evo_sys_automobile}
+		\end{figure}
 
-		On pourra mentionner aussi des contraintes d'espace. Les systèmes embarqués ont une forte tendance à la miniaturisation pour des enjeux multiples. Cela permet des réductions de poids, essentiel pour des raisons évidents pour tous les systèmes volants (avions, drones) typiquement. Mais aussi pour rester dans les dimensions imposées pour l'automobile ou le ferroviaire encore. 
+		Ainsi, du simple Système Anti-blocage des roues (ABS), on a introduit des Assistants à la Conduite tels que le Freinage d'Urgence (\textit{Emergency Braking System}) ou encore le Système de Gestion de Ligne (\textit{Lane Support System}) qui permet à la fois l'Avertissement de Dépassement de Ligne (\textit{Lane Departure Warning}), l'Assistant de Maintien de Ligne (\textit{Lane Keeping Assist}) et le Maintien de Ligne d'Urgence (\textit{Emergency Lane Keeping})... et il ne s'agit là que de 2 fonctionnalités supplémentaires~! En parallèle, la voiture devient de plus en plus automatisée, voire autonome. Elle gagne en connectivité avec la prise en compte de données extérieures possiblement avec un lien direct au cloud pour proposer une diversité de services~: météo, divertissement, trafic routier, pour n'en citer que quelques exemples.
+		Les systèmes embarqués deviennent par conséquent aussi connectés. On parle de communications \emph{car-to-car} entre véhicules ou \emph{car-to-infrastructure} entre véhicule et infrastructures routières par exemple. 
+		Cette ouverture du système à son environnement est à double tranchant. D'une part cela offre de nouveaux horizons de fonctionnalités et optimisations de conduite, avec des possibilités d'évolutivité simplifiée. Mais d'autre part la complexité va grandissante avec les enjeux d'ingénierie que cela implique. %%%check si bon endroit pour ça
+		 
+		%%%%%%%%% Emergence des architectures EE actuelles GENERALISATION 
+		De façon plus générale, le contexte industriel actuel fait émerger de nouvelles technologies basées sur des logiciels de plus en plus complexes et performants. Cela est rendu possible via l'émergence d'architectures matérielles toujours plus puissantes et performantes. Ces améliorations permettent le développement et la mise en application de nouvelles technologies comme les réseaux de communication sans fil haute performance ou encore l'usage d'intelligences artificielles. On retrouve ainsi un nombre grandissant de fonctionnalités directement embarquées dans l'automobile, l'avion, le train pour répondre à la fois à de nouveaux besoins fonctionnels~: assistance à la conduite/pilotage, tableaux de bord, etc. et à des besoins de confort d'usage~: info-divertissement, connectivité, automatisations... 
 		
-%	L'évolution future est de réduire le nombre de calculateurs embarqué, en passant d'un grand nombre d'ECU à un nombre bien plus réduit de "super ECU", qui vont multiplexer différentes tâches. On passe de cette façon d'un système distribué à un système fédéré basé sur des calculateurs multi-c\oe{}ur.  Là où ce type d'architecture va permettre de faciliter l'évolutivité, réduire les coûts et l'encombrement, vont apparaître d'autres problématiques auxquelles nous allons nous intéresser.
-
-%	Historiquement, les calculateurs embarqués étaient conçus de manière \emph{ad hoc} : le hardware et le software étaient intimement liés. Cela a conduit à un nombre de calculateurs très important, chaque calculateur apportant sa fonctionnalité. On a donc actuellement une architecture avec un grand nombre d'ECU (Electronic Control Unit). On peut noter trois principales propriétés des systèmes embarqués automobiles :
-%\begin{itemize}
-%	\item Les ECU sont \emph{inter-connectés}, ils communiquent les uns avec les autres,
-%	\item Les fonctions et services sont intégrés dans des sous-systèmes complexes. Ainsi un sous-système inclut divers fonctionnalités,
-%	\item Les fonctions sont \emph{distribuées} sur plusieurs calculateurs. Certaines fonctions peuvent être hébergées par plusieurs micro-contrôleurs.
-%\end{itemize} 
-%Ce type d'architecture présentée ci-dessus a des inconvénients évidents en terme d'évolutivité du système et de temps de développement. A chaque changement de support physique (micro-contrôleur) le logiciel doit passer par un nouveau stade de développement plus ou moins conséquent. Inversement, une mise à jour du logiciel va demander une prise en compte du hardware. Cela augmente donc les temps et les coûts de développement.
+		
+		D'un point de vue logiciel, les mises à jour de systèmes embarqués incluent à la fois de nouvelles fonctionnalités critiques pour le bon fonctionnement du système, mais aussi des ajouts moins critiques. Ces mises à jour de services non essentiels amplifient  la multiplicité des niveaux de criticités du logiciel embarqué et donc la cohabitation entre sous-systèmes critiques et sous-systèmes non-critiques que l'on pourrait qualifier de "confort". 
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.8\linewidth]{graphiques/processors_trend}
+			\caption[Évolution des processeurs]{42 Ans d'évolution des processeurs - Tendances}
+			\label{fig:processorstrend}
+		\end{figure}
+		
+		
+		D'un point de vue matériel, il y a de fortes convergences sur les architectures employées dans les différents domaines. Historiquement, on retrouvait en premier lieu des calculateurs monocœurs. Cependant, les diverses évolutions d'exigences ont fait apparaître des limites en capacité de calcul. La montée en fréquence de fonctionnement atteint un seuil maximum à cause de la chauffe et la consommation que cela implique. Tandis que l'augmentation du nombre de transistors qui composent les processeurs arrive aux abords des limites physiques~: la taille de gravure du silicium arrive au même ordre de grandeur que la taille des atomes de silicium dont elle est composé. De fait, jusqu'à récemment encore, la Loi de Moore~\cite{thompson_moores_2006} sur la puissance des processeurs s'est vérifiée. Des premiers microprocesseurs Intel en 1971, avec quelques milliers de transistors de \SI{10}{\micro\metre}, l'on est aujourd'hui à plus de 1 milliards de transistors de près de \SI{10}{\nano\metre}. Mais à l'aune d'une gravure proche des \SI{2}{\nano\metre}, on environne les dimensions de 10 à 15 atomes et les effets de la physique quantique entrent en jeux. Par conséquent, l'on se dirige vers les limites des technologies actuelles pour poursuivre ces améliorations de puissance. Pour ces raisons, le plus grand levier de progression disponible aujourd'hui repose sur la parallélisation des unités de calcul, et donc la notion de calculateur multicœur, qui est apparue dès les années 1950~\cite{smotherman2005history}. Les fondeurs s'orientent vers des processeurs où la montée en puissance est assurée par la multiplication des unités de calcul (dit "cœurs") parallèles dans le processeur. On passe ainsi de monocœurs toujours plus petits et compacts à des duals/quadri cœurs... et l'on va aujourd'hui jusqu'à des supercalculateurs à plus de 128 cœurs. Tous ces changements se visualisent parfaitement avec l'évolution des caractéristiques des processeurs au fil des années en~\, tel qu'agrégé par K. Rupp~\cite{rupp_42_2020}. Cette évolution est la bienvenue dans tous les secteurs concernés, allant du grand public dans les ordinateurs, téléphones et autres multimédias jusqu'aux applications industrielles en passant par les usages de serveurs réseaux et centres de calculs.
+		
+		%%%%%%%% ARCHITECTURES MATERIELLES %%%%%%
+		Il existe divers types d'architectures matérielles parmi les évolutions multicœurs que l'on retrouve aujourd'hui. On pourrait de façon simple différencier entre les multicœurs classiques, les manycœurs et à l'extrême ce que l'on connaît sous le nom de GPU, les processeurs graphiques.
+		
+		\paragraph{Multicœurs "classiques"}
+			Les calculateurs multicœurs "classiques" disposent d'un certain nombre d'unités de calculs ("cœurs"), auxquelles sont adjointes diverses zones mémoires (cache, RAM, ROM). Le tout est piloté par des contrôleurs et bus de transferts de données pour interconnecter les cœurs, les cellules mémoires et les entrées/sorties. Dans les versions les plus récentes, des modules dédiés peuvent être ajoutés pour des fonctionnalités spécifiques comme le chiffrement. 
 			
-\section{Architectures Matérielles}
+			La mémoire est partagée à différents degrés entre les cœurs. De façon à décongestionner les accès mémoire et accélérer ces dernières, une hiérarchie mémoire est mise en place, associant des espaces mémoire progressivement plus petits et rapides en fonction de leur proximité au processeur. Il s'agit ici de trouver un équilibre entre coût de la mémoire et vitesse d'accès aux données. En effet,  cette dernière dispose de trois caractéristiques antagonistes~: 
+					\begin{itemize}
+							\item la \textbf{latence} - temps d'accès aux données, 
+							\item la \textbf{bande passante} - débit de données accessible,
+							\item la \textbf{taille} mémoire - espace mémoire disponible (pour un coût donné).
+						\end{itemize}
+			Un espace mémoire pourra être soit de petite taille, mais rapide au niveau de son temps d'accès, soit de grande taille et plus lent comme schématisé dans la~\autoref{fig:hierarchiememoire}.  On a par conséquent au plus proche des cœurs les registres, de taille très limitée (octets) mais au temps d'accès très rapide~: ils sont la base pour toutes les opérations effectuées par le processeur. À l'opposé, la mémoire principale, de très grande taille (Go/To) pour laquelle tous les cœurs doivent passer par un bus commun pour y accéder. C'est donc la mémoire la plus lente d'accès mais aussi la moins coûteuse. Plusieurs intermédiaires ont été mis en place entre ces deux types de mémoire. Il s'agit typiquement de niveaux de cache qui peuvent être non partagés, c'est-à-dire propres à chaque cœur ou bien commun à tous. Le dernier niveau de cache, partagé, est classiquement appelé LLC (\emph{Last Level Cache}) et donne la limite entre les espaces mémoire limités en cache avec des accès rapides d'une part et la mémoire principale qui va provoquer de grands ralentissements d'autre part. 			
+			On retrouve ainsi avec l'exemple de la~\autoref{fig:multicoeurintel} un cas de calculateur multicœur basé sur le cache, avec 8 cœurs, des niveaux de cache mémoire séparés (L1 et L2) et partagé (L3) ainsi que le bus d'accès à la mémoire principale. 
+			
+			%%%%% A DEPLACER DANS STRATEGIES EXISTANTES %%%%
+			La gestion du contenu de ces caches (en lecture et écriture) est géré par une politique d'accès mémoire. Cette politique est essentielle à un usage efficace des caches du fait de leur espace limité qui demande à faire des choix sur son usage. Cela est peu documenté par les constructeurs,  et chacun aura sa façon de faire.
+			La méthode de base la plus répandue étant empirique, par principe de localité temporelle~\cite{durrieu2014predictable} et spatiale~\cite{wilkes1965slave}. On considère que plus une donnée a été récemment accédée, plus elle a de chance d'être à nouveau utilisée. De même si une donnée est sollicitée, alors les données proches spatialement ont aussi plus de chance d'être utilisées. 
+			Nous n'iront pas plus dans les détails sur les politiques de gestion d'accès à la mémoire. Il faut garder en mémoire qu'elle est plutôt subie par les industriels qui intègrent le matériel dans leurs systèmes. Pour un processeur donné on aura certaines performances de calcul et accès mémoire, et il faudra mettre en comparaison les performances "par défaut" d'un logiciel sur une architecture donnée face au même système, \comment{pas clair ?}{mais avec des surcouches de gestion du logiciel apportées par l'intégrateur}.
 
- 
-    \subsection{Mono/Multi/Many Cores et GPU}
-    \subsection{Architectures mémoires, cas des multi-c\oe{}urs}
-	\subsection{Risques d'interférences}
+			
+			
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{.45\textwidth} \centering
+		\includegraphics[width=0.9\linewidth]{schemas/multicoeurIntel}
+		\caption{Exemple d'architecture multicœur}
+		\label{fig:multicoeurintel}
+	\end{subfigure}			
+	\begin{subfigure}{.45\textwidth} \centering
+		\includegraphics[width=0.85\linewidth]{schemas/hierarchieMemoire}
+		\caption[Hiérarchie mémoire]{Schématisation de la hiérarchie mémoire selon leur coût et performance}
+		\label{fig:hierarchiememoire}
+	\end{subfigure}
+	\caption{Exemple multicœur et mémoires}
+	\label{fig:multicoeurs}
+\end{figure}
+
+			Il existe des variations d'architectures différentes selon les fondeurs, que l'on peut classifier en deux catégories principales. D'une part les multicœurs basés sur le cache (comme celui susmentionné) et d'autre part les multicœurs basés sur \emph{scratchpad}, c'est-à-dire des mémoires locales dédiées à chaque cœur. On peut voir la différence fondamentale de structure entre ces deux variations sur la~\autoref{fig:ArchitecturesMulticoeur}. 
+			\comment{\textbf{TBA}}{Voir où et comment parler des multicœurs scratchpad ! Potentiellement dans "Solutions existantes".} 
+
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{.45\textwidth} \centering
+		\includegraphics[width=\linewidth]{schemas/Multicore-CacheBased}
+		\caption[Diagramme Multicœur Cache]{Architecture calculateur multicœur basé sur le cache}
+		\label{fig:multicoeurCache}
+	\end{subfigure}
+	\begin{subfigure}{.45\textwidth} \centering
+		\includegraphics[width=\linewidth]{schemas/Multicore-ScratchpadBased}
+		\caption[Diagramme Multicœur Scratchpad]{Architecture calculateur multicœur basé sur Scratchpad}
+		\label{fig:multicœurScratchpad}
+	\end{subfigure}
+	\caption{Exemple multicœur et mémoires}
+	\label{fig:ArchitecturesMulticoeur}
+\end{figure}
+
+		\paragraph{Calculateurs manycœurs}	Les calculateurs manycœurs sont des microprocesseurs incluant un grand nombre de cœurs dans l'objectif primaire d'une plus grande capacité d'exécution de code parallèle. Pour ce faire, les cœurs peuvent être spécialisés avec la réduction des instructions réalisables et optimisations à des tâches spécifiques. C'est la différence principale avec les multicœurs qui possèdent en en général des cœurs identiques (processeur homogène) avec de bonnes performances à la fois en série et en parallèle. 
+		Les architectures manycœurs grâce à leurs spécificités demandent  des méthodes de programmation appropriées pour pouvoir être pleinement exploités dans le cadre d'une application. Cela augmente donc le niveau de complexité de développement, mais au bénéfice d'une forte amélioration des performances.
+		
+		Les GPUs (\emph{Graphic Processing Unit}) sont un cas particulier de manycœurs à présent très répandu pour des usages variés~\cite{owens2008gpu}. Cette forte expansion des GPU est due non seulement aux capacités de rendu graphique, mais surtout à leurs capacités de programmation parallèle poussée au maximum. Un grand nombre de domaines, notamment dans la recherche, y voient donc un microprocesseur d'usage général à hautes capacités de calcul parallèle.
+		Les GPU sont efficaces du fait qu'ils permettent de réaliser le même calcul sur un très grand nombre de données différentes (typiquement calculs matriciels) pour obtenir tout autant de résultats en sortie. Il s'agit d'un modèle dit \emph{SIMD - Single-Instruction, Multiple-Data}. Là où les multicœurs conventionnels se focalisent sur des cœurs versatiles qui s'adaptent pour pouvoir gérer tous les cas d'applications, les GPU se focalisent sur la réalisation de tâches identiques en parallèles, ils restent donc spécialisés pour des types de tâches spécifiques, en complément de processeurs plus polyvalents.
+		
+		Dans le cadre de ces recherches, nous nous focaliseront sur le dénominateur commun le plus utilisé dans les architectures électriques et électroniques, qui est donc le processeur multicœur basé sur le cache.
+		
+\section{Risques et Problématique}
+%%% Transition vers menaces
+	Dans le cadre du contexte automobile, on se dirige \cmnt{de cette façon} vers un nouveau paradigme, où la voiture n'est plus un système mécanique sur lequel on adjoint du logiciel, mais à l'inverse un superordinateur multifonctionnel auquel on implante des roues et un moteur. 
+	Les systèmes automobiles sont ainsi devenus des systèmes cyberphysiques qui entrent en interaction à la fois avec les utilisateurs et l'environnement. On distingue deux grands domaines de logiciels embarqués dans le véhicule. Tout d'abord l'info-divertissement, qui réunit les systèmes multimédias et autres affichages non nécessaires à l'usage primaire du véhicule. Et deuxièmement les calculateurs enfouis qui réalisent des fonctions essentielles qui ne sont pas nécessairement visibles de l'utilisateur, telles que le contrôle moteur. Pour soutenir ces besoins émergents, il est nécessaire de se baser sur des architectures matérielles plus puissantes comme les multicœurs. Cependant, cette disruption apporte de nouveaux enjeux, notamment de sécurité, vie privée, mais aussi sur la prédictibilité et la sûreté de fonctionnement du système à cause de sa complexification. Cela fait donc évoluer les systèmes embarqués dans un environnement profondément à risques, mais qui en plus s'accompagne de contraintes fortes. Nous nous devons donc d'introduire ici les notions de Sûreté de fonctionnement nécessaire à l'analyse.
+
+	\subsection{Sûreté de Fonctionnement Informatique}
+
+		La sûreté de fonctionnement d’un système informatique (SdF) est "\textit{la propriété qui permet à ses utilisateurs de placer une confiance justifiée dans le service qu’il leur délivre, le service étant le comportement du système perçu par un utilisateur, cet utilisateur étant un système (informatique, humain, environnemental) qui interagit avec le premier.}"~\cite{arlat1995guide}. C’est donc la capacité d’un système informatique de répondre de manière correcte, conformément aux spécifications fonctionnelles, à une requête d’un autre système.  
+		La sûreté de fonctionnement est définie en fonction de trois notions principales~: \linebullets{les \textit{attributs} qui définissent les propriétés assurées, les \textit{entraves} qui caractérisent les circonstances indésirables mais prévues, et les \textit{moyens} qui précisent les techniques permettant au système de fournir son service}.  
+		Selon les services souhaités par l’utilisateur, ce dernier peut vouloir accentuer certaines propriétés pour assurer le bon fonctionnement du système. Ainsi la sûreté de fonctionnement englobe les attributs suivants~:  
+		\begin{itemize}
+			\item 	La \textbf{disponibilité} - la capacité d’être prêt à délivrer le service correct~; 
+			\item 	La \textbf{fiabilité} - l’assurance de continuité d’un service correct~; 
+			\item 	La \textbf{sécurité-innocuité} - l’assurance de non-propagation de conséquences catastrophiques à l’utilisateur ou l’environnement~; 
+			\item 	L’\textbf{intégrité} - l’assurance de non-altération du système~; 
+			\item 	La \textbf{maintenabilité} - l’aptitude à la réparation et à l’évolution du système. 
+		\end{itemize} 
+		Ces attributs permettent d’une part d’exprimer les propriétés devant être respectées par le système, et d’autre part d’évaluer la qualité du service délivré vis-à-vis de ces propriétés. Les aspects de sécurité, au sens de la confidentialité et des attaques face à des actions malveillantes indésirables ainsi que la confidentialité, c'est-à-dire, la non-divulgation d'information non autorisée, ne seront pas abordés dans cette thèse.
+		
+		Les entraves à la sûreté de fonctionnement sont les défaillances, les erreurs et les fautes. Une défaillance est une transition d’un service correct vers un service incorrect. Un service est considéré incorrect s’il n’est pas conforme à la spécification ou si la spécification ne décrit pas avec précision la fonction du système. Étant donné qu’un service consiste en une séquence d’états externes du système (observés par l’utilisateur), la survenue d’une défaillance signifie qu’au moins un des états externes s’écarte de l’état correct du service. La déviation est liée à une erreur, qui représente la partie de l’état interne du système pouvant entraîner une défaillance, dans le cas où elle atteint l’interface du service du système. La cause déterminée ou
+		présumée d’une erreur est appelée une faute. La~\autoref{fig:suretedefonctionnemententraves} représente ce lien de cause à effet. Le fait de prévenir la causalité entre fautes est défaillances pour le bon fonctionnement se désigne par la méthode de silence sur défaillance. C'est-à-dire qu'une faute ou une erreur n'aura pas plus de conséquences et ne provoquera pas outre de défaillance, ou inversement.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.7\linewidth]{schemas/SureteDeFonctionnement_entraves}
+			\caption{Sûreté de fonctionnement - chaîne de causalité}
+			\label{fig:suretedefonctionnemententraves}
+		\end{figure}
+		
+		Pour minimiser l’impact de ces entraves, la sûreté de fonctionnement dispose de méthodes et techniques qui permettent de conforter les utilisateurs quant au bon accomplissement des fonctions du système. Le développement d’un système sûr de fonctionnement passe donc par l’utilisation combinée de ces méthodes, appelés moyens, pouvant être classées en quatre types~:
+		\begin{itemize}
+			\item \textbf{Prévision} des fautes~: estimation de la présence, de la création et des conséquences des fautes (p. ex. Analyse FMEA)~;
+			\item \textbf{Prévention} des fautes~: méthodes visant à réduire les occurrences ou l’introduction de fautes (p. ex. outil de génie logiciel, processus de développement strict)~;
+			\item \textbf{Élimination} des fautes~: réduction du nombre et de la sévérité des fautes (p. ex. test, injection de fautes)~;
+			\item \textbf{Tolérance} aux fautes~: capacité de fournir un service, optimal ou dégradé, en présence de fautes (p. ex. techniques de redondance).
+		\end{itemize}
 	
-\section{Criticité Mixte \& Contraintes Temporelles}
-%	Les systèmes automobiles sont ainsi devenus des systèmes cyber-physiques qui entrent en interaction à la fois avec les utilisateurs et l'environnement. On distingue deux grands domaines de logiciels embarqués dans le véhicule. Tout d'abord l'\emph{infotainment}, qui réunit les systèmes multimédias et autres affichages non nécessaires à l'usage primaire du véhicule. Et deuxièmement les calculateurs enfouis qui réalisent des fonctions essentielles qui ne sont pas nécessairement visibles de l'utilisateur, telles que le contrôle moteur. 
+		La prévention et la tolérance aux fautes visent à fournir la capacité de délivrer un service correct, tandis que l’élimination et la prévision des fautes visent à susciter la confiance en cette capacité en justifiant que les spécifications fonctionnelles de sûreté de fonctionnement et de sécurité sont adéquates et que le système est conforme. Toutes ces techniques sont dédiées à garantir des propriétés de sûreté de fonctionnement issues de spécification non fonctionnelles. % et non pas à délivrer un service applicatif.
+		
+		%%% PHRASE TRANSITION POURQUOI ON S'INTERESSE TaF
+		%		Après avoir énoncé les principes fondamentaux de la sûreté de fonctionnement, nous allons nous intéresser plus précisément à la tolérance aux fautes.
+		\paragraph{Tolérance aux Fautes}
+		Les fautes auxquelles un système doit faire face sont nombreuses et peuvent ne pas avoir d’impact sur celui-ci tant qu’un ou plusieurs évènements ne se sont pas produits. On les appelle alors des fautes dormantes. Une fois activées, ces fautes peuvent avoir un impact catastrophique sur le système. D’origines diverses et variées, certaines fautes sont dues à l’environnement, au matériel, ou encore à l’être humain.
+		
+		Chaque faute peut provoquer une ou des erreurs différentes pouvant entraîner la défaillance du système. Malgré l’application des techniques de prévention et d’élimination des fautes, certaines subsistent et sont à même d’être activées.
+		
+		Un système tolérant aux fautes doit pouvoir assurer à l’utilisateur un service correct en dépit des fautes pouvant altérer ses composants, durant sa conception ou son interaction avec d’autres systèmes~\cite{avizienis_basic_2004}. La Tolérance aux fautes est mise en œuvre grâce aux moyens de \textbf{détection} d’erreurs, c.-à-d., l’identification des déviations du service correct, et de \textbf{recouvrement}, c.-à-d., les techniques permettant en cas d’erreur détectée de passer d’un état de système fautif à un état assurant un service nominal ou dégradé.
+		
+		La détection d’erreur peut être soit concurrente et se déroulant pendant l’exécution du système soit anticipée en vérifiant les paramètres du système lors de la suspension de son exécution. Une fois cette erreur détectée, les techniques de recouvrement peuvent être employées, d’une part pour assurer le service désiré et éviter la propagation de l’erreur (traitement des erreurs) et d’autre part pour isoler le composant fautif, diagnostiquer l’erreur, trouver et déterminer la faute originelle pour assurer une opération de maintenance (traitement des fautes).
+		
+		Les techniques de détection et de recouvrement sont nombreuses et sont regroupés dans des mécanismes de tolérance aux fautes associés à un ou plusieurs types de fautes. Il n’y a à l’heure actuelle aucun mécanisme générique pouvant pallier n’importe quel type de fautes ou d’erreurs. Que cela soit de la redondance matérielle, logicielle, temporelle, de la diversité dans l’implémentation ou l’architecture, les techniques sont nombreuses et souvent propres à chaque domaine et au budget alloué à la tolérance aux fautes.
+		
+		Dans le cadre de ces travaux de recherche, nous nous intéresseront particulièrement à la tolérance aux fautes qui attrait donc à la bonne exécution de tâches hébergées au sein d'un même calculateur. Dans le contexte industriel susmentionné, un même calculateur exécute des tâches pour des fonctionnalités variées et par conséquent avec des niveaux de criticité variés. Cela engendre notamment des contraintes sur les temps d'exécution des logiciels les plus critiques. C'est ce qu'on qualifie de systèmes temps réel. Nous sommes en résumé dans un contexte à criticité mixte, où du logiciel de système temps-réel va coexister avec du logiciel avec des contraintes temporelles moins strictes, voire aucune contrainte. L'implémentation de mécanismes de sûreté de fonctionnement dans ce contexte-là relève alors de la gestion de fautes temporelles dans un système à criticité mixte. 
+		
+\subsection{Systèmes temps-réel et Ressources partagées}
+	\paragraph{Système temps-réel}
+		Les systèmes embarqués sont conçus sur la base d'un modèle de capteurs et actionneurs. Les capteurs représentent l'ensemble des éléments qui permettent d'obtenir les données d'entrée au système de façon à ce qu'il puisse réaliser sa fonction. Il s'agit notamment des informations de l'environnement du véhicule, mais aussi des données internes avec tout l'état de fonctionnement actuel ainsi que les interactions avec l'utilisateur. Ces informations sont alors gérées par les calculateurs de décision via des algorithmes plus ou moins complexes. Le logiciel permet donc à partir de ces données d'entrée de calculer les commandes qui sont dirigées vers les actionneurs. Les actionneurs sont alors en bout de chaîne afin d'accomplir la commande. Dans le cas où les données d'entrée fournies par les capteurs sont liées aux données de sortie, on parle alors d'une \emph{boucle} de contrôle. Typiquement avec le chauffage d'un logement qui utilise un capteur de température pour une consigne de température donnée.
+		
+		Prenons un exemple hypothétique de contrôle de l'injection moteur pour une voiture. En entrée, le calculateur de contrôle moteur récupère entre autre les informations du capteur de vitesse de rotation du moteur, de la quantité d'essence en réservoir et l'accélération demandée par le conducteur. Il peut alors calculer l'instant et la quantité de carburant qu'il sera nécessaire d'injecter dans le moteur. Cette commande est alors transmise à l'actionneur, l'injecteur, pour être réalisée. Et ce bloc de contrôle-commande doit se répéter périodiquement pour suivre la consigne tout le long de l'utilisation du véhicule.
+		
+		Tous ces éléments de contrôle-commande ont en commun d'avoir des contraintes temporelles. Le temps de réaction --qui définit la durée entre la récupération des données des capteurs jusqu'à la réalisation de la commande par les actionneurs--  peut alors être une donnée critique pour certaines applications comme l'exemple donné ci-dessus (\textit{inutile de dire qu'un contrôle d'injection moteur qui prend trop de temps à déterminer combien de carburant injecter aura des conséquences bien indésirables...}). Ainsi, ce genre d'applications nécessitent à la fois de retourner des résultats corrects mais aussi de les délivrer dans les temps. 
+		
+		\begin{figure}[h]
+			\centering
+			\begin{subfigure}{.3\textwidth} \centering
+				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelDUR}
+				\caption[]{Temps-réel dur}
+				\label{fig:tempReelDur}
+			\end{subfigure}
+			\begin{subfigure}{.3\textwidth} \centering
+				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelFERME}
+				\caption[]{Temps-réel ferme}
+				\label{fig:tempReelFerme}
+			\end{subfigure}
+			\begin{subfigure}{.3\textwidth} \centering
+				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelMOU}
+				\caption[]{Temps-réel mou}
+				\label{fig:tempReelMou}
+			\end{subfigure}
+			\caption{Modèles d'utilité des résultats d'une tâche temps-réel}
+			\label{fig:ModelesTempsReel}
+		\end{figure}
+		
+		Plus généralement, les applications embarquées se caractérisent par un ensemble de tâches logicielles qui interagissent entre-elles. Elles sont soit périodiques (c.-à-d. exécutés à intervalle réguliers) soit apériodique (sur réception d'un événement). Chaque tâche possède ses spécifications propres en termes de données d'entrée, de sortie ainsi que ses paramètres d'exécution (selon les cas : période, niveau de priorité, allocation physique) dont une échéance d'exécution. Les systèmes temps-réel peuvent se catégoriser en 3 catégories qui sont schématisées en~\autoref{fig:ModelesTempsReel}. On retrouve d'une part les systèmes \textbf{temps-réel strict} ("\textit{hard real-time}") où le respect de l'échéance est strict en~\autoref{fig:tempReelDur}. Il est alors considéré qu'une tâche dont le temps de réponse dépasserait l'échéance serait une faute temporelle indésirable et les données renvoyées par la tâche n'ont plus de valeur. Le même modèle mais sans conséquences après dépassement de l'échéance est nommé \textbf{temps-réel ferme} ("\textit{firm real-time}") illustré en~\autoref{fig:tempReelFerme}. À l'inverse, les systèmes \textbf{non-temps-réel} n'imposent pas de contraintes d'échéance sur l'exécution des tâches. Il s'agit donc de faire au mieux, mais tout dépassement des temps d'exécution nominaux n'a pas de répercussions. C'est ce que l'on côtoie couramment via nos appareils de tous les jours comme le smartphone ou l'ordinateur. Enfin, les systèmes \textbf{temps-réel souple} ("\textit{soft real-time}") sont un entre-deux où l'échéance représente un seuil limite au-delà duquel la valeur de retour de la tâche garde une utilité pour le système mais qui décroît avec le temps, jusqu'à ne plus être pertinente comme représenté en~\autoref{fig:tempReelMou}. On dit alors que la donnée est "périmée". Ce dépassement peut alors provoquer ou non une faute.
+		
+		Les analyses d'exécution temporelles des tâches constituent alors un aspect essentiel du développement de logiciel critique afin de garantir le respect des échéances. Cela peut se faire soit de façon expérimentale ou théorique. L'objectif étant de vérifier l'ordonnancement, c'est-à-dire la bonne gestion de l'exécution du logiciel sur le processeur suivant les contraintes imposées (échéances, dates d'activation, périodes...). Un système est dit prédictible si l'on est capable de prouver de façon théorique que les contraintes temporelles seront respectées. Cela se fait par le biais d'analyses d'ordonnançabilité. Un technique classique de ce type d'analyse consiste à évaluer les pires temps d'exécution ("\textit{Worst-Case Execution Time -- WCET}"). Le WCET indique la durée maximum au-delà de laquelle on sait qu'en toutes conditions, la tâche correspondante aura terminé son exécution. Il est possible de comparer les WCET des tâches avec leurs échéances. Pour du temps réel strict, les valeurs de WCET se devront d'être strictement inférieures aux échéances, là où pour du temps réel ferme ou souple on pourra se contenter d'estimation ou de résultats statistiques.
+				
+		Au sein d'un même processeur, toutes les tâches n'auront potentiellement pas les mêmes types de contraintes d'exécution. Mais en plus de cela, les architectures matérielles multicœurs complexifient d'autant plus l'analyse. 
+		
+		
+	\paragraph{Ressources Partagées}
+	
+		Comme nous l'avons vu précédemment sur l'architecture multicœur, il existe un bon nombre de ressources qui sont partagées entre les différents logiciels qui sont exécutés. Ces partages de ressources peuvent influencer directement sur l'exécution des tâches et donc sur leur capacité à respecter les échéances. En effet, si plusieurs tâches ont des besoins concurrents d'accès à une même ressource alors nécessairement l'une va passer avant l'autre. Cette dernière sera \textit{de facto} retardée dans son exécution. Il existe ainsi de nombreuses sources de retards potentiels d'exécution : 
+		\begin{itemize}
+			\item Mémoire --
+			\begin{itemize}[label=$ \circ $] %\bigstar \blacklozenge \blacksquare \blacktriangle \blacktriangledown \lozenge \Diamond  \bullet
+				\item 	erreurs en lecture~: si une donnée n'est plus présente en cache du fait qu'elle a été remplacée par les données d'une autre application. Cela demande alors à remonter sur les niveaux de mémoire supérieurs, ce qui engendre des temps d'accès supplémentaires importants ;
+				\item 	accès concurrents : l'accès concurrent à un niveau de mémoire partagée se fait par le bien d'un contrôleur d'accès mémoire, qui va devoir arbitrer sur l'ordre et le temps alloué à chaque tâche.
+				\item 	Cohérence mémoire : selon les technologies de gestion de cache utilisées, il faut gérer la cohérence mémoire. Si une donnée est utilisée dans plusieurs mémoires non partagées, alors il faut s'assurer que la donnée en question reste cohérente entre toutes les tâches qui s'en servent. Cela implique en général une synchronisation sur les niveaux de mémoire supérieure quand elle est modifiée de façon locale, et inversement une propagation des modifications vers les tâches qui manipulent la donnée.
+			\end{itemize}
+			\item Périphérique et I/O en général --
+				chaque périphérique dispose de son propre contrôleur d'accès. On a donc les mêmes enjeux qu'avec les accès concurrents à la mémoire dans le cas où plusieurs tâchent utilisent la même entrée/sortie. Le cas principal ici pour une architecture embarquée est sur l'utilisation d'un bus de communication externe qui sert à interconnecter les calculateurs. L'envoi et la lecture de message sur de tels bus de communication peuvent alors engendrer un grand nombre d'usages concurrents. 
+			\item Bus d'interconnexion -- 
+				Le fonctionnement même des processeurs implique l'utilisation de bus internes afin de gérer la transmission et le stockage de données. Tout usage de ces bus d'interconnexion peuvent alors impliquer des usages concurrents qui impactent l'accès aux données des tâches.
+			\item Puissance de calcul -- 
+				Enfin, mais pas des moindres, il n'y aura probablement jamais autant de cœurs que de tâches sur un processeur multicœur. Il est de ce fait évident que les tâches devront se partager tout ou partie des cœurs selon leur allocation physique. C'est là que va entrer en jeu la stratégie d'ordonnancement des tâches. La politique d'ordonnancement joue un rôle essentiel pour permettre le respect des contraintes temporelles et optimiser l'usage de la puissance de calcul pour limiter au maximum les temps d'attente en file d'exécution des tâches. 
+		\end{itemize}
 
-%	Cela fait évoluer les systèmes embarqués dans un environnement profondément à risques. Au vu des fonctions réalisées, cela donne un poids prépondérant aux systèmes embarqués, qui se doivent de respecter des standards de sûreté élevés pour garantir leur fonctionnement. Cela va notamment se traduire par l'introduction des mécanismes de sûreté de fonctionnement, et par la prise en compte de contraintes temps-réel dans le développement de fonctions critiques.
+\subsection{Problématique et Objectifs}
+		Dans le contexte industriel sur lequel nous nous focalisons, les évolutions des systèmes cyberphysiques présentés précédemment impliquent que des tâches de différents modèles d'exécution doivent être intégrées au sein d'un même multicœur. On parle alors de système à criticité mixte. Cette coexistence de fonctionnalités va augmenter la complexité d'étude de sûreté de fonctionnement afin de garantir l'ordonnançabilité des tâches et le respect des contraintes temporelles. Et comme nous venons de le voir, les nouveaux calculateurs multicœurs ajoutent en niveau de complexité avec l'augmentation de risque d'interférence entre logiciels concurrents. Il devient par conséquent de plus en plus complexe de mener des études théoriques pour estimer les pires temps d'exécutions et donc l'ordonnançabilité des tâches. La conséquence directe à cela est un manque de garanties claires sur le bon respect des échéances temporelles pour les tâches les plus critiques pour lesquelles on ne peut se permettre de telles fautes.
+		
+		On verra qu'il existe de nombreuses méthodes qui permettent de réduire les interférences et donc fiabiliser les études d'ordonnançabilité. Cependant, cela se fait en général au prix d'un compromis sur les performances de calcul.
+		Hors, c'est pour cette même puissance de calcul que la transition vers des calculateurs multicœurs s'est faite. Il semble alors essentiel de vouloir l'exploiter au maximum. On a deux objectifs qui s'opposent, mais qui sont tout autant essentiels. D'une part l'exploitation au maximum des capacités de calcul pour héberger tout le logiciel nécessaire aux nouvelles fonctionnalités des systèmes embarqués. D'autre part continuer à donner des garanties fortes de respect des contraintes temps réel pour les tâches critiques. 
+		
+		Cela nous mène donc à la problématique centrale de cette thèse, qui est d'identifier les leviers et mécanismes qui peuvent permettre d'atteindre au mieux les deux objectifs susmentionnés d'optimisation de l'usage du processeur avec les garanties temporelles liées aux systèmes critiques. 
+		Nous tenterons dans la suite de proposer une réponse à cette problématique par le biais d'une nouvelle approche qui mène à l'usage d'un mécanisme de surveillance et de contrôle de l'exécution des tâches pour éviter toute faute temporelle en cas d'occurrences d'interférences tout en permettant par ailleurs de libérer toute la puissance de calcul disponible dans l'exécution des tâches.
+	
 
-%	Avec les architectures automobiles telles qu'elles évoluent actuellement se dessine un certain nombre de problématiques qui prennent de l'ampleur.   
-%	Comme cela a été mentionné, les systèmes embarqués dans l'automobile sont soumis à des contraintes de sûreté fortes. Typiquement, des fonctionnalités qui étaient auparavant totalement décorrélées peuvent désormais se retrouver sur le même calculateur et interférer les unes avec les autres. Le multiplexage d'applications sur un calculateur puissant permet de réduire le nombre de micro-contrôleurs et de fait l'architecture matérielle. Dans ce contexte, similaire à celui de l'avionique, il faut mettre en place des mécanismes pour la conception, la vérification, la validation et la maintenance du logiciel. Que ce soit dans l'automobile ou l'avionique, on retrouve des similitudes sur les moyens employés. 
-%	
-%	Tout d'abord d'un point de vue des mécanismes de sûreté de fonctionnement, on distingue plusieurs catégories de fonctions logicielles, par niveau de criticité, pour un total de 5 niveaux de criticité allant d'un risque "catastrophique" pour les fonctions les plus vitales à "aucune conséquence" pour les fonctions les moins importantes. Pour l'automobile, il s'agit des niveaux d'ASIL (Automotive Safety Integrity Level) allant respectivement de l'ASIL~D à l'ASIL~A, et QM pour les fonctions sans exigence particulière. Selon ce niveau de criticité, les mécanismes mis en œuvre seront plus ou moins importants tout au long du processus de développement. Afin de garantir l'intégrité du système avec la coexistence de tâches à différents niveaux de criticité, un des grands principes est la séparation spatiale et temporelle des tâches au sein du calculateur (\emph{Time and Space Partitioning - TSP}). Spatiale car une tâche donnée aura son propre espace mémoire réservé, afin d'éviter toute interaction indésirable avec d'autres tâches. Temporelle afin de garantir que chaque tâche dispose de son temps d'exécution propre afin de garantir son bon fonctionnement. C'est suivant ce principe que dans le domaine de l'Avionique, le choix a été fait de cloisonner les tâches par l'utilisation du partitionnement. Ce partitionnement fixe va allouer à chaque tâche un espace mémoire prédéfini ainsi que des cœurs sur lesquels s'exécuter. Et pour les aspects temporels, il s'agit d'un ordonnancement \emph{statique}.
-%	Dans le cadre des systèmes automobiles, cette solution n'est pas satisfaisante en raison de contraintes budgétaires fortes. Les avancées sur la connexion de la voiture au monde ouvert (notamment pour permettre des mises-à-jour \emph{Over-The-Air}) nous impose presque naturellement de rechercher des stratégies de partitionnement \emph{dynamique}. De cette façon, il sera possible de faire évoluer le logiciel embarqué en réduisant au maximum les coûts.
-%	
-%	Cependant, cette solution présente de nombreux défis pour être viable. De fait il y a un équilibre à trouver entre dynamicité et prédictibilité des systèmes embarqués, pour permettre leur exécution dans des conditions sûres de fonctionnement et notamment dans le respect des contraintes temporelles.
-    \subsection{Enjeux des usages des multi-c\oe{}urs avec contraintes temporelles}
-    \subsection{Problématique :  criticité multiple : comment optimiser l'usage des ressources avec garanties temporelles}
-    
+\section{Contraintes et Hypothèses}
+		
+	\subsection{Contraintes industrielles}
+		Cette problématique s'inscrit dans un contexte industriel aux contraintes spécifiques. Il est donc important d'avoir ces éléments en ligne de compte pour proposer une analyse et des contributions pertinentes. Historiquement, les calculateurs embarqués étaient conçus de manière \emph{ad hoc}. Le logiciel et le matériel étaient intimement liés. Cela conduit à un nombre de calculateurs très important, chaque calculateur apportant une fonctionnalité qui lui est propre. Les architectures se composent alors d'un grand nombre d'unités de calcul interconnectées. 
+%		Dans les systèmes automobiles, on peut noter trois principales propriétés dans ces ECU (\textit{Electronic Control Unit})~:
+%		\begin{itemize}
+%			\item \emph{interconnectés},
+%			\item les applications et services sont intégrés dans des sous-systèmes complexes (\emph{Software Components}),
+%			\item les fonctions sont \emph{distribuées} sur plusieurs calculateurs.
+%		\end{itemize}
+		Ce type d'architecture distribuée a des inconvénients évidents en terme d'évolutivité du système et coût de développement. À chaque changement de support physique le logiciel doit passer par un nouveau stade de développement plus ou moins conséquent. Inversement, une mise à jour du logiciel ou un ajout de fonctionnalité va demander une prise en compte de l'intégration matérielle avec potentiellement des modifications matérielles pour suivre les évolutions. Chaque ajout de fonctionnalités va de cette façon ajouter de nouveaux calculateurs dédiés, complexifiant d'autant plus l'architecture.
+		
+		Toutes ces contraintes de développement s'inscrivent dans un contexte bien cadré par des normes et standards. L’architecture intégrée telle qu'elle arrive dans les architectures électriques et électroniques abolit la séparation physique qui préexistait entre les composants logiciels, par leur agrégation dans un nombre réduit de calculateurs plus puissants. Cela résulte en un accroissement de la complexité de l’intégration et de la mise en œuvre de la sûreté de fonctionnement. 
+		
+
+		
+		La norme ISO 26262~\cite{iso_26262-10_road_2018} est la norme de référence pour la sûreté de fonctionnement dans le domaine automobile. Elle recommande des méthodes et mécanismes, applicables durant toutes les phases de développement du véhicule, pour atteindre et justifier son niveau de sûreté de fonctionnement. La norme préconise d’effectuer une phase d’analyse des risques pour identifier les situations dangereuses et les classifier en 4 niveaux de criticités nommés ASIL (\textit{Automotive Safety Integrity Level}) allant du moins critique (ASIL A) au plus critique (ASIL D). L’attribution des niveaux de criticité prend en compte les paramètres de sévérité pour définir les conséquences de l’incident (« pas de blessés », « faiblement blessés », « blessés grave ou décès »), la fréquence d’occurrence de l’événement (« rare », « quelquefois », « assez souvent », « souvent ») et la contrôlabilité du véhicule lors de l’événement (« contrôlable », « normalement contrôlable », « incontrôlable »).
+
+		
+		On pourra mentionner aussi des contraintes d'encombrement. Les systèmes embarqués ont une forte tendance à la miniaturisation pour des raisons diverses selon les domaines. Cela permet une réduction de poids, essentiel pour tous les systèmes volants (avions, drones...) mais aussi d'encombrement pour des domaines comme l'automobile ou le ferroviaire qui doivent en toute circonstance rester dans des dimensions standards. Cette contrainte se fait beaucoup sentir avec l'arrivée des voitures autonomes par exemple, où les premiers prototypes --~bien que fonctionnels~-- se sont avérés trop chargés et encombrants avec le surplus d'équipement pour être transposables facilement en produits commercialisables tel-quel.
+		
+	 	Au regard de ces enjeux, l'évolution future naturelle est de réduire le nombre de calculateurs embarqués, en passant d'un grand nombre d'unités de calcul à une quantité limitée de "supercalculateurs", qui vont agréger différentes tâches. On passe de cette façon d'un système distribué à un système fédéré basé sur des calculateurs primaires accompagnés de processeurs satellites qui gèrent le strict nécessaire à hauteur des différents capteurs/actionneurs.  Cela permet de réduire les coûts et l'encombrement, qui va diminuer par la même occasion la quantité de câblages requis. Ce type d'architecture va faciliter l'évolutivité qui sera donc bien plus axée sur des mises à jour logicielles sans toucher au matériel. La connectivité permettant le concept du véhicule \textit{"as-a-service"}, qui va pouvoir évoluer et se mettre à jour régulièrement à distance (\textit{Over-the-Air Updates}). 
+%	\subsection{Calculateurs multicœurs}
+
+%		Historiquement, les deux grands types de logiciel embarqués dans l'automobile (enfouis et infodivertissement) étaient totalement séparés. D'une part on avait donc des ECU (\textit{Electronic Control Unit}) hautement critiques soumis à des contraintes strictes de développement pour la sûreté de fonctionnement tel que décrit dans le standard ISO-26262~\cite{iso_26262-9_road_2018}. D'autre part, l'infodivertissement impose des contraintes moins strictes. Nous sommes face à des systèmes non-critiques.  Cette séparation logicielle a mené logiquement en une séparation de l'architecture matérielle. Cependant, cela pose des problèmes d'encombrement, coût et consommation thermique et électrique qui deviennent non négligeables avec la démultiplication des processeurs embarqués. C'est ce qui mène à un besoin grandissant d'évolution de l'architecture matérielle.
+%		% (\emph{Soft real-time systems}, à l'opposé des \emph{hard real-time systems}), les défaillances ayant des conséquences moindres, ou tout du moins non critiques.
+%		C'est ainsi qu'avec l'apparition de calculateurs de plus en plus puissants, il y a une volonté de transformer cette architecture opérationnelle fédérée en une architecture opérationnelle intégrée. Les composants logiciels se regroupent au sein de processeurs communs pour en réduire drastiquement le nombre. Cela permet de diminuer l'encombrement en premier lieu. Et en conséquence diminue les coûts et allège les besoins d'évolution de l'architecture matérielle, pour se recentrer sur des évolutions essentiellement logicielles.
+%		
+%		Le passage à des calculateurs plus complexes, multicœurs, apporte son lot de problématiques supplémentaires pour la sûreté de fonctionnement. On peut présenter 4 types de micro-processeurs, ainsi que leurs caractéristiques principales et l'intérêt que l'on peut leur trouver.
+		
+%		\paragraph{Calculateurs Multi-cœurs}
+		%La première évolution des calculateurs a été naturellement d'augmenter leur fréquence de fonctionnement et donc le nombre d'instructions par unité de temps réalisable. Ceci étant dit cette méthode a présenté ses limites, avec l'augmentation proportionnelle de la chauffe du processeur et une plus forte sensibilité aux perturbations. C'est pourquoi on a alors cherché à augmenter les capacités de parallélisme, pour améliorer l'efficacité. La notion de calculateur multicœur est apparue dès les années 1950~\cite{smotherman2005history} pour nous amener aux architectures physiques actuelles. Le principe est de disposer d'un plus grand nombre d'unités de calculs (dit cœurs) qui pourront ainsi exécuter des instructions en parallèle. Dans le cas d'une parallélisation au niveau circuit (\emph{chip-level multiprocessing - CMP}), plusieurs cœurs sont intégrés au sein d'un même boîtier.  
+
+
+	\subsection{Standards industriels}
+	
+	
+	\subsection{Contraintes d'intégration}
+			
+	De façon plus générale, les enjeux industriels peuvent varier selon les domaines. Ceci étant dit on peut nommer points principaux, qui sont ceux que l'on va tenter de prendre en considération dans cette étude. La première d'entre elle est l'imposition de capacités de déploiement rapides ("\textit{Time-to-market}" réduit). Les itérations entre générations demandent des coûts de développement les moins importants possibles. Cela permet des cycles courts et réactifs qui s'adaptent aux évolutions technologiques. Cette contrainte industrielle est structurante sur les choix de conception, ce qui nous ramène souvent au principe "\emph{KISS}" pour "\emph{Keep It Safe and Simple}" dans notre cas. C'est une philosophie que j'ai souhaité maintenir le long de cette thèse afin de tenter une approche un peu différente des principales recherches actuelles qui tentent souvent d'aller dans des niveaux de détails toujours plus précis et complexes pour répondre aux difficultés technologiques. Comme on le verra plus tard, il existe ainsi des solutions très sophistiquées qui donnent de bons résultats théoriques, mais qui ne se sont pas généralisés dans un contexte industriel. Les questions de complexité d'implémentation et simplicité de maintenance dans un cas réel semblent donc relativement déterminantes pour mesurer la pertinence d'une nouvelle contribution à la sûreté des systèmes embarqués.
+	
+	
+\section{Grandes approches du domaine}
+
+	Nous verrons plus en détail dans le~\autoref{chap:2_StateofArt} les différentes solutions actuelles qu'il existe dans le domaine pour répondre à ces problématiques. Nous pouvons tout de même d'ores-et-déjà présenter fondamentalement sur quoi reposent les principes existants afin de mieux situer notre axe de recherche.
+	
+	La problématique principale à laquelle nous devons faire face réside dans la gestion des interférences matérielles de façon à éviter des fautes temporelles ou tout du moins à couper la chaîne de causalité de façon à ce qu'il y ait toujours silence sur défaillance et donc que le système puisse continuer à fonctionner correctement. Il est possible de différencier deux grands domaines d'approches. D'une part les stratégies de \textbf{contrôle} qui sont plutôt statiques et définis hors-ligne lors du développement ; d'autre part les stratégies \textbf{réactives} qui sont plutôt dynamiques et évoluent en ligne pendant le fonctionnement.
+	
+	\subsection{Mécanismes de contrôle}
+		Ce genre de stratégies consistent à déployer des mécanismes qui limitent les interférences et donc les risques de faute de façon préventive. Le développement et l'implémentation sont alors réalisés d'une manière à ce que par construction, les risquent soit \textit{de facto} rendus impossibles.
+		Ce type de stratégies permet de limiter plus efficacement les explosions de pire temps d'exécution notamment, et donc conserver une exécution du logiciel bien cadrée et maîtrisée pour en contrôler les risques inhérents au matériel. 
+		
+		On peut citer parmi ce genre de techniques : 
+		\begin{itemize}
+		\item 			Politiques strictes de gestion d'accès aux ressources partagée, avec des intervalles de temps fixes dédiées notamment. Chaque application ayant sa fenêtre temporelle dédiée pour accéder à la ressource partagée, les délais deviennent connus et maîtrisés.
+		\item 			Séparation temporelle d'exécution des applications~: il est possible d'ordonnancer les différentes applications de façon complètement séparées les unes des autres. Cela revient à limiter fortement l'exécution parallèle de code, mais par le même temps prévient radicalement tout risque d'interférence avec le logiciel ainsi isolé.
+		\item 			Séparation spatiale des applications~: l'allocation d'espace mémoire dédié pour chaque application permet de réserver et donc séparer physiquement les applications entre-elles. De cette façon, tout risque de recouvrement des données (c.f. erreurs de lecture) est empêché entre applications qui ont des réservations d'espace mémoire disjoint.
+		\end{itemize}
+		
+		La plupart des méthodes qui rentrent dans cette catégorie ont en revanche un défaut commun qui est de limiter les capacités d'utilisation du matériel. En effet, on comprend naturellement que si l'on limite la taille mémoire qu'une application donnée est autorisée à utiliser pour son fonctionnement, ou encore si l'on contraint sa plage temporelle d'accès à certaines ressources alors les performances de l'ensemble seront forcément moindre que s'il n'y avait pas ces limitations. Des garanties réduites sur les pires temps d'exécution se font donc au détriment de l'optimisation d'utilisation des ressources matérielles. 
+		
+		Si l'on souhaitait se passer de tels mécanismes en conservant les mêmes niveaux de certitudes sur les durées d'exécution des tâches, cela impliquerait un surdimensionnement non négligeable des processeurs utilisés. 
+
+	\subsection{Mécanismes Réactifs}
+		À l'inverse, les stratégies réactives se basent sur l'observation de l'état du système pendant son fonctionnement de façon à agir en conséquence uniquement si nécessaire. Le principe est de monitorer en temps-réel l'exécution des processus et activer sur demande des mécanismes de prévention des fautes. Ce type de méthode est plus complexe à mettre en place et présentent a priori des garanties plus faibles. Cela en fait une solution plus adaptée pour du temps-réel souple tout en conservant des performances moyennes convenables. 
+		
+		Les systèmes de \textbf{watchdog} sont à la base de ce genre de mécanisme, en levant un traitement d'erreur en cas de constat d'une défaillance, de façon à isoler cette dernière. Cela ne permet pas d'empêcher l'erreur, uniquement de prévenir ou au moins mitiger  toute conséquence supplémentaire.
+		
+		Les techniques d'ordonnancement dynamique des tâches permettent aussi en un sens d'optimiser l'utilisation des ressources de calcul en priorisant l'exécution au plus urgent par exemple. C'est le cas par exemple d'un ordonnancement des tâches en EDF - "\textit{Earliest Deadline First}", autrement dit "Priorité à l'Échéance au plus Tôt" qui exécute, comme son nom l'indique, systématiquement la tâche dont l'échéance est la plus proche. De façon générale, tout mécanisme de changement dynamique de priorité selon l'état du système entre dans cette catégorie.
+		
+		Enfin, les mécanismes de réaction consistent essentiellement à suspendre toute tâche indésirable de façon à isoler les tâches temps-réel en cours d'exécution. Par conséquent, cela prévient pendant l'exécution les risques d'interférences matérielles, au détriment temporaire des tâches non critiques. Cela n'est bien entendu possible que dans un cadre où l'on peut modifier en fonctionnement l'exécution des tâches et se permettre d'en stopper une partie. Certains mécanismes réactifs sont à usage unique dans le sens où une fois ce déclenchement fait, le système reste dans un fonctionnement en mode dégradé pour tout le reste de son exécution. À l'inverse d'autres solutions proposent un mode dégradé temporaire avec un retour en fonctionnement nominal une fois le risque passé. 
+		
+		La plus grande difficulté de ces stratégies réside donc dans la preuve des garanties qu'elles sont capables de fournir sur les propriétés de sûreté de fonctionnement au regard des exigences non fonctionnelles définies. Elles permettent de mieux exploiter les ressources disponibles. Les systèmes réactifs sont par exemple à la base des usages informatiques grand public comme lors qu'il s'agit d'implémenter un système d'exploitation pour un ordinateur. 
+
+
+\section{Contribution de la thèse et objectifs}
+
+	Dans le cadre de l'utilisation de calculateurs multicœurs dans les applications industrielles, nous aborderont dans cette thèse les difficultés que cela implique en terme d'implémentation pour continuer à garantir le bon fonctionnement du logiciel. Plus spécifiquement, nous nous intéresseront aux implications du partage de ressources sur les temps d'exécution de logiciel critiques dans le cadre de systèmes à criticité mixte. Ces partages pouvant entraîner des congestions qui en conséquence ajoutent des latences qui peuvent aller jusqu'à provoquer des dépassements d'échéance temporelle et donc des fautes logicielles temporelles transitoires. Pour empêcher ce risque potentiellement critique, il sera proposé un mécanisme novateur de Surveillance et de Contrôle d'exécution logiciel. Les objectifs ici sont multiples, car d'une part, l'on souhaite conserver des garanties sur les temps d'exécution de logiciel critique, mais en même temps il faut trouver des mécanismes les moins intrusifs possibles sur l'exécution pour profiter au maximum des puissances de calcul multicœur mis à disposition. 
+	Pour cela, nous verront dans un premier~\autoref{chap:2_StateofArt} d'État de l'Art les différents propositions existantes qui permettent de répondre à tout ou parti des objectifs susmentionnés. \alert{[Détailler sur le contenu état de l'art]}
+	Par la suite le~\autoref{chap:3_PrincipeArchi} présentera notre façon d'aborder la question avec nos hypothèses et modélisation du système. Dans le cadre d'un système multicœur qui héberge des applications à criticité mixte, on verra le modèle d'exécution adopté, orienté vers une approche originale basé sur des chaînes de tâches. Cela va impliquer des notions de précédence d'exécution et de temps de réponse bout-à-bout qui seront essentiels par la suite.
+	Cela nous mènera dans le~\autoref{chap:3_PrincipeArchi} suivant à développer notre mécanisme de Surveillance et Contrôle basé sur ces chaînes, son architecture et ce que cela implique en terme d'implémentation. Cette approche se basera sur la surveillance des contraintes temporelles de chaînes de tâches dans un système à criticité duale, exécuté sur un multicœur bien entendu. L'objectif étant de stopper temporairement des tâches non critiques pour éviter des interférences qui risqueraient de provoquer des fautes temporelles.
+	
+	Enfin, nous verront en~\autoref{chap:5_ImplementationCase} un cas d'implémentation qui a pu être réalisé sur une plateforme d'essai. Cette plateforme se voulant être une preuve de concept, l'objectif est de voir l'influence et les tenants et aboutissants du mécanisme proposé. Nous utiliserons pour cela des tâches d'une suite de benchmark sur laquelle on pourra implémenter le mécanisme, le calibrer et en tirer des mesures de performance.
+	
+	En conclusion, nous feront un bilan des résultats obtenus avec les perspectives d'utilisation. 
     
 %% transition - présentation contenu État de l'Art %%
 

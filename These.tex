@@ -10,11 +10,11 @@
 
 \include{formatAndDefs}
 \include{0_Garde}
+\DeclareUnicodeCharacter{202F}{\,}
 
 \begin{document}
 
 \makeflyleaf
-
 \cleardoublepage
 
 \dominitoc
@@ -23,7 +23,7 @@
 
  \cleardoublepage
 
-%Another use of \iftoggle can be found at the end of this file.
+%Another use of \if toggle can be found at the end of this file.
 \IfLanguageName{english}{%
 \section*{Acknowledgments}
 }{%
@@ -71,8 +71,7 @@ symboles dans ce document.
 
 \include{Annexe1}
 
-\bibliographystyle{StyleThese}
-%\bibliographystyle{plain}
+\bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
 \bibliography{these}
 
 \cleardoublepage

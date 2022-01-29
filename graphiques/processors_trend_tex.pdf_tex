@@ -1,0 +1,104 @@
+%% Creator: Inkscape inkscape 0.92.5, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'processors_trend_tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{281.27657318bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.63270784)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.13944266){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.15188593){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}0\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.19579289){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.20823616){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.25214312){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.26458639){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.30867111){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.32111438){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.36502205){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.37746532){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.42155005){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.43399331){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.47790028){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.49034354){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}6\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{processors_trend_tex.pdf}}%
+    \put(-0.00253843,0.53425051){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}10\end{tabular}}}}%
+    \put(0.02513533,0.54669377){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}7\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{processors_trend_tex.pdf}}%
+    \put(0.0269225,0.07758184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1970\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{processors_trend_tex.pdf}}%
+    \put(0.17730829,0.07758184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1980\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{processors_trend_tex.pdf}}%
+    \put(0.32769408,0.07758184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1990\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{processors_trend_tex.pdf}}%
+    \put(0.47790282,0.07758184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2000\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{processors_trend_tex.pdf}}%
+    \put(0.6282886,0.07758184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2010\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{processors_trend_tex.pdf}}%
+    \put(0.77867439,0.07758184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2020\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{processors_trend_tex.pdf}}%
+    \put(0.81063883,0.22748996){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Nombre de \\cœurs logiques\end{tabular}}}}%
+    \put(0.80917053,0.32891779){\color[rgb]{0,0.52941176,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Fréquence (MHz)\end{tabular}}}}%
+    \put(0.80966826,0.48288083){\color[rgb]{0,0,0.72941176}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\\Performance\\mono-thread\\(SpecINT x 10³)\end{tabular}}}}%
+    \put(0.8108877,0.56290241){\color[rgb]{0.8,0.4,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Transistors\\(milliers)\end{tabular}}}}%
+    \put(0.80966826,0.28844208){\color[rgb]{0.72941176,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Puissance\\nominale (W)\end{tabular}}}}%
+    \put(0.05113426,0.02016519){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Données originales jusqu'à 2010 collectées par M. Horowitz, F. Labonte, O. Shacham, K. Olukotun, L. Hammond et C. Batten.\\Nouveaux tracés et données collectées pour 2010-2019 par K. Rupp.\end{tabular}}}}%
+    \put(0.40064292,0.04025218){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Années\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{processors_trend_tex.pdf}}%
+    \put(0.08778361,0.5949614){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{0.25}\smash{\begin{tabular}[t]{l}48 Years of Microprocessor Trend Data\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{processors_trend_tex.pdf}}%
+  \end{picture}%
+\endgroup%

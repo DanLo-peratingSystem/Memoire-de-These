@@ -1,10 +1,13 @@
 \usepackage{iflang}
 \usepackage{bibentry}
 
-\usepackage{amsmath,amssymb}             % AMS Math
+
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[utf8x]{inputenc}
-\usepackage{babel} % [french]
+\usepackage[french]{babel} % 
+
+\usepackage{amsmath,amssymb}             % AMS Math
+\usepackage{siunitx}					%% Unites Math SI
 
 \usepackage{blindtext}
 
@@ -21,6 +24,10 @@
 \usepackage[left=1.5in,right=1.3in,top=1.1in,bottom=1.1in,includefoot,includehead,headheight=13.6pt]{geometry}
 
 %%\renewcommand{\baselinestretch}{1.05}
+
+%%%%%%%% Multi-figures avec sub-captions
+\usepackage{caption}
+\usepackage{subcaption}
 
 % Table of contents for each chapter
 
@@ -77,6 +84,7 @@
 }
 
 \newcommand{\cmnt}[1]{}  %%%%% AJOUT DE COMMENTAIRE MULTILIGNES
+
 
 %%%%%%%%%% ECRITURE CARACTERES DANS UN CERCLE %%%%%%%%%%
 \def\circleTxt[#1]{\raisebox{.5pt}{\textcircled{\raisebox{-1pt}{#1}}}}
@@ -160,7 +168,7 @@ pdfmenubar=true, %barre de menu visible
 pdfhighlight=/O, %effet d'un clic sur un lien hypertexte
 colorlinks=true, %couleurs sur les liens hypertextes
 pdfpagemode=UseNone, %aucun mode de page
-pdfpagelayout=SinglePage, %ouverture en simple page
+%pdfpagelayout=DoublePage, %ouverture en simple page
 pdffitwindow=true, %pages ouvertes entierement dans toute la fenetre
 linkcolor=linkcol, %couleur des liens hypertextes internes
 citecolor=citecol, %couleur des liens pour les citations
@@ -312,6 +320,8 @@ urlcolor=linkcol %couleur des liens pour les url
 }
 
 
+%%%%%%% Outils pour \comment \alert \add %%%%%
+\usepackage{easyReview}
 
 
 \renewcommand{\epsilon}{\varepsilon}
