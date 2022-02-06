@@ -14,10 +14,8 @@
 \usepackage{datetime}
 
 \usepackage{lmodern}
-\usepackage{tabularx}
-%\usepackage{tabular}
+
 \usepackage[inline]{enumitem}
-\usepackage{multirow}
 
 \usepackage{hhline}
 %\usepackage[left=1.5in,right=1.3in,top=1.1in,bottom=1.1in]{geometry}
@@ -45,13 +43,32 @@
 \setlength{\TPHorizModule}{\paperwidth}\setlength{\TPVertModule}{\paperheight}
 \sloppy
 
+%%%%%%%%%%% JOLIS TABLEAUX
+\usepackage{tabularx}		%\usepackage{tabular}
+\usepackage{multirow}
+\usepackage{booktabs}
+
+\usepackage[usenames,dvipsnames]{xcolor} 
+
+\makeatletter
+\newcommand{\ccolor}[3][]{%
+	\kern-\fboxsep
+	\if\relax\detokenize{#1}\relax
+	\expandafter\@firstoftwo
+	\else
+	\expandafter\@secondoftwo
+	\fi
+	{\colorbox{#2}}%
+	{\colorbox[#1]{#2}}%
+	{#3}\kern-\fboxsep
+}
+\makeatother
+
 %%%%% Insertion graphiques format PGF
 \usepackage{pgfplots}
 \pgfplotsset{width=\linewidth, compat=1.16}%, compat=1.17}
 \usepackage{adjustbox}          %%% PERMET DE LES RECADRER + FACILEMENT
 
-%%%%%%%%%%% JOLIS TABLEAUX
-\usepackage{booktabs}
 
 %%%%%%%%%% Bullets de listes sans saut de ligne %%%%%%%%%%
 \usepackage{xparse}
@@ -257,17 +274,18 @@ urlcolor=linkcol %couleur des liens pour les url
 
 \newenvironment{maxime}[1]
 {
+	\def\Arg{#1}
 \vspace*{0cm}
 \hfill
-\begin{minipage}{0.5\textwidth}%
+\begin{minipage}{0.6\textwidth}%
 %\rule[0.5ex]{\textwidth}{0.1mm}\\%
-\hrulefill $\:$ {\bf #1}\\
+\hrulefill $\:$ \\%$\:$ {\bf #1}\\
 %\vspace*{-0.25cm}
 \it 
 }%
 {%
-
-\hrulefill
+	
+\hrulefill $\:$ {\bf \Arg}
 \vspace*{0.5cm}%
 \end{minipage}
 }
@@ -322,7 +340,10 @@ urlcolor=linkcol %couleur des liens pour les url
 
 %%%%%%% Outils pour \comment \alert \add %%%%%
 \usepackage{easyReview}
+\usepackage{soulutf8} % for accented letters
 
+\let\newalert\alert
+\renewcommand{\alert}[1]{\textit{\newalert{#1}}}
 
 \renewcommand{\epsilon}{\varepsilon}
 
