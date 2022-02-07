@@ -145,7 +145,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     Pour ce faire, on introduit les notions d'\textbf{État de Chaîne de Tâche} et de \textbf{Trace d'Exécution de Chaîne de Tâche}. Une chaîne de tâche donnée est associée à un État et plusieurs Traces d'Exécutions. Ces deux éléments évoluant au fil de l'exécution du système, on peut noter $S_C(t)$ l'État et $ET_C(i,t)$ une Trace d'Exécution donnée de la Chaîne de tâches.
     
     On peut alors définir pour une Chaîne de Tâche dont la tâche d'entrée est $\tau_{1}$, et la tâche de sortie $\tau_{n}$ : 
-    \begin{definition}
+    \begin{definition} \label{def:TraceExecutionChaine}
     	Une \textbf{Trace d'Exécution} $ET_C(i)$ se définit par un job d'entrée ainsi que tous les \textit{successeurs} itératifs de ce job. \\
     	\begin{equation*}
     		S_C(i) = \{ \tau_{1,i} \:,\: succ(\tau_{1,i})\:, \;\dots\; ,\: succ^n(\tau_{1,i}) = \tau_{n,i} \}
@@ -162,7 +162,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     %At a time $t$ a TCET can be \emph{active}, if its entry task job has been activated and if its exit task job has not yet ended, or \emph{inactive} otherwise. 
     
     À un moment $t$ de l'exécution du système, il est possible de définir à partir de l'état des Traces d'exécution (actives ou inactives) l'État de la Chaîne de tâches : 
-    \begin{definition}[Etat d'une Chaîne de Tâche]
+    \begin{definition}[Etat d'une Chaîne de Tâche]\label{def:EtatChaine}
     	L'État d'une Chaîne de Tâche définie à un instant $t$ l'état d'avancement de l'exécution de la chaîne de tâche qui est toujours en cours et a été activée la plus anciennement. En d'autres termes : 
     	\begin{equation*}
     		S(t)=\langle t_0, \tau_i\rangle
@@ -220,25 +220,25 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     
 	En conclusion, en considérant les grandeurs suivantes : 
 	\begin{itemize}
-		\item 	$ W_max $ La durée maximum garantie entre 2 points de surveillance de l'Etat de la chaîne de tâche
+		\item 	$ W_{MAX} $ La durée maximum garantie entre 2 points de surveillance de l'Etat de la chaîne de tâche
 		\item 	$ t_{SW} $ Le délai maximum nécessaire à la transition du mode nominal au mode dégradé
 		\item 	$ rWCRT(\tau_i) $ pour chaque $\tau_i$ de la chaîne de tâche, les Temps de Réponses Pire Cas restant en mode dégradé
 	\end{itemize}
 	Il est alors possible de calculer la somme du temps de réponse partiel actuel avec ces trois métriques. Tant que cette somme reste inférieure à l'échéance bout-en-bout, alors on peut conserver le système en mode nominal. En revanche, à partir du moment où cela dépasse l'échéance, alors c'est le moment où il n'est plus sûr de rester en mode nominal, et il faut donc déclencher le mode dégradé pour garantir le respect de l'échéance. Cela correspond en conséquence à surveiller que l'inéquation suivante reste vraie pour savoir l'instant critique auquel il faut passer en mode dégradé~:
-	\begin{equation} \label{safe_cond}
+	\begin{equation} \label{eq:safe_cond}
 		RT(t) + rWCRT(\tau_i) + W_{max} + t_{SW} \leq D
 	\end{equation} 
 	Cette équation est notamment adaptée des travaux de~\cite{kritikakou_run-time_2014}. Chaque point de surveillance de l'État de la chaîne de tâches est considéré comme étant temporellement sûr (au sens où il n'y a pas de risque de faute temporelle due au dépassement d'échéance) tant que cette inégalité est respectée.
     
     \begin{proof}
-		En présumant que (\ref{safe_cond}) est respectée, on peut montrer qu'il est sûr d'attendre le prochain point de surveillance pour décider de changer de mode. Soit $t_{next}$ le prochain instant de surveillance.
+		En présumant que (\ref{eq:safe_cond}) est respectée, on peut montrer qu'il est sûr d'attendre le prochain point de surveillance pour décider de changer de mode. Soit $t_{next}$ le prochain instant de surveillance.
 		Par définition, $t_{next} \leq t + W_{max}$ alors nécessairement $RT(t_{next}) \leq RT(t) + W_{max}$, par conséquent  \\
 		$RT(t_{next}) + rWCRT(\tau_i) + t_{SW} \leq RT(t) + rWCRT(\tau_i) + W_{max} + t_{SW}$. \\
 		Aussi, $rWCRT()$ ne peut que décroître avec le temps qui s'écoule, par conséquent
 		\[ rWCRT(t_{next}) \leq rWCRT(\tau_i)	\]
 		et 
 \[ RT(t_{next}) + rWCRT(t_{next}) + t_{SW} \leq RT(t) + rWCRT(\tau_i) + W_{max} + t_{SW} \] 
-		Étant donné que (\ref{safe_cond}) est respecté, on a $RT(t_{next}) + rWCRT(t_{next}) + t_{SW} \leq D$.
+		Étant donné que (\ref{eq:safe_cond}) est respecté, on a $RT(t_{next}) + rWCRT(t_{next}) + t_{SW} \leq D$.
 		De ce fait, il sera sûr de passer en mode dégradé au prochain point de surveillance.  
     \end{proof}
     
@@ -264,7 +264,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
             \caption{Monitoring \& Control Agent basic concept} \label{fig:SoftwareArchitecture}
 \end{figure}
 
-	L'Agent de Surveillance et Contrôle peut se décomposer en deux éléments distincs. D'un part un \emph{Task Wrapper Component} (TWC) et de l'autre le \emph{Core Control Component} (CCC). Le TWC se destine à récupérer toutes les informations nécessaires à la surveillance et la mise à jour de l'État de la Chaîne de tâche, tandis que le CCC doit prendre en compte ces informations, de façon à réaliser la prise de décision du passage en mode dégradé au regard de l'inéquation~\ref{safe_cond}.
+	L'Agent de Surveillance et Contrôle peut se décomposer en deux éléments distincts. D'un part un \emph{Task Wrapper Component} (TWC) et de l'autre le \emph{Core Control Component} (CCC). Le TWC se destine à récupérer toutes les informations nécessaires à la surveillance et la mise à jour de l'État de la Chaîne de tâche, tandis que le CCC doit prendre en compte ces informations, de façon à réaliser la prise de décision du passage en mode dégradé au regard de l'inéquation~\ref{eq:safe_cond}.
 	
 	
         \begin{figure}[ht]
@@ -276,32 +276,43 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
         
         \subsection{Task Wrapper Component (TWC)} 
         
-        It is responsible for encapsulating the system tasks between two software wrappers, ``Before" and ``After". Those wrappers have two roles: \begin{itemize}
-                \item provide timestamps (start and end of HI tasks) to the Core Control Component.
-                \item prevent LO tasks execution in HI-criticality mode.
-            \end{itemize}
-            
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-        The timestamps are queued to be processed by the Core Control Component to update the TCET.
-        The ``Before" wrapper is also used to prevent LO task execution in degraded mode. There is no need for an ``After" wrapper for LO tasks.
+        L'objectif du Task Wrapper Component est de gérer l'aspect Surveillance du mécanisme. Il englobe l'instrumentalisation du logiciel de façon non intrusive pour obtenir les informations nécessaires à la Surveillance. C'est une différence assez importante avec bon nombre de travaux qui se basent sur la surveillance de l'exécution de tâches. Souvent ces dernières reposent sur une instrumentation logicielle au niveau du code des tâches. Cela offre un suivi plus fin, mais avec un coût de développement logiciel supplémentaire pour chaque tâche. De plus c'est par définition incompatible avec du logiciel fourni en boite noire.
+        
+        Le mécanisme de Surveillance et Contrôle nécessite \linebullets{une connaissance des date d'activation et de terminaison des jobs, ainsi que la connaissance de la structure de la chaîne de tâche}. Concernant le premier point, il faut donc ajouter des blocs de code exécutés directement avant le début d'exécution des tâches ainsi que juste avant leur terminaison. En récupérant les \textit{timestamps}\footnote{timestamp~: en informatique, le temps se décompte par un compteur a une fréquence donnée. Un timestamp correspond à un temps suivant ce compteur} d'exécution de ces blocs de code, il est ainsi possible de connaître précisément les dates de début $s_{i,j}$ et de fin $e_{i,j}$ de chaque job. Ils ont vocation à être envoyés au Core Control Component pour mettre à jour l'État de la chaîne de tâches ainsi que le suivi des Traces d'Exécution actives.
+        
+        Par ailleurs, une telle instrumentalisation permet d'ajouter une couche de sécurité supplémentaire. En effet, le changement de mode se fait initialement par envoi d'un signal pour stopper les tâches non critiques. Ceci étant dit, pour une meilleure réactivité et ajouter de la redondance dans l'arrêt des tâches, il est aussi possible d'utiliser le bloc logiciel exécuté avant l'exécution des tâches non critiques pour vérifier si la tâche en question a effectivement l'autorisation de s'exécuter ou bien si on est en mode dégradé, doit être stoppée. 
+        
+        En somme, le Task Wrapper Component doit encapsuler les tâches pour ajouter deux wrappers : un "Before" et un "After" qui vont avoir deux rôles : 
+        \begin{itemize}
+        	\item envoyer au Core Control Component les timestamps d'exécution associés à chaque job de tâche critique (dates de début et de fin),
+        	\item ajouter de la redondance pour prévenir l'exécution des tâches non-critiques en mode dégradé et potentiellement accélérer le changement de mode.
+        \end{itemize}
+		On remarquera qu'il n'est pas utile d'exécuter un wrapper "After" à la suite des tâches non critiques étant donné que nous ne monitorons pas leur exécution dans le cadre du mécanisme.
 
         \subsection{Core Control Component (CCC)}
-           The Core Control Component executes with a period $T_{ccc}$. It updates each \textbf{active Task Chain Execution Trace} (TCET), taking into account timestamps received since its last execution and compute the task chain state $S(t)$, enabling the evaluation of $RT(t)$ and $rWCRT(\tau_i)$. Then CCC checks if inequality~(\ref{safe_cond}) is still true. If not, the CCC switches to degraded mode to guarantee the task chain deadline. The mode switch is realised through two actions: sending a Pause signal to every LO-criticality tasks, and signaling ``Before" wrapper to prevent any new execution.
         
-\cmnt{
-            The Core Control Component stores each active \textbf{Task Chain Execution Trace} (TCET) in order to compute the task chain state $S(t)$ at any time.
-            
-            %The Core Control Component updates the task chain timing state periodically to check if the deadline can still be guaranteed. The $S(t)$ update frequency is fixed and not directly triggered by a monitoring message (i.e. at one update we could have multiple pending finished tasks to consider or none). Consequently, such period must be chosen regarding the tasks' execution times to avoid having too much monitoring messages to take into account. 
-            Task chain state updates are triggered periodically, every $T_{ccc}$, and not asynchronously (for each new monitoring message) to avoid being dependent on when the ``Before" and ``After" wrapper are executed. This way we can still decide to switch to degraded mode as ET(t) still increases as we are getting closer to the deadline even with no new monitoring message.
-            
-            At each TCET update, the CCC check if inequality~\ref{safe_cond} is still true. If not, the CCC switches to degraded mode to guarantee the task chain deadline. The mode switch is made first by sending a Pause signal to every non-critical task from the CCC, in addition to the TWC blocking feature mentioned above.
-        }
+        Le Core Control Component gère donc l'aspect "Contrôle" du mécanisme. Il doit être exécuté périodiquement, tous les $T_{CCC}$ unités de temps. À chaque exécution, son rôle est de récupérer toutes les données de timestamps du TWC. En ayant connaissance de la structure de chaîne de tâche qui est exécutée, il peut alors reconstruire les Traces d'Exécution telles que définies précédemment (Définition~\ref{def:TraceExecutionChaine}). 
         
-            The CCC parameters $t_{sw}$ and $W_{max}$ are important to define. If those parameters are underestimated, then it is not safe to use inequality~(\ref{safe_cond}). We estimate them for our experimental platform in \ref{expe_calibPhase}. 
-            $W_{max}$ is the maximum duration between two CCC checkpoints. It is directly dependent to the CCC period $T_{ccc}$. If Hi-criticality tasks are periodic, which is typical, it is simple to set this value, around the smallest task period. This way we have the guarantee of not overflowing the timestamps queue used by the CCC. A greater value is possible, but we must take care to process the $TCET$ updates faster than the arrival of timestamps. For other tasks activation models, we must identify the highest task timestamps arrival rate to avoid any queue overflow. 
-            It is also important to set $T_{ccc}$ --and thus, $W_{max}$-- as it will directly influence the sensitivity of our anticipation mechanism. With a higher CCC update frequency --and consequently a lower $W_{max}$-- we switch to degraded mode later. Also, it will naturally use more computing resources. A higher value triggers sooner and may increase the number of unneeded switches to degraded mode (i.e. false positives). 
-            %Future work could aim at measuring more precisely $W_{max}$ influence. 
+        À partir des Traces actives, l'État de la chaîne de tâche $S(t)$ est alors mis à jour. Il s'agit de calculer successivement : 
+        \begin{itemize}
+        	\item $RT(t)$, la durée à partir de la date de départ de la tâche d'entrée,
+        	\item $rWCRT(\tau_i(t))$, le Temps de Réponse Pire Cas restant à prendre en compte selon l'état de la trace d'exécution active.
+        \end{itemize} 
+	    En y ajoutant les constantes $W_{MAX}$ et $t_{SW}$, l'inégalité~\ref{eq:safe_cond} est re-calculée.
+        Dans le cas où elle est toujours respectée, rien ne se produit et le CCC peut attendre la prochaine période de vérification. Dans le cas où elle devient fausse, alors la procédure de changement de mode est enclenchée. %D'une part le TWC reçoit l'information de ce changement en mode dégradé, et d'autre part le signal est envoyé aux tâches non critiques pour être mises en pause.
+                
+        Il pouvait y avoir deux choix possibles d'activation du Core Control Component. Soit en le déclenchant de façon asynchrone, à chaque fois que la TWC reçoit une nouvelle donnée de timestamp, soit en le déclenchant de façon périodique indépendamment de l'exécution des tâches. Notre choix s'est donc porté sur la seconde option pour une raison fondamentale. En effet, bien qu'un déclenchement asynchrone soit plus simple à implémenter d'un point de vue technique, on perd la maîtrise de l'utilisation processeur de notre Agent de Surveillance et Contrôle, ce qui peut être dommageable pour la maîtrise de l'ordonnancement du système. De plus, dans le cas où une défaillance sur la réception des timestamps surviendrait, le CCC pourrait se retrouver dans une attente indéfinie de données, ne mettant alors pas à jour l'État de la chaîne de tâches... et laissant donc passer les risques de faute temporelle. Par conséquent, avec un déclenchement périodique, on obtient une décorrélation du reste du système, et donc quoi qu'il arrive il sera possible à intervalle fixe de déterminer s'il y a un risque. En effet, même en l'absence de nouveaux messages la valeur de $ET(t)$ continue d'augmenter. 
+        
+        
+		\subsection{Définition des constantes de Contrôle}
+        Il est important de fixer correctement les paramètres constants du CCC, qui sont $t_{SW}$ and $W_{MAX}$.
+        Si ces paramètres sont sous estimés, typiquement dans le cas où le temps de passage en mode dégradé est plus long, alors l'inégalité~\ref{eq:safe_cond} pourra devenir tout bonnement fausse. 
+        Concernant la durée maximale entre 2 mises à jour de l'État de la chaîne de tâche $W_{MAX}$, la valeur est assez simple à obtenir. Du fait de la périodicité de la tâche ainsi que son très haut niveau de priorité, associé à une demande en ressource très réduit, il suffit de prendre la durée de la période fixée $T_{CCC}$. Là encore on réalise qu'avec une activation sporadique à l'arrivée des messages, cette durée aurait été plus complexe à fixer. 
+        
+        Cependant, cela repose donc sur le choix sur la fréquence d'exécution du CCC. Ce choix peut avoir plusieurs conséquences et va donc être sujet à de potentiels compromis. D'une part, un $T_{CCC}$ trop petit signifie une plus forte utilisation des ressources de calcul, ce qui va directement à l'encontre de notre objectif d'optimiser la puissance de calcul. C'est d'ailleurs une problématique courante des mécanismes de Surveillance, d'avoir un impact négatif sur l'usage des ressources du processeur et s'avérer contre-productif. \\
+        A l'inverse, plus la période va être longue, plus le mécanisme d'anticipation sera sensible et anticipera des risques de plus en plus improbables. De fait, plus la prochaine date de vérification de l'État de la chaîne est éloigné dans le temps, plus le moindre glissement de temps d'exécution des tâches critiques va laisser penser à un risque de dépassement d'échéance. Cela fait alors augmenter le taux de faux positifs, c'est-à-dire le taux de déclenchements du passage en mode dégradé qui n'étaient pas nécessaires. Par ailleurs, il faut que le Core Control Component puisse soutenir le débit d'arrivée de données d'exécution des tâches critiques, car il n'est pas possible de maintenir en liste d'attente une quantité infinie de messages. \\
+        En conclusion, la valeur de $T_{CCC}$ doit être choisie au regard d'une estimation du débit d'exécution des jobs, donc dépendant du nombre de tâches et de leur période d'exécution. 
+        
 
         \cmnt{
             One should note that what makes such approach possible is the evolution of the $rWCRT$ at run-time and as the $S(t)$ evolves. It would not be possible to apply such approach when it comes to monitor \& control individual tasks to guarantee their individual deadlines. For individual deadlines, our method would fit only if we are able to monitor tasks timing state ``inside" the tasks execution, i.e. instrumenting the tasks source code to add internal checkpoints. Such approach on individual tasks would discard by definition the use of black box software assumption for instance, and otherwise would need much higher refresh rate frequencies in order to follow individual tasks execution timing state. Such solution is presented for individual tasks in~\cite{kritikakou_dynascore_2017}.
