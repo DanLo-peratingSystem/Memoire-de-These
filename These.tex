@@ -49,11 +49,10 @@
 \IfLanguageName{english}{%
 \section*{Acknowledgments}
 }{%
-\section*{Remerciements}
-\addstarredchapter{Remerciements}
+%\section*{Remerciements}
+%\addstarredchapter{Remerciements}
 }
 
-A faire en dernier :-) 
 
 \tableofcontents
 %\makenomenclature
@@ -112,19 +111,22 @@ A faire en dernier :-)
 \appendix
 
 \cmnt{
-Il faut utiliser au moins une citation (exemple: \cite{loche_safe_2020}) pour bien
-compiler le document. Regardez le document These.bib pour les details de
-comment organiser la bibliographie.
-
-Pour ajouter un symbole à la liste des abréviations il faut utiliser
-\verb|\nomenclature{<symbole>}{<description>}|. Par exemple, je peux ajouter
-$\beta$\nomenclature{$\beta$}{La deuxième lettre de l'alphabet grec} et
-$\alpha$\nomenclature{$\alpha$}{La première lettre de l'alphabet grec} comme
-symboles dans ce document.
+	\begin{bibunit}
+	\renewcommand{\bibsection}{\large \textbf{\begin{center}
+				Publications
+	\end{center}}}
+	\makeatletter
+	\renewcommand\@biblabel[1]{}
+	\makeatother
+	\def\bibfont{\small}
+	
+	%list all the references in the publications bibtex file
+	\nocite{*}
+	\putbib[MyPublications]
+\end{bibunit}
 }
-\appendix
 
-\include{Annexe1}
+%\include{Annexe1}
 
 \bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
 \bibliography{these}
