@@ -12,9 +12,9 @@
 
 \include{formatAndDefs}
 \usepackage{etoolbox}
-\renewcommand\nomgroup[1]{%
+\renewcommand\nomgroup[1]{%  % GROUPES NOMENCLATURE
 	\item[\bfseries
-	\ifstrequal{#1}{D}{Abbréviations}{%
+	\ifstrequal{#1}{D}{Abréviations}{%
 		\ifstrequal{#1}{A}{Modèle de Tâches}{%
 			\ifstrequal{#1}{B}{Modèle de Chaîne de tâches}{%
 				\ifstrequal{#1}{C}{Mécanisme de Surveillance et Contrôle}{%

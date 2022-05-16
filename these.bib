@@ -30,15 +30,15 @@
 
 @inproceedings{allende_towards_2019,
   title = {Towards {{Linux}} for the {{Development}} of {{Mixed-Criticality Embedded Systems Based}} on {{Multi-Core Devices}}},
-  booktitle = {15th {{European Dependable Computing Conference}} ({{EDCC}})},
-  author = {Allende, Imanol and Centre, Ikerlan Technology Research and Guire, Nicholas Mc and GmbH, OpenTech EDV Research and Perez, Jon and Centre, Ikerlan Technology Research and Monsalve, Lisandro Gabriel and Centre, Ikerlan Technology Research and Uriarte, Nerea and Centre, Ikerlan Technology Research and Obermaisser, Roman},
+  booktitle = {2019 15th {{European Dependable Computing Conference}} ({{EDCC}})},
+  author = {Allende, Imanol and Mc Guire, Nicholas and Perez, Jon and Monsalve, Lisandro Gabriel and Uriarte, Nerea and Obermaisser, Roman},
   year = {2019},
   pages = {47--54},
   publisher = {{IEEE}},
+  address = {{Naples, Italy}},
   doi = {10.1109/EDCC.2019.00020},
   abstract = {As the complexity of several safety-critical systems continues to increase (e.g. autonomous driving), the need for a safety operating system to run complex algorithms and software has arisen. Although GNU/Linux is a widely used operating system, including high-performance systems, it was not designed for safety critical systems. This paper presents a novel isolation concept in order to support a defined independence level in mixed-criticality systems. This novel isolation concept is integrated with the architecture proposed by SIL2LinuxMP. Finally, a simple case study is used to guide the definition of safety techniques and the identification of challenges to be addressed.},
   isbn = {978-1-72813-929-6},
-  langid = {english},
   file = {/home/danlo/Zotero/storage/WNUKXYT4/Allende et al. - Towards Linux for the Development of Mixed-Critica.pdf}
 }
 
@@ -114,10 +114,12 @@
   file = {/home/danlo/Zotero/storage/EBADAK7L/Anderson et al. - Multicore Operating-System Support for Mixed Criti.pdf}
 }
 
-@misc{ARINC653,
+@incollection{ARINC653,
   title = {{{ARINC}} Specification 653 - Avionics Application Software Standard Interface},
-  author = {{Airline Electronic Engineering Committee}},
-  year = {2003},
+  booktitle = {Digital {{Avionics Handbook}}},
+  author = {Prisaznuk, P. J.},
+  year = {2017},
+  pages = {624--631},
   publisher = {{Standard 03-116/SWM-89, Annapolis Maryland}}
 }
 
@@ -145,12 +147,12 @@
   file = {/home/danlo/Zotero/storage/UNBS5FUC/Arslan et al. - Modeling Embedded Real-Time Applications with Obje.pdf}
 }
 
-@inproceedings{augier_real-time_2006,
+@techreport{augier_real-time_2006,
   title = {Real-{{Time Scheduling}} in a {{Virtualized Environment}}},
-  booktitle = {{{REPORT-UNIVERSITY OF YORK DEPARTMENT OF COMPUTER SCIENCE YCS}}},
   author = {Augier, Christophe and Armand, Francois and Muller, Gilles},
   year = {2006},
-  publisher = {{University of York}},
+  address = {{York, UK}},
+  institution = {{Department of Computer Science YCS}},
   abstract = {In a virtualized real-time environment, a RTOS can run in parallel with a commodity OS with negligible overhead. Real-time properties of the RTOS are guaranteed by giving it and its tasks the highest priority over CPU utilization. The isolation between the OSes and the highest priority given to the RTOS can lead, however, to a misuse of the CPU resource and high-latency of the other OS tasks. These issues come from the lack of a global vision of the system scheduling needs as each OS schedules its own tasks. We propose to move task scheduling into the virtual machine monitor. There, the Scheduler Virtual Device is in charge of scheduling all the tasks independantly of their hosting OS.},
   langid = {english},
   file = {/home/danlo/Zotero/storage/QVS4N5ME/Augier et al. - Real-Time Scheduling in a Virtualized Environment.pdf}
@@ -854,10 +856,12 @@
   file = {/home/danlo/Zotero/storage/JTFMCAMD/Brogioli et al. - Design and Analysis of Heterogeneous DSPFPGA Base.pdf}
 }
 
-@techreport{brown_how_2010,
+@inproceedings{brown_how_2010,
   title = {How Fast Is Fast Enough? {{Choosing}} between {{Xenomai}} and {{Linux}} for Real-Time Applications},
+  booktitle = {Twelfth {{Real-Time Linux Workshop}}},
   author = {Brown, Dr Jeremy H and Martin, Brad},
   year = {2010},
+  address = {{Nairobi}},
   abstract = {We needed data to help ourselves and our clients to decide when to expend the extra effort to use a real-time extension such as Xenomai; when it is sufficient to use mainline Linux with the PREEMPT RT patches applied; and when unpatched mainline Linux is sufficient.},
   langid = {english},
   file = {/home/danlo/Zotero/storage/HXRULJSN/Brown - How fast is fast enough Choosing between Xenomai .pdf}
@@ -908,6 +912,8 @@
   title = {Mixed {{Criticality Systems}} - {{A Review}}},
   author = {Burns, Alan and Davis, Robert I},
   year = {2022},
+  address = {{York, UK}},
+  institution = {{Department of Computer Science, University of York}},
   abstract = {This review covers research on the topic of mixed criticality systems that has been published since Vestal's 2007 paper. It covers the period up to end of 2021. The review is organised into the following topics: introduction and motivation, models, single processor analysis (including job-based, hard and soft tasks, fixed priority and EDF scheduling, shared resources and static and synchronous scheduling), multiprocessor analysis, related topics, realistic models, formal treatments, systems issues, industrial practice and research beyond mixed-criticality. A list of PhDs awarded for research relating to mixed-criticality systems is also included.},
   langid = {english}
 }
@@ -1047,6 +1053,20 @@
   isbn = {978-2-35147-043-5},
   langid = {french},
   file = {/home/danlo/Zotero/storage/IS7G48ZN/Cherfi et al. - 2016 - Sécurité-innocuité des véhicules autonomes  enjeu.pdf}
+}
+
+@article{chetan_kumar_scheduling_2013,
+  title = {Scheduling {{Challenges}} in {{Mixed Critical Real-Time Heterogeneous Computing Platforms}}},
+  author = {Chetan Kumar, N. G. and Vyas, Sudhanshu and Cytron, Ron K. and Gill, Christopher D. and Zambreno, Joseph and Jones, Phillip H.},
+  year = {2013},
+  journal = {Procedia Computer Science},
+  volume = {18},
+  pages = {1891--1898},
+  issn = {18770509},
+  doi = {10.1016/j.procs.2013.05.358},
+  abstract = {In Dynamic Data-Driven Application Systems (DDDAS), applications must dynamically adapt their behavior in response to objectives and conditions that change while deployed. Often these applications may be safety critical or tightly resource constrained, with a need for graceful degradation when introduced to unexpected conditions. This paper begins by motivating and providing a vision for a dynamically adaptable mixed critical computing platform to support DDDAS applications. We then specifically focus on the need for advancements in task models and scheduling algorithms to manage the resources of such a platform. We discuss the short comings of existing task models for capturing important attributes of our envisioned computing platform, and identify challenges that must be addressed when developing scheduling algorithms that act upon our proposed extended task model.},
+  langid = {english},
+  file = {/home/danlo/Zotero/storage/GFSUCGEM/G et al. - 2013 - Scheduling Challenges in Mixed Critical Real-Time .pdf}
 }
 
 @inproceedings{chisholm_supporting_2017,
@@ -1445,13 +1465,18 @@
   file = {/home/danlo/Zotero/storage/9A5TU4KY/Fohler et al. - Evaluation of DREAMS resource management solutions.pdf}
 }
 
-@article{friese_estimating_2018,
+@inproceedings{friese_estimating_2018,
   title = {Estimating {{Latencies}} of {{Task Sequences}} in {{Multi-Core Automotive ECUs}}},
-  author = {Friese, Max J and Ehlers, Thorsten and Nowotka, Dirk},
+  booktitle = {2018 {{IEEE}} 13th {{International Symposium}} on {{Industrial Embedded Systems}} ({{SIES}})},
+  author = {Friese, Max J. and Ehlers, Thorsten and Nowotka, Dirk},
   year = {2018},
+  pages = {1--10},
+  publisher = {{IEEE}},
+  address = {{Graz, Austria}},
+  doi = {10.1109/SIES.2018.8442095},
   abstract = {The computation of a cyber-physical system's reaction to a stimulus typically involves the execution of several tasks. The delay between stimulus and reaction thus depends on the interaction of these tasks and is subject to timing constraints. Such constraints exist for a number of reasons and range from possible impacts on customer experiences to safety requirements. We present a technique to determine end-to-end latencies of such task sequences. The technique is demonstrated on the example of electronic control units (ECUs) in automotive embedded realtime systems. Our approach is able to deal with multi-core architectures and supports four different activation patterns, including interrupts. It is the first formal analysis approach making use of load assumptions in order to exclude infeasible data propagation paths without the knowledge of worst-case execution times or worst-case response times. We employ a constraint programming solver to compute bounds on end-toend latencies.},
-  langid = {english},
-  file = {/home/danlo/Zotero/storage/URI37KEP/Friese et al. - Estimating Latencies of Task Sequences in Multi-Co.pdf}
+  isbn = {978-1-5386-4155-2},
+  file = {/home/danlo/Zotero/storage/SCCN673P/Friese et al. - 2018 - Estimating Latencies of Task Sequences in Multi-Co.pdf}
 }
 
 @inproceedings{furfaro_modelling_2007,
@@ -1476,20 +1501,6 @@
   doi = {10.1109/DSN-W.2016.24},
   isbn = {978-1-5090-3688-2},
   file = {/home/danlo/Zotero/storage/K3TTRQ9Y/AUTOSAR for Connected and Autonomous Vehicles.pdf}
-}
-
-@article{g_scheduling_2013,
-  title = {Scheduling {{Challenges}} in {{Mixed Critical Real-Time Heterogeneous Computing Platforms}}},
-  author = {G, Chetan Kumar N and Vyas, Sudhanshu and Cytron, Ron K. and Gill, Christopher D. and Zambreno, Joseph and Jones, Phillip H.},
-  year = {2013},
-  journal = {Procedia Computer Science},
-  volume = {18},
-  pages = {1891--1898},
-  issn = {18770509},
-  doi = {10.1016/j.procs.2013.05.358},
-  abstract = {In Dynamic Data-Driven Application Systems (DDDAS), applications must dynamically adapt their behavior in response to objectives and conditions that change while deployed. Often these applications may be safety critical or tightly resource constrained, with a need for graceful degradation when introduced to unexpected conditions. This paper begins by motivating and providing a vision for a dynamically adaptable mixed critical computing platform to support DDDAS applications. We then specifically focus on the need for advancements in task models and scheduling algorithms to manage the resources of such a platform. We discuss the short comings of existing task models for capturing important attributes of our envisioned computing platform, and identify challenges that must be addressed when developing scheduling algorithms that act upon our proposed extended task model.},
-  langid = {english},
-  file = {/home/danlo/Zotero/storage/GFSUCGEM/G et al. - 2013 - Scheduling Challenges in Mixed Critical Real-Time .pdf}
 }
 
 @article{garre_performance_2014,
@@ -2047,7 +2058,7 @@
   url = {https://www.researchgate.net/profile/Richard_Schantz/publication/237707809_A_Hierarchical_Control_System_for_Dynamic_Resource_Management/links/00b4952e6dc88cb590000000/A-Hierarchical-Control-System-for-Dynamic-Resource-Management.pdf#page=59},
   urldate = {2018-09-14},
   langid = {english},
-  file = {/home/danlo/Zotero/storage/SHN2DKMD/_Texte intégral.pdf}
+  file = {/home/danlo/Zotero/storage/SHN2DKMD/IEEE Technical Committee on Real-Time Systems - 2006 - Real-Time and Embedded Technology and Applications.pdf}
 }
 
 @misc{intel,
@@ -2057,11 +2068,14 @@
   url = {http://www.intel.com/content/www/us/en/communications/cache-allocation-technology-white-paper.html}
 }
 
-@unpublished{intel_corporation_hard_2009,
+@techreport{intel_corporation_hard_2009,
   type = {White {{Paper}}},
   title = {Hard {{Real}} Time {{Linux Using Xenomai}} on {{Intel Multi-Core Processors}}},
-  author = {Intel Corporation},
+  author = {{Intel Corporation}},
   year = {2009},
+  institution = {{Intel Corporation}},
+  url = {https://www.intel.cn/content/dam/www/public/us/en/documents/white-papers/multicore-real-time-linux-xenomai-paper.pdf},
+  abstract = {Linux* is not a hard real-time operating system as it does not guarantee a task to meet strict deadlines. The kernel can suspend a task when its time slice has completed and it can remain suspended for an arbitrarily long time (for example, when an interrupt is getting serviced). Some of the hard real-time approaches that can be applied to Linux are ``MicroKernel Approach'' and ``Nano-Kernel Approach''. This document covers a similar approach using Xenomai*.},
   langid = {english},
   file = {/home/danlo/Zotero/storage/FW9XZBHH/Hard Real time Linux Using Xenomai on Intel Multicore.pdf}
 }
@@ -2310,12 +2324,12 @@
   file = {/home/danlo/Zotero/storage/D4HA8TI8/navigating-the-complexities-of-software-defined-vehicles.html}
 }
 
-@article{kaiser_evolution_2007,
-  title = {Evolution of the {{PikeOS Microkernel}}},
+@inproceedings{kaiser_evolution_2007,
+  title = {Evolution of the {{PikeOS}} Microkernel},
+  booktitle = {First International Workshop on Microkernels for Embedded Systems},
   author = {Kaiser, Robert and Wagner, Stephan},
   year = {2007},
-  abstract = {The PikeOS microkernel is targeted at real-time embedded systems. Its main goal is to provide a partitioned environment for multiple operating systems with different design goals to coexist in a single machine. It was initially modelled after the L4 microkernel and has gradually evolved over the years of its application to the real-time, embedded systems space. This paper describes the concepts that were added or removed during this evolution and it provides the rationale behind these design decisions.},
-  langid = {english},
+  volume = {50},
   file = {/home/danlo/Zotero/storage/DFB7FUL4/Kaiser and Wagner - Evolution of the PikeOS Microkernel.pdf}
 }
 
@@ -2375,9 +2389,11 @@
   file = {/home/danlo/Zotero/storage/NGRHQ7FD/Kästner et al. - 2019 - TimeWeaver A Tool for Hybrid Worst-Case Execution.pdf;/home/danlo/Zotero/storage/ET5KRYTY/10766.html}
 }
 
-@article{kedad-sidhoum_scheduling_nodate,
+@inproceedings{kedad-sidhoum_scheduling_2015,
   title = {Scheduling {{Tasks}} with {{Precedence Constraints}} on {{Hybrid Multi-core Machines}}},
+  booktitle = {{{IEEE International Parallel}} and {{Distributed Processing Symposium Workshops}}},
   author = {{Kedad-Sidhoum}, Safia and Monna, Florence and Trystram, Denis and {Grenoble-Alpes}, Univ},
+  year = {2015},
   abstract = {In this work, we are interested in scheduling dependent tasks for hybrid parallel multi-core machines, composed of CPUs with additional accelerators (GPUs). The objective is to minimize the makespan, which is a crucial problem for reaching the potential of new platforms in High Performance Computing. We provide an approximation algorithm with a performance guarantee of 6 to solve this problem. The algorithm is a two-phase solving method: a first phase based on rounding the solution provided by solving a linear programming formulation for the assignment of the tasks to the resources. A second phase uses a classical list algorithm to schedule the tasks according to the assignment phase. The proposed approach is the first generic algorithm with a performance guarantee for scheduling tasks with precedence constraints on hybrid platforms with CPUs and GPUs resources.},
   langid = {english},
   file = {/home/danlo/Zotero/storage/AUTLVDRT/Kedad-Sidhoum et al. - Scheduling Tasks with Precedence Constraints on Hy.pdf}
@@ -2513,13 +2529,11 @@
 }
 
 @inproceedings{kritikakou_multiplexing_2016,
-  title = {Multiplexing {{Adaptive}} with {{Classic AUTOSAR}}? {{Adaptive Software Control}} to {{Increase Resource Utilization}} in {{Mixed-Critical Systems}}},
-  booktitle = {Workshop {{CARS}} 2016 - {{Critical Automotive}} Applications : {{Robustness}} \& {{Safety}}},
+  title = {Multiplexing Adaptive with Classic {{AUTOSAR}}? {{Adaptive}} Software Control to Increase Resource Utilization in Mixed-Critical Systems},
+  booktitle = {Workshop {{CARS}} 2016-{{Critical}} Automotive Applications: {{Robustness}} \& Safety},
   author = {Kritikakou, Angeliki and Marty, Thibaut and Pagetti, Claire and Rochange, Christine and Lauer, Micha{\"e}l and Roy, Matthieu},
   year = {2016},
-  address = {{G\"oteborg, Sweden}},
   abstract = {Automotive embedded systems need to cope with antagonist requirements: on the one hand, the users and market pressure push car manufacturers to integrate more and more services that go far beyond the control of the car itself. On the other hand, recent standardization efforts in the safety domain has led to the development of the ISO 26262 norm that defines means and requirements to ensure the safe operation of automotive embedded systems. In particular, it led to the definition of ASIL (Automotive Safety and Integrity Levels), i.e., it formally defines several criticality levels. Handling the increased complexity of new services makes new architectures, such as multi or many-cores, appealing choices for the car industry. Yet, these architectures provide a very low level of timing predictability due to shared resources, which goes in contradiction with timing guarantees required by ISO 26262.},
-  langid = {english},
   file = {/home/danlo/Zotero/storage/DCB4RSQJ/Kritikakou et al. - Multiplexing Adaptive with Classic AUTOSAR Adapti.pdf}
 }
 
@@ -2842,10 +2856,11 @@
 }
 
 @inproceedings{lin_maximizing_2006,
-  title = {Maximizing {{Guaranteed QoS}} within (m, k)-Firm {{Real-}} Time {{Constraints}}},
-  booktitle = {Work-{{In-Progress Session}} of the 12th {{Real-Time}} and {{Embedded Technology}} and {{Applications Symposium}}},
+  title = {Maximizing {{Guaranteed QoS}} in (m, k)-Firm {{Real-time Systems}}},
+  booktitle = {12th {{IEEE International Conference}} on {{Embedded}} and {{Real-Time Computing Systems}} and {{Applications}} ({{RTCSA}}'06)},
   author = {Lin, Jian (Denny) and M. K. Cheng, Albert},
   year = {2006},
+  pages = {402--410},
   publisher = {{IEEE Technical Committee on Real-Time Systems}},
   address = {{San Jose, USA}},
   abstract = {(m,k)-firm constraints have been used to schedule tasks in firm real-time systems under overloaded conditions. In general, they are provided by application designers to guarantee the minimum levels of quality of service (QoS). Many problems focusing on task schedulability under these constraints were investigated in the last ten years. However, little work has been done in combining the optimization of the QoS and tasks schedulability subject to these (m,k)-firm constraints. In this paper, we consider the problem of maximizing the guaranteed performance while maintaining a schedulable task set in periodic firm real-time systems. To quantify the performance, we propose a granularity-related metric called Granularity of Quality of Service - Reward (GQoS- reward). We then show that maximizing the total GQoS-reward is an NP-Hard problem. We conclude the paper by laying out a preliminary framework for solving this problem.},
@@ -2879,9 +2894,10 @@
   langid = {english}
 }
 
-@misc{lipari_programming_nodate,
+@misc{lipari_programming_2009,
   title = {Programming {{RT}} Systems with Pthreads},
   author = {Lipari, Giuseppe},
+  year = {2009},
   langid = {english},
   file = {/home/danlo/Zotero/storage/LGZ82JKI/Lipari - Programming RT systems with pthreads.pdf}
 }
@@ -2917,7 +2933,7 @@
   file = {/home/danlo/Zotero/storage/TXWRYEGW/Litayem et al. - 2011 - Building XenoBuntu Linux Distribution for Teaching.pdf}
 }
 
-@patent{liu_procede_nodate,
+@patent{liu_procede_2018,
   title = {Proc\'ed\'e, {{Dispositif}} et {{Syst\`eme}} Pour Une Communication Interprocess d'un Processeur Multicoeur},
   author = {Liu, Tanyi and Yan, Youliang},
   year = {2018},
@@ -2995,13 +3011,18 @@
   file = {/home/danlo/Zotero/storage/BM5HK3CG/Louis and Baron - 2019 - Vers une certification continue des logiciels crit.pdf}
 }
 
-@article{lozi_linux_2016,
-  title = {The {{Linux Scheduler}}: A {{Decade}} of {{Wasted Cores}}},
-  author = {Lozi, Jean-Pierre and Gaud, Fabien and Lepers, Baptiste and Quema, Vivien and Funston, Justin and Fedorova, Alexandra},
+@inproceedings{lozi_linux_2016,
+  title = {The {{Linux}} Scheduler: A Decade of Wasted Cores},
+  shorttitle = {The {{Linux}} Scheduler},
+  booktitle = {Proceedings of the {{Eleventh European Conference}} on {{Computer Systems}}},
+  author = {Lozi, Jean-Pierre and Lepers, Baptiste and Funston, Justin and Gaud, Fabien and Qu{\'e}ma, Vivien and Fedorova, Alexandra},
   year = {2016},
-  series = {{{EuroSys}}'16},
-  doi = {http://dx.doi.org/10.1145/2901318.2901326},
+  pages = {1--16},
+  publisher = {{ACM}},
+  address = {{London United Kingdom}},
+  doi = {10.1145/2901318.2901326},
   abstract = {As a central part of resource management, the OS thread scheduler must maintain the following, simple, invariant: make sure that ready threads are scheduled on available cores. As simple as it may seem, we found that this invariant is often broken in Linux. Cores may stay idle for seconds while ready threads are waiting in runqueues. In our experiments, these performance bugs caused many-fold performance degradation for synchronization-heavy scientific applications, 13\% higher latency for kernel make, and a 1423\% decrease in TPC-H throughput for a widely used commercial database. The main contribution of this work is the discovery and analysis of these bugs and providing the fixes. Conventional testing techniques and debugging tools are ineffective at confirming or understanding this kind of bugs, because their symptoms are often evasive. To drive our investigation, we built new tools that check for violation of the invariant online and visualize scheduling activity. They are simple, easily portable across kernel versions, and run with a negligible overhead. We believe that making these tools part of the kernel developers' tool belt can help keep this type of bug at bay.},
+  isbn = {978-1-4503-4240-7},
   langid = {english},
   file = {/home/danlo/Zotero/storage/79HDBE72/Lozi et al. - The Linux Scheduler a Decade of Wasted Cores.pdf}
 }
@@ -3324,15 +3345,12 @@
   file = {/home/danlo/Zotero/storage/4P4QHSYI/CN107526631_A.pdf}
 }
 
-@misc{noauthor_erts_2018_proceedings_20180105.pdf_2018,
-  title = {{{ERTS}}\_2018\_{{Proceedings}}\_20180105.Pdf},
-  year = {2018},
-  file = {/home/danlo/Zotero/storage/D6HFGDTJ/ERTS_2018_Proceedings_20180105.pdf}
-}
-
-@misc{noauthor_erts_2018_proceedings_20180105pdf_2018,
-  title = {{{ERTS}}\_2018\_{{Proceedings}}\_20180105.Pdf},
-  year = {2018}
+@techreport{noauthor_corba_2006,
+  title = {{{CORBA Component Model Specifications}}},
+  year = {2006},
+  institution = {{Laboratoire d'Informatique Fond de Lille, Object Management Group}},
+  abstract = {This specification defines: \textbullet{} The syntax and semantics of a component model (Chapter 6, ``Component Model''), based on CORBA IDL, and a corresponding meta-model (Chapter 11, ``Interface Repository Metamodel''). \textbullet{} A language to describe the structure and state of component implementations (Chapter 7, ``OMG CIDL Syntax and Semantics''), and a corresponding meta-model (Chapter 12, ``CIF Metamodel''). \textbullet{} A programming model for constructing component implementations (Chapter 8, ``CCM Implementation Framework''). \textbullet{} A runtime environment for component implementations (Chapter 9, ``The Container Programming Model''). \textbullet{} Interaction between components and Enterprise Java Beans (Chapter 10, ``Integrating with Enterprise JavaBeans''). \textbullet{} Meta-data for describing component-based applications, and interfaces for their deployment (Chapter 14, ``Deployment PSM for CCM''). \textbullet{} A lightweight subset of the component model, programming model and runtime environment (Chapter 13, ``Lightweight CCM Profile'').},
+  file = {/home/danlo/Zotero/storage/W894DK85/RO-027_CORBA Component Model Specifications.pdf}
 }
 
 @misc{noauthor_exercises_nodate,
@@ -3402,14 +3420,6 @@
   author = {Nowotsch, J. and Paulitsch, M. and B{\"u}hler, D. and Theiling, H. and Wegener, S. and Schmidt, M.},
   year = {2013},
   institution = {{Univ. Augsburg, Germany}}
-}
-
-@misc{object_management_group_corba_2006,
-  title = {{{CORBA Component Model Specifications}}},
-  author = {{Object Management Group}},
-  year = {2006},
-  abstract = {This specification defines: \textbullet{} The syntax and semantics of a component model (Chapter 6, ``Component Model''), based on CORBA IDL, and a corresponding meta-model (Chapter 11, ``Interface Repository Metamodel''). \textbullet{} A language to describe the structure and state of component implementations (Chapter 7, ``OMG CIDL Syntax and Semantics''), and a corresponding meta-model (Chapter 12, ``CIF Metamodel''). \textbullet{} A programming model for constructing component implementations (Chapter 8, ``CCM Implementation Framework''). \textbullet{} A runtime environment for component implementations (Chapter 9, ``The Container Programming Model''). \textbullet{} Interaction between components and Enterprise Java Beans (Chapter 10, ``Integrating with Enterprise JavaBeans''). \textbullet{} Meta-data for describing component-based applications, and interfaces for their deployment (Chapter 14, ``Deployment PSM for CCM''). \textbullet{} A lightweight subset of the component model, programming model and runtime environment (Chapter 13, ``Lightweight CCM Profile'').},
-  file = {/home/danlo/Zotero/storage/W894DK85/RO-027_CORBA Component Model Specifications.pdf}
 }
 
 @inproceedings{oreizy_architecture-based_1998,
@@ -3977,16 +3987,22 @@
   file = {/home/danlo/Zotero/storage/LDNCRNYF/Schmidt et al. - 2010 - Automotive user interfaces human computer interac.pdf}
 }
 
-@article{schoeberl_towards_2011,
+@inproceedings{schoeberl_towards_2011,
   title = {Towards a {{Time-predictable Dual-Issue Microprocessor}}: {{The Patmos Approach}}},
   shorttitle = {Towards a {{Time-predictable Dual-Issue Microprocessor}}},
+  booktitle = {Bringing {{Theory}} to {{Practice}}: {{Predictability}} and {{Performance}} in {{Embedded Systems}}},
   author = {Schoeberl, Martin and Schleuniger, Pascal and Puffitsch, Wolfgang and Brandner, Florian and Probst, Christian W.},
   year = {2011},
-  publisher = {{Schloss Dagstuhl - Leibniz-Zentrum fuer Informatik GmbH, Wadern/Saarbruecken, Germany}},
+  volume = {18},
+  pages = {11--21},
+  publisher = {{Schloss Dagstuhl--Leibniz-Zentrum fuer Informatik}},
+  address = {{Dagstuhl, Germany}},
   doi = {10.4230/OASICS.PPES.2011.11},
-  abstract = {Current processors are optimized for average case performance, often leading to a high worst-case execution time (WCET). Many architectural features that increase the average case performance are hard to be modeled for the WCET analysis. In this paper we present Patmos, a processor optimized for low WCET bounds rather than high average case performance. Patmos is a dualissue, statically scheduled RISC processor. The instruction cache is organized as a method cache and the data cache is organized as a split cache in order to simplify the cache WCET analysis. To fill the dual-issue pipeline with enough useful instructions, Patmos relies on a customized compiler. The compiler also plays a central role in optimizing the application for the WCET instead of average case performance.},
+  abstract = {Current processors are optimized for average case performance, often leading to a high worst-case execution time (WCET). Many architectural features that increase the average case performance are hard to be modeled for the WCET analysis. In this paper we present Patmos, a processor optimized for low WCET bounds rather than high average case performance. Patmos is a dual-issue, statically scheduled RISC processor. The instruction cache is organized as a method cache and the data cache is organized as a split cache in order to simplify the cache WCET analysis. To fill the dual-issue pipeline with enough useful instructions, Patmos relies on a customized compiler. The compiler also plays a central role in optimizing the application for the WCET instead of average case performance.},
   collaborator = {Herbstritt, Marc},
+  isbn = {978-3-939897-28-6},
   langid = {english},
+  keywords = {000 Computer science; knowledge; general works,Computer Science},
   file = {/home/danlo/Zotero/storage/XJ83RMM6/Schoeberl et al. - 2011 - Towards a Time-predictable Dual-Issue Microprocess.pdf}
 }
 
@@ -4069,20 +4085,8 @@
   doi = {10.1109/ICICT48043.2020.9112556},
   abstract = {A rapid increase in the development of electric and connected vehicles has led to a complete revolution in the automotive industry; thus new solutions are needed to meet the rapid innovation in the entire industry while reducing the time to market and engineering costs. The main objective of this paper is to provide an open-source solution for Automotive In-Vehicle Infotainment to create a fast-innovating ecosystem and to reduce software time to market. Automotive Grade Linux (AGL) is a shared platform mainly used for In-Vehicle Infotainment systems (IVI), used by the automakers and suppliers to reduce fragmentation and to reuse the same code base, thus leading to rapid innovation and faster time-to-market for new products.},
   isbn = {978-1-72814-685-0},
-  file = {/home/danlo/Zotero/storage/YEFPCPXS/Sivakumar et al. - 2020 - Automotive Grade Linux Software Architecture for A.pdf}
-}
-
-@inproceedings{sivakumar_automotive_2020-1,
-  title = {Automotive {{Grade Linux Software Architecture}} for {{Automotive Infotainment System}}},
-  booktitle = {2020 {{International Conference}} on {{Inventive Computation Technologies}} ({{ICICT}})},
-  author = {Sivakumar, P. and Sandhya Devi, R. S. and Neeraja Lakshmi, A and VinothKumar, B. and Vinod, B.},
-  year = {2020},
-  month = feb,
-  pages = {391--395},
-  doi = {10.1109/ICICT48043.2020.9112556},
-  abstract = {A rapid increase in the development of electric and connected vehicles has led to a complete revolution in the automotive industry; thus new solutions are needed to meet the rapid innovation in the entire industry while reducing the time to market and engineering costs. The main objective of this paper is to provide an open-source solution for Automotive In-Vehicle Infotainment to create a fast-innovating ecosystem and to reduce software time to market. Automotive Grade Linux (AGL) is a shared platform mainly used for In-Vehicle Infotainment systems (IVI), used by the automakers and suppliers to reduce fragmentation and to reuse the same code base, thus leading to rapid innovation and faster time-to-market for new products.},
   keywords = {AGL,Connected vehicles,Costs,In-Vehicle Infotainment,Industries,Linux,Linux Foundation,Operating systems,Technological innovation,Time to market},
-  file = {/home/danlo/Zotero/storage/7W7ZCEPW/9112556.html}
+  file = {/home/danlo/Zotero/storage/YEFPCPXS/Sivakumar et al. - 2020 - Automotive Grade Linux Software Architecture for A.pdf;/home/danlo/Zotero/storage/7W7ZCEPW/9112556.html}
 }
 
 @article{smotherman2005history,
@@ -4204,10 +4208,12 @@
   file = {/home/danlo/Zotero/storage/YF9K6KST/Sundar and Easwaran - 2019 - A Practical Degradation Model for Mixed-Criticalit.pdf;/home/danlo/Zotero/storage/PE8KU7Z4/8759239.html}
 }
 
-@article{sysgo_ag_arinc_2019,
+@techreport{sysgo_ag_arinc_2019,
+  type = {White {{Paper}}},
   title = {{{ARINC}} 653 {{RTOS}} for Multicore Certification},
-  author = {{SYSGO AG}},
+  author = {{Sysgo AG}},
   year = {2019},
+  institution = {{SysGo}},
   langid = {english},
   file = {/home/danlo/Zotero/storage/X3SITFWR/SYSGO_WP_-_ARINC_653_RTOS_for_MultiCore_Certification.pdf}
 }
@@ -4311,13 +4317,17 @@
   file = {/home/danlo/Zotero/storage/BE4YSURW/Tindell and Clark - 1994 - Holistic schedulability analysis for distributed h.pdf}
 }
 
-@article{trapp_runtime_2007,
+@inproceedings{trapp_runtime_2007,
   title = {Runtime Adaptation in Safety-Critical Automotive Systems},
-  author = {Trapp, Mario and Adler, Rasmus and F{\"o}rster, Marc and {Janosch Junger}},
+  booktitle = {25th Conference on {{IASTED}} International Multi-Conference: {{Software}} Engineering},
+  author = {Trapp, Mario and Adler, Rasmus and F{\"o}rster, Marc and Junger, Janosch},
   year = {2007},
-  doi = {10.13140/2.1.1604.4480},
-  abstract = {The cost-efficient development for dependable systems is one of the major future challenges of the automotive industry. Existing fault tolerance approaches are often not applicable and not sufficient. Therefore, innovative alternatives are required.},
-  langid = {english},
+  series = {{{SE}}'07},
+  pages = {308--315},
+  publisher = {{ACTA Press}},
+  address = {{Innsbruck, Austria}},
+  abstract = {The cost-efficient development for dependable systems is one of the major future challenges of the automotive industry. Existing fault tolerance approaches are often not applicable and not sufficient. Therefore, innovative alternatives are required.A possible solution is given by dynamic adaptation. In the case of errors, dynamic adaptation can ensure that the best possible system functionality is achieved and that critical functions are kept alive (survivability). Exploiting implicitly available redundancy, dynamic adaptation provides a cost-efficient means to keep up functionalities as long as possible without requiring expensive explicit redundancy channels.Unconstrained dynamic adaptation can lead to emergent, unpredictable behavior, making it inapplicable for safety-critical systems. In this paper, we illustrate how adaptation behavior can be explicitly modeled, analyzed, and verified at design time. By this means, it is possible to use the advantages of dynamic adaptation for the realization of safe and reliable systems.},
+  keywords = {adaptive systems,dynamic reconfiguration,Mars,safety,survivability},
   file = {/home/danlo/Zotero/storage/HN5B7YTN/Trapp et al. - 2007 - Runtime adaptation in safety-critical automotive s.pdf}
 }
 
@@ -4348,14 +4358,15 @@
 
 @inproceedings{vestal_preemptive_2007,
   title = {Preemptive {{Scheduling}} of {{Multi-criticality Systems}} with {{Varying Degrees}} of {{Execution Time Assurance}}},
+  booktitle = {28th {{IEEE International Real-Time Systems Symposium}} ({{RTSS}} 2007)},
   author = {Vestal, Steve},
   year = {2007},
   pages = {239--243},
   publisher = {{IEEE}},
+  address = {{Tucson, AZ, USA}},
   doi = {10.1109/RTSS.2007.47},
   abstract = {This paper is based on a conjecture that the more confidence one needs in a task execution time bound (the less tolerant one is of missed deadlines), the larger and more conservative that bound tends to become in practice. We assume different tasks perform functions having different criticalities and requiring different levels of assurance. We assume a task may have a set of alternative worst-case execution times, each assured to a different level of confidence. This paper presents ways to use this information to obtain more precise schedulability analysis and more efficient preemptive fixed priority scheduling. These methods are evaluated using workloads abstracted from production avionics systems.},
   isbn = {978-0-7695-3062-8},
-  langid = {english},
   file = {/home/danlo/Zotero/storage/BQU7BZZK/Vestal - 2007 - Preemptive Scheduling of Multi-criticality Systems.pdf}
 }
 
@@ -4523,14 +4534,15 @@
 
 @inproceedings{yun_memory_2012,
   title = {Memory {{Access Control}} in {{Multiprocessor}} for {{Real-Time Systems}} with {{Mixed Criticality}}},
+  booktitle = {2012 24th {{Euromicro Conference}} on {{Real-Time Systems}}},
   author = {Yun, Heechul and Yao, Gang and Pellizzoni, Rodolfo and Caccamo, Marco and Sha, Lui},
   year = {2012},
   pages = {299--308},
   publisher = {{IEEE}},
+  address = {{Pisa, Italy}},
   doi = {10.1109/ECRTS.2012.32},
   abstract = {Shared resource access interference, particularly memory and system bus, is a big challenge in designing predictable real-time systems because its worst case behavior can significantly differ. In this paper, we propose a software based memory throttling mechanism to explicitly control the memory interference. We developed analytic solutions to compute proper throttling parameters that satisfy schedulability of critical tasks while minimize performance impact caused by throttling. We implemented the mechanism in Linux kernel and evaluated isolation guarantee and overall performance impact using a set of synthetic and real applications.},
   isbn = {978-1-4673-2032-0},
-  langid = {english},
   file = {/home/danlo/Zotero/storage/ZBCZLIYH/Yun et al. - 2012 - Memory Access Control in Multiprocessor for Real-T.pdf}
 }
 
