@@ -37,10 +37,12 @@
 \pagenumbering{roman}
 
  \cleardoublepage
-
- \begin{maxime}{Quelqu'un, quelque part.}
- 	Une Révolution est une évolution qui n'en a pas l'air.
- \end{maxime}
+%\topskip-10pt
+\vspace*{\fill}
+ \begin{maxime}{Pierre-Henri Cami.}
+	Souvent une évolution est une révolution sans en avoir l'R.
+\end{maxime}
+\vspace*{\fill}
 
 
 \cleardoublepage
@@ -135,18 +137,36 @@
 \begin{vcenterpage}
 \noindent\rule[2pt]{\textwidth}{0.5pt}
 \\
-\IfLanguageName{english}{%
-{\large\textbf{Abstract:}}
-}{%
-{\large\textbf{Résumé :}}
-}
-resume
-\IfLanguageName{english}{%
-{\large\textbf{Keywords:}}
-}{%
-{\large\textbf{Mots clés :}}
-}
-mots, clefs
+	{\large\textbf{Résumé :}
+		
+		L'émergence de calculateurs multicœurs plus puissants, mais aussi plus complexes, présente à la fois une opportunité et de nouveaux enjeux pour l'intégration de systèmes à criticité mixte. Ces systèmes, qui embarquent des fonctionnalités de différents niveaux d'importance, requièrent le respect d'exigences temporelles. En effet, plus un logiciel est critique, plus les conséquences en cas de dépassement d'échéance d'exécution peuvent être catastrophiques. Par conséquent, des mécanismes de sûreté de fonctionnement doivent être mis en place pour prévenir ce risque. 
+		
+		L'usage de calculateurs multicœurs exacerbe cette problématique avec l'exécution concourante de tâches qui peut provoquer des interférences inter-tâches. Cela est dû au partage de ressources associées à la plateforme matérielle partagée. La mémoire, les périphériques, les bus d'accès ainsi que les espaces mémoire partagés constituent ainsi des points de congestion potentielle. Cela peut alors mener à des retards dans l'exécution de tâches critiques uniquement du fait de l'exécution parallèle de tâches à plus faible niveau de criticité. En conséquence, les risques de non-respect des exigences temps-réel deviennent d'autant plus importants sur ces processeurs. De plus, la complexité croissante des architectures matérielle rend aussi plus difficile de complètement maîtriser et prévenir en amont tout risque d'interférences.
+		
+		Les solutions existantes à un tel problème se font au détriment d'autres éléments qui deviennent tout autant nécessaires dans l'industrie, dont notamment la maximisation d'usage des ressources de calcul. Ainsi, notre proposition cherche à répondre à la fois au besoin de garanties temps-réel sur les tâches critiques tout en permettant une bonne utilisation des ressources offertes par les calculateurs multicœurs. Dans ce cadre, ces travaux se focalisent sur l'étude des tâches critiques sous forme de chaînes de tâches fonctionnelles. De fait chaque fonctionnalité exécutée correspond à une chaîne de différents blocs logiciels exécutés séquentiellement. Avec cette approche, on propose un mécanisme de Surveillance et de Contrôle qui offre des garanties minimales sur une chaîne de tâche critique, par anticipation de risques d'interférences qui pourraient mener à une défaillance. L'anticipation ayant pour moyen de neutralisation des interférences la mise en pause temporaire des tâches non critiques. L'objectif est d'obtenir une garantie d'exécution bout-en-bout de la chaîne de tâche sans dépassement d'échéance, avec une limitation des tâches non critiques uniquement quand nécessaire, de façon à ce que le reste du temps, on puisse exploiter au maximum la puissance de calcul et les ressources disponibles. Avec un tel mécanisme, nous proposons un protocole d'implémentation et de calibration, ainsi qu'une première analyse à partir d'une plateforme expérimentale dédiée
+	}
+\smallbreak
+{\large\textbf{Mots clés :} multicœur, temps-réel, criticité mixte, sûreté de fonctionnement}
+\\
+\noindent\rule[2pt]{\textwidth}{0.5pt}
+\end{vcenterpage}
+
+\newpage
+
+\begin{vcenterpage}
+\noindent\rule[2pt]{\textwidth}{0.5pt}
+\\
+	{\large\textbf{Abstract:} 
+		
+		The emergence of more powerful, but also more complex, multicore computers presents both an opportunity and new challenges for the integration of mixed criticality systems. These systems, which embed functionalities of different levels of importance, require the respect of temporal requirements. Indeed, the more critical a software is, the more catastrophic the consequences in case of a missed execution deadline. Consequently, mechanisms for operational safety must be put in place to prevent this risk. 
+
+		The use of multicore computers exacerbates this problem with the concurrent execution of tasks that can cause inter-task interference. This is due to the sharing of resources associated with the shared hardware platform. Memory, peripherals, access buses and shared memory spaces are potential congestion points. This can lead to delays in the execution of critical tasks only because of the parallel execution of lower criticality tasks. As a consequence, the risks of non-compliance with real-time requirements become even more important on these processors. Moreover, the increasing complexity of hardware architectures also makes it more difficult to completely control and prevent any risk of interference upstream.
+
+		The existing solutions to such a problem are done at the expense of other elements that are becoming equally necessary in the industry, including the maximization of the use of computing resources. Thus, our proposal seeks to address both the need for real-time guarantees on critical tasks while allowing a good use of the resources offered by multicore computers. This thesis work focuses on the study of critical tasks modeled as functional task chains to guarantee their response times in a mixed-criticality hosting multicore. Each functionality of the system corresponds to a chain of different software components executed sequentially. With this more functional approach to software execution, we want to obtain a Monitoring and Control mechanism that offers guarantees on a critical task chain, by anticipating risks of interference that could lead to a failure. The anticipation consisting of pausing temporarily the noncritical tasks to control and mitigate interference. The objective is to obtain a guarantee of end-to-end response time of the task chain without missing deadlines, with a limitation of interference only when necessary, so that the rest of the time, all the tasks of the system can exploit the computing power and the available resources to the maximum. 
+		We propose along with such mechanism an implementation protocol and a first analysis with an experimental platform as a proof of concept to analyze the results obtained with such solution.
+	}
+	\smallbreak
+	{\large\textbf{Keywords:} multicore, real-time, mixed-criticality, safety}
 \\
 \noindent\rule[2pt]{\textwidth}{0.5pt}
 \end{vcenterpage}
