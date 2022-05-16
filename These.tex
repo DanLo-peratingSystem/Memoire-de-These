@@ -11,6 +11,17 @@
 \overfullrule=.5cm %% GROS TRAIT NOIR quand ça dépasse de la marge !
 
 \include{formatAndDefs}
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+	\item[\bfseries
+	\ifstrequal{#1}{D}{Abbréviations}{%
+		\ifstrequal{#1}{A}{Modèle de Tâches}{%
+			\ifstrequal{#1}{B}{Modèle de Chaîne de tâches}{%
+				\ifstrequal{#1}{C}{Mécanisme de Surveillance et Contrôle}{%
+		}}}}%
+		]
+	} 
+\setlength{\nomlabelwidth}{2cm}
 \DeclareUnicodeCharacter{202F}{\,}
 \DeclareUnicodeCharacter{00A0}{\nobreakspace}
 
@@ -45,8 +56,38 @@
 A faire en dernier :-) 
 
 \tableofcontents
+%\makenomenclature
 
-%\printnomenclature
+
+
+{ % NOMENCLATURE
+	\nomenclature[A, 01]{$\tau_i$}{Tâche, d'indice i}
+	\nomenclature[A, 03]{$T_i$}{Période d'apparition d'une tâche}
+	\nomenclature[A, 04]{$D_i$}{Date limite d'échéance à la terminaison d'une tâche}
+	\nomenclature[A, 05]{$C_i$}{Temps d'exécution pire cas d'une tâche}
+	\nomenclature[A, 06]{$L_i$}{Niveau de criticité d'une tâche}
+	\nomenclature[A, 07]{$\tau_{i,j}$}{j\up{ème} occurence d'exécution de la tâche $\tau_i$ à sa période $T_i$}
+	\nomenclature[A, 08]{$a_{i,j}$}{Moment d'activation du job $\tau_{i,j}$}
+	\nomenclature[A, 09]{$s_{i,j}$}{Début d'exécution du job $\tau_{i,j}$}
+	\nomenclature[A, 10]{$e_{i,j}$}{Fin d'exécution (terminaison) du job $\tau_{i,j}$}
+	\nomenclature[B, 20]{$succ(\tau_i)$}{Fonction qui permet de trouver le job successeur du job $\tau_i$ d'une chaîne de tâches}
+	\nomenclature[B, 21]{$succ^p(\tau_i)$}{fonction itérative pour trouver le p\up{ème} successeur du job $\tau_i$}
+	\nomenclature[B, 15]{$R_j$}{Temps de réponse bout-en-bout d'une chaîne de tâches}
+	\nomenclature[B, 16]{$D_c$}{Date limite d'échéance d'exécution bout-en-bout d'une chaîne de tâche}
+	\nomenclature[B, 23]{$S(t)$}{Etat de la chaîne de tâches à l'instant $t$}
+	\nomenclature[B, 24]{$ET(j,t)$}{j\up{ème} trace d'exécution de la chaîne de tâches, à un instant t}
+	\nomenclature[B, 30]{$RT(t)$}{Temps de réponse partiel d'une chaîne de tâche active à l'instant t}
+	\nomenclature[B, 31]{$rWCRT(t)$}{Pire Temps de Réponse Restant d'une chaîne de tâche}
+	\nomenclature[C, 42]{$T_{CCC}$}{Période de fonctionnement du Core Control Component}
+	\nomenclature[C, 43]{$W_{MAX}$}{Durée maximale garantie entre 2 points de surveillance}
+	\nomenclature[C, 44]{$t_{SW}$}{Latence de changement de mode}
+	\nomenclature[C, 40]{TWC}{Task-Wrapper Component : module d'encapsulation pour la surveillance des tâches}
+	\nomenclature[C, 41]{CCC}{Core Control Component : module de décision de changement de mode}
+	
+}
+
+
+\printnomenclature
 % Use \mtcfixnomenclature below if you have a glossary (added with
 % \printnomenclature above) and you're see a shift in the mini-table of
 % contents at the begining of each chapter (example: no mini-toc in chapter 1;
@@ -54,10 +95,11 @@ A faire en dernier :-)
 %
 % You should not use \mtcfixnomenclature if you have no glossary (that means,
 % if you don't use \printnomenclature or if your glossary is empty).
-%\mtcfixnomenclature
+\mtcfixnomenclature
 
 
 \mainmatter
+
 \include{0_Introduction}
 \include{1_Enjeux}
 \include{2_StateOfArt}
@@ -67,6 +109,7 @@ A faire en dernier :-)
 %\include{6_BilanExpe}
 
 \include{Conclusion}
+\appendix
 
 \cmnt{
 Il faut utiliser au moins une citation (exemple: \cite{loche_safe_2020}) pour bien
