@@ -8,10 +8,14 @@
 
 \newcommand{\included}{}
 
+\overfullrule=.5cm %% GROS TRAIT NOIR quand ça dépasse de la marge !
+
 \include{formatAndDefs}
-\include{0_Garde}
 \DeclareUnicodeCharacter{202F}{\,}
 \DeclareUnicodeCharacter{00A0}{\nobreakspace}
+
+\include{0_Garde}
+
 \begin{document}
 
 \makeflyleaf
@@ -27,6 +31,7 @@
  	Une Révolution est une évolution qui n'en a pas l'air.
  \end{maxime}
 
+
 \cleardoublepage
 
 %Another use of \if toggle can be found at the end of this file.
@@ -41,7 +46,7 @@ A faire en dernier :-)
 
 \tableofcontents
 
-\printnomenclature
+%\printnomenclature
 % Use \mtcfixnomenclature below if you have a glossary (added with
 % \printnomenclature above) and you're see a shift in the mini-table of
 % contents at the begining of each chapter (example: no mini-toc in chapter 1;
@@ -51,14 +56,15 @@ A faire en dernier :-)
 % if you don't use \printnomenclature or if your glossary is empty).
 %\mtcfixnomenclature
 
+
 \mainmatter
 \include{0_Introduction}
 \include{1_Enjeux}
 \include{2_StateOfArt}
 \include{3_PrincipeArchi}
 \include{4_ProtocolExpe}
-\include{5_ImplemCase}
-\include{6_BilanExpe}
+%\include{5_ImplemCase}
+%\include{6_BilanExpe}
 
 \include{Conclusion}
 

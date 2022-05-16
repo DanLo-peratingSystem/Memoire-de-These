@@ -669,9 +669,9 @@
 }
 % textline
 \newcommand\textline[4][t]{%
-  \par\noindent\parbox[#1]{.35\textwidth}{\raggedright{\scshape #2}}  % BEFORE WAS .333 each ! Changed to fit First/Last Names.
-  \parbox[#1]{.340\textwidth}{\centering#3}%
-  \parbox[#1]{.300\textwidth}{\raggedleft#4}\par%
+  \par\noindent\parbox[#1]{.41\textwidth}{\raggedright{\scshape #2}}  % BEFORE WAS .333 each ! Changed to fit First/Last Names.
+  \parbox[#1]{.310\textwidth}{\begin{spacing}{0.5}\raggedright#3\end{spacing}}%\centering#3}%
+  \parbox[#1]{.260\textwidth}{\raggedleft#4}\par%
 }
 % makesomeone
 \gdef\showline{show}% Permet de tester si la ligne doit etre affichee
@@ -745,7 +745,7 @@
 % ============================================================
 % Set default value for author and title
 \author{Nom du doctorant}
-\title{Titre de la th\`ese}
+\title{Titre de la thèse}
 
 % ============================================================
 % STYLE
@@ -823,7 +823,7 @@
                         \vspace{-2ex}
                         \rule{\textwidth}{1.2pt}
                         {\bfseries \fontfamily{cmr} Pr\'esent\'ee et soutenue le} \textit{\@defencedate} {\bfseries \fontfamily{cmr} par :}\\
-                        \settowidth{\RuleWidth}{\large\fontfamily{cmr}\textbf{\textsc{\@author}}}
+                        \settowidth{\RuleWidth}{\large\fontfamily{cmr}{\textsc{\@author}}}
                         
                         \smallskip
                         {\large\fontfamily{cmr}\textbf{\textsc{\@author}}}
@@ -832,7 +832,7 @@
                         ~{\color{pdgred}\rule{1.2\RuleWidth}{0.8pt}}
                         \vspace*{3pt}
 
-                        {\large\bfseries\@title}
+                        {\LARGE\bf\fontfamily{cmr}{\textsc{\@title}}}
                         
                         \rule{\textwidth}{1.2pt}
                         
@@ -845,12 +845,16 @@
                         \ifnum \@njudge=0
                           \\Membres du jury
                         \else
+                          \begin{spacing}{2}
                           \foreach \n in {1,...,\@njudge}{%
                               \edef\mytemp{{\csname @judgeS\n\endcsname}{\showline}}%
                               \expandafter\ifstrequal\mytemp{%TRUE
-                                  \textline[t]{\csname @judgeN\n\endcsname}{\csname @judgeP\n\endcsname}{\csname @judgeL\n\endcsname}%
-                              }{}%
+                              	%\begin{spacing}{0.6}
+                                  \textline[t]{\csname @judgeN\n\endcsname}{\csname @judgeP\n\endcsname}{\csname @judgeL\n\endcsname}
+                            	%\end{spacing}%
+                              }{}%                        
                           }
+                      	  \end{spacing}
                         \fi
                         %%%% JURY %%%%
                         

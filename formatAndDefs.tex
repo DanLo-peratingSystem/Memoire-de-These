@@ -4,7 +4,10 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[french]{babel} % 
+\usepackage[french]{babel} %
+\usepackage{lmodern} \normalfont %to load T1lmr.fd 
+\DeclareFontShape{T1}{cmr}{b}{sc} { <-> ssub * cmr/bx/sc }{}
+%\hyphenation{gar}
 
 \usepackage{amsmath,amssymb}             % AMS Math
 \usepackage{siunitx}					%% Unites Math SI
@@ -13,7 +16,7 @@
 
 \usepackage{datetime}
 
-\usepackage{lmodern}
+
 
 \usepackage[inline]{enumitem}
 
@@ -30,7 +33,7 @@
 % Table of contents for each chapter
 
 \usepackage[nottoc, notlof, notlot]{tocbibind}
-\usepackage{minitoc}
+\usepackage[nohints]{minitoc}
 \setcounter{minitocdepth}{2}
 \mtcindent=15pt
 % Use \minitoc where to put a table of contents
@@ -46,6 +49,8 @@
 %%%%%%%%%%% JOLIS TABLEAUX
 \usepackage{tabularx}		%\usepackage{tabular}
 \usepackage{multirow}
+\newcommand{\mc}{\multicolumn} 
+\newcommand{\mr}[2]{\multirow{#1}{*}{#2}} 	\newcommand{\mrQ}{\multirow{-4}{*}}
 \usepackage{booktabs}
 
 \usepackage[usenames,dvipsnames]{xcolor} 
@@ -104,8 +109,8 @@
 
 
 %%%%%%%%%% ECRITURE CARACTERES DANS UN CERCLE %%%%%%%%%%
-\def\circleTxt[#1]{\raisebox{.5pt}{\textcircled{\raisebox{-1pt}{#1}}}}
-
+%\def\circleTxt[#1]{\raisebox{.5pt}{\textcircled{\raisebox{-1pt}{#1}}}}
+\newcommand{\ctxt}[1]{\raisebox{.5pt}{\textcircled{\raisebox{-1.2pt}{#1}}}}
 % Glossary / list of abbreviations
 
 \usepackage[intoc]{nomencl}
@@ -133,7 +138,7 @@
   \usepackage[a4paper,dvipdfm,pagebackref,hyperindex=true]{hyperref}
 \fi
 
-\graphicspath{{.}{schemas/}{graphiques/}{Autre/}}
+\graphicspath{{.}{schemas/}{graphiques/}{tables/}}
 
 %% nicer backref links. NOTE: The flag ThesisInEnglish is used to define the
 % language in the back references. Read more about it in These.tex
@@ -206,6 +211,7 @@ urlcolor=linkcol %couleur des liens pour les url
 \def\argmin{\operatornamewithlimits{arg\,min}}
 \def\diag{\operatorname{Diag}}
 \newcommand{\eqRef}[1]{(\ref{#1})}
+\newcommand{\nline}{\smallbreak\noindent}
 
 \usepackage{rotating}                    % Sideways of figures & tables
 %\usepackage{bibunits}
@@ -293,7 +299,6 @@ urlcolor=linkcol %couleur des liens pour les url
 \let\minitocORIG\minitoc
 \renewcommand{\minitoc}{\minitocORIG \vspace{1.5em}}
 
-\usepackage{multirow}
 %\usepackage{slashbox}
 
 \newenvironment{bulletList}%
@@ -304,39 +309,6 @@ urlcolor=linkcol %couleur des liens pour les url
 	 \setlength{\itemsep}{\parsep}}}%
 { \end{list} }
 
-%%%%%% MISE EN FORME CADRES DEFINITIONS/THEOREMES/LEMES %%%%%%%%%%
-    \usepackage{amsthm}  % for theoremstyle
-    
-    \theoremstyle{plain}
-    \newtheorem{theorem}{Théorème}[section]
-    
-    \theoremstyle{plain}
-    \newtheorem{corollary}{Corolaire}[theorem]
-    
-    \theoremstyle{remark}
-    \newtheorem{lemma}[theorem]{Lemme}
-    
-    \theoremstyle{definition}
-    \newtheorem{definition}[theorem]{Définition}
-
-\cmnt{ 
-    \begin{theorem}
-        Ceci est un Théorème.
-    \end{theorem} 
-    
-    \begin{corollary}
-        Ceci est un Corollaire.
-    \end{corollary}
-    
-    \begin{definition}
-        Ceci est une Définition.
-    \end{definition}
-    
-    \begin{lemma}
-        Ceci est un Lemme.
-    \end{lemma}
-}
-
 
 %%%%%%% Outils pour \comment \alert \add %%%%%
 \usepackage{easyReview}
@@ -345,6 +317,7 @@ urlcolor=linkcol %couleur des liens pour les url
 \let\newalert\alert
 \renewcommand{\alert}[1]{\textit{\newalert{#1}}}
 
+%\usepackage[commandnameprefix=ifneeded]{changes} %% \chhighlight and \chcomment to avoid collision with easyReview
 \renewcommand{\epsilon}{\varepsilon}
 
 % centered page environment
@@ -354,3 +327,74 @@ urlcolor=linkcol %couleur des liens pour les url
 {\vspace*{\fill}}
 
 \usepackage{tablefootnote}
+
+%%%%%% MISE EN FORME CADRES DEFINITIONS/THEOREMES/LEMES %%%%%%%%%%
+\usepackage{amsthm}  % for theoremstyle
+
+\theoremstyle{plain} 
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{corollary}{Corolaire}[theorem]
+
+%\theoremstyle{lemma}
+%\newtheorem{lemma}[theorem]{Lemme}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+
+
+\cmnt{
+	\usepackage{ntheorem} %\usepackage{amsthm}  % for theoremstyle
+	%\usepackage{mdframed}
+	\usepackage[most]{tcolorbox}
+	
+	\theoremstyle{plain} 
+	\theoremindent20pt
+	\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
+	\newtheorem{theorem}{Théorème}[section]
+	\newtheorem{corollary}{Corolaire}[theorem]
+	
+	\theoremstyle{plain}
+	\newtheorem{lemma}[theorem]{Lemme}
+	
+	
+	\tcolorboxenvironment{theorem}{
+		blanker,
+		breakable,
+		before skip=\topsep,
+		after skip=\topsep,
+		borderline west={1pt}{10pt}{double, shorten <=12pt}
+	}
+	
+	\theorembodyfont{\normalfont}
+	\theoremindent20pt
+	\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
+	\newtheorem{definition}[theorem]{Définition}
+	
+	
+	\tcolorboxenvironment{definition}{
+		blanker,
+		breakable,
+		before skip=\topsep,
+		after skip=\topsep,
+		borderline west={1pt}{10pt}{shorten <=12pt}
+	}
+}
+
+\cmnt{ 
+	\begin{theorem}
+		Ceci est un Théorème.
+	\end{theorem} 
+	
+	\begin{corollary}
+		Ceci est un Corollaire.
+	\end{corollary}
+	
+	\begin{definition}
+		Ceci est une Définition.
+	\end{definition}
+	
+	\begin{lemma}
+		Ceci est un Lemme.
+	\end{lemma}
+}

@@ -17,25 +17,33 @@ C'est ainsi que le domaine de l'automobile est successivement passé du tout mé
 Ces évolutions progressives dans la voiture ont mené à des ajouts de calculateurs ayant chacun son lot de fonctionnalités avancées, potentiellement accompagnées des capteurs (température de l'habitacle, présence sur les sièges...) mais aussi des actionneurs (système d'air conditionné, vitres, verrouillage centralisé...) nécessaires.
 C'est de cette façon que l'architecture distribuée dans l'automobile s'est étoffée pour atteindre jusqu'à 70 calculateurs dans un même véhicule. À terme, cette approche ne semble plus soutenable au vu de la demande en fonctionnalités supplémentaires liées aux technologies émergentes : le véhicule autonome et connecté.
 
-C’est pour cette raison que la tendance d'ajout de calculateurs à une architecture distribuée toujours plus complexe est en train de s’inverser. C'est substitué par l’émergence de calculateurs multicœurs puissants qui peuvent se substituer a nombre d’ECU élémentaires. L’architecture actuelle s’oriente donc vers des architectures fédérées mettant en jeu des processeurs sur lesquels la coexistence d’applications critiques et non-critiques (niveau d’ASIL). Ces systèmes à criticité multiple  induisent des problèmes de partage de ressources et de sûreté de fonctionnement.
+C’est pour cette raison que la tendance d'ajout de calculateurs à une architecture distribuée toujours plus complexe est en train de s’inverser. C'est substitué par l’émergence de calculateurs multicœurs puissants qui peuvent se substituer à nombre d’ECU (Unité de Commande Électronique) élémentaires. L’architecture actuelle s’oriente donc vers des architectures fédérées mettant en jeu des processeurs sur lesquels la coexistence d’applications critiques et non-critiques devient incontournable. 
 
-\section*{Systèmes embarqués automobiles}
-    \subsection*{Évolutions des systèmes embarqués}
-        Système mécanique => système cyberphysique
-    \subsection*{Architectures EE}
-        => Augmentation complexité architecture EE
-        => augmentation des besoins (puissance de calcul, ADAS, voiture connectée/autonome...)
-\section*{Tendances et Contraintes actuelles}
-    \subsection*{Tendances}
-        => Nouvelles architectures EE fédérées, virtualisation + multi-coeurs
-            Présentation des différents risques d'interférence multicoeur
-        => Évolutivité (Adaptive AUTOSAR, car as a service)
-    \subsection*{Contraintes et limitations}
-        Difficulté de transition
-        Complexité
-        Coûts
-\section*{Objectif(s), contribution et Problématique}
-    Transition partie I - enjeux des fautes temporelles à cause des tendances
+Ces systèmes à criticité mixte induisent des problèmes d'interférence d'exécution entre les tâches, de par le partage de ressources matérielles qui peuvent provoquer des latences d'exécution, quand plusieurs logiciels doivent exploiter une ressource commune. Cela a pour conséquence première d'ajouter des risques d'augmentation de temps d'exécution. Hors, pour les tâches critiques ces dépassements peuvent aller jusqu'à une compromission des échéances temporelles telles que définies par les spécifications. Ce risque de défaillances temporelles ne peut être pris à la légère et doit par conséquent être traité par des mécanismes de sûreté de fonctionnement défiés.
+
+Il existe d'ores-et-déjà un certain nombre de solutions propres à la garantie des exécutions de tâches temps-réel. Ceci étant dit, un compromis est fait avec l'exploitation des ressources matérielles. De façon générale, plus les garanties de sûreté de fonctionnement logicielle sont fortes et plus les calculateurs multicœurs sont exploités de façon sous-optimale pour obtenir ces garanties. Un second enjeu principal est donc d'avoir une approche conservatrice pour exploiter au maximum la puissance de calcul disponible
+
+C'est dans ce cadre que je présente dans ces travaux de thèse qui se focalisent sur l'étude des tâches critiques dans une vision sous forme de chaînes de tâches fonctionnelles. De fait chaque fonctionnalité exécutée correspond à une chaîne de différents composants logiciels exécutés séquentiellement. Avec cette approche plus fonctionnelle de l'exécution du logiciel, l'espoir est d'obtenir un mécanisme de Surveillance et de Contrôle qui offre des garanties minimales sur une chaîne de tâche critique, par anticipation de risques d'interférences qui pourraient mener à une défaillance. L'anticipation ayant pour moyen de contrôle et mitigation des interférences la mise en pause temporaire des tâches non critiques. L'objectif est d'ainsi obtenir une garantie d'exécution bout-en-bout de la chaîne de tâche sans dépassement d'échéance, avec une limitation des interférences uniquement quand nécessaire, de façon à ce que le reste du temps, toutes les tâches du système puissent exploiter au maximum la puissance de calcul et les ressources disponibles. 
+
+\cmnt{
+	\section*{Systèmes embarqués automobiles}
+	    \subsection*{Évolutions des systèmes embarqués}
+	        Système mécanique => système cyberphysique
+	    \subsection*{Architectures EE}
+	        => Augmentation complexité architecture EE
+	        => augmentation des besoins (puissance de calcul, ADAS, voiture connectée/autonome...)
+	\section*{Tendances et Contraintes actuelles}
+	    \subsection*{Tendances}
+	        => Nouvelles architectures EE fédérées, virtualisation + multi-coeurs
+	            Présentation des différents risques d'interférence multicoeur
+	        => Évolutivité (Adaptive AUTOSAR, car as a service)
+	    \subsection*{Contraintes et limitations}
+	        Difficulté de transition
+	        Complexité
+	        Coûts
+	\section*{Objectif(s), contribution et Problématique}
+	    Transition partie I - enjeux des fautes temporelles à cause des tendances
+}
 
 \ifdefined\included
 \else

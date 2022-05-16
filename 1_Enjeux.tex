@@ -11,7 +11,7 @@
 \faketableofcontents
 \fi
 
-\chapter{Contexte et Enjeux des Systèmes Embarqués} \label{chap:1_EnjeuxIntro}
+\chapter{Enjeux des Systèmes Embarqués Complexes} \label{chap:1_EnjeuxIntro}
 \minitoc
 
 La conception des systèmes embarqués, typiquement automobiles, a subi de fortes évolutions orientées vers de nouvelles fonctionnalités centrées sur le logiciel. 
@@ -58,6 +58,27 @@ C'est ainsi que né la volonté de passer sur des architectures électriques et 
 		\paragraph{Multicœurs "classiques"}
 			Les calculateurs multicœurs "classiques" disposent d'un certain nombre d'unités de calculs ("cœurs"), auxquelles sont adjointes diverses zones mémoires (cache, RAM, ROM). Le tout est piloté par des contrôleurs et bus de transferts de données pour interconnecter les cœurs, les cellules mémoires et les entrées/sorties. Dans les versions les plus récentes, des modules dédiés peuvent être ajoutés pour des fonctionnalités spécifiques comme le chiffrement. 
 			
+			Il existe des variations d'architectures que l'on peut notamment distinguer entre d'une part les multicœurs basés sur le cache (comme celui susmentionné) qui sont prédominants et d'autre part les multicœurs basés sur \emph{scratchpad}, c'est-à-dire des mémoires locales dédiées à chaque cœur. On peut voir la différence fondamentale de structure entre ces deux variations sur la~\autoref{fig:ArchitecturesMulticoeur}.			
+			
+			\begin{figure}[ht]
+				\centering
+				\begin{subfigure}{.45\textwidth} \centering
+					\includegraphics[width=\linewidth]{schemas/Multicore-CacheBased}
+					\caption[Diagramme Multicœur Cache]{Architecture calculateur multicœur basé sur le cache}
+					\label{fig:multicoeurCache}
+				\end{subfigure}
+				\begin{subfigure}{.45\textwidth} \centering
+					\includegraphics[width=\linewidth]{schemas/Multicore-ScratchpadBased}
+					\caption[Diagramme Multicœur Scratchpad]{Architecture calculateur multicœur basé sur Scratchpad}
+					\label{fig:multicœurScratchpad}
+				\end{subfigure}
+				\caption{Exemple multicœur et mémoires}
+				\label{fig:ArchitecturesMulticoeur}
+			\end{figure}
+			
+			Les architectures à Scratchpad mettent à disposition des mémoires à haut débit dédiées à chaque cœur. Toutes les ressources sont le plus possibles séparées entre les unités de calcul. Les modèles d'exécution de tâche sont en général très cadrés avec trois phases d'exécution (Chargement mémoire, exécution et déchargement) pour maîtriser le modèle d'exécution du logiciel. Les architectures Scratchpad sont alors des solutions en elles-mêmes aux problèmes d'exécution parallèle de code sur les calculateurs multicœurs pour éviter les problèmes d'interférences. Ce type de solutions par design limite en revanche les possibilités d'implémentation de logiciel de part cette spécificité de l'architecture matérielle. 
+			
+			A l'inverse, les architectures basées sur la cache se veulent polyvalentes et comptent sur des mécanismes de contrôle logiciel pour optimiser l'utilisationd des ressources.
 			La mémoire est partagée à différents degrés entre les cœurs. De façon à décongestionner les accès mémoire et accélérer ces dernières, une hiérarchie mémoire est mise en place, associant des espaces mémoire progressivement plus petits et rapides en fonction de leur proximité au processeur. Il s'agit ici de trouver un équilibre entre coût de la mémoire et vitesse d'accès aux données. En effet,  cette dernière dispose de trois caractéristiques antagonistes~: 
 					\begin{itemize}
 							\item la \textbf{latence} - temps d'accès aux données, 
@@ -70,45 +91,25 @@ C'est ainsi que né la volonté de passer sur des architectures électriques et 
 			%%%%% A DEPLACER DANS STRATEGIES EXISTANTES %%%%
 			La gestion du contenu de ces caches (en lecture et écriture) est géré par une politique d'accès mémoire. Cette politique est essentielle à un usage efficace des caches du fait de leur espace limité qui demande à faire des choix sur son usage. Cela est peu documenté par les constructeurs,  et chacun aura sa façon de faire.
 			La méthode de base la plus répandue étant empirique, par principe de localité temporelle~\cite{durrieu2014predictable} et spatiale~\cite{wilkes1965slave}. On considère que plus une donnée a été récemment accédée, plus elle a de chance d'être à nouveau utilisée. De même si une donnée est sollicitée, alors les données proches spatialement ont aussi plus de chance d'être utilisées. 
-			Nous n'iront pas plus dans les détails sur les politiques de gestion d'accès à la mémoire. Il faut garder à l'esprit qu'elle est plutôt subie par les industriels qui intègrent le matériel dans leurs systèmes. Pour un processeur donné on aura certaines performances de calcul et accès mémoire, et il faudra mettre en comparaison les performances "par défaut" d'un logiciel sur une architecture donnée face au même système, \comment{pas clair ?}{mais avec des surcouches de gestion du logiciel apportées par l'intégrateur}.
+			Nous n'iront pas plus dans les détails sur les politiques de gestion d'accès à la mémoire. Il faut garder à l'esprit qu'elle est plutôt subie par les industriels qui intègrent le matériel dans leurs systèmes. Pour un processeur donné on aura certaines performances de calcul et accès mémoire, et il faudra mettre en comparaison les performances "par défaut" d'un logiciel sur une architecture matérielle donnée face au même logiciel avec l'ajout de la surcouche de contrôle d'exécution apportées par l'intégrateur pour limiter les interférences.
 
 			
 			
-\begin{figure}[ht]
-	\centering
-	\begin{subfigure}{.45\textwidth} \centering
-		\includegraphics[width=0.9\linewidth]{schemas/multicoeurIntel}
-		\caption{Exemple d'architecture multicœur}
-		\label{fig:multicoeurintel}
-	\end{subfigure}			
-	\begin{subfigure}{.45\textwidth} \centering
-		\includegraphics[width=0.85\linewidth]{schemas/hierarchieMemoire}
-		\caption[Hiérarchie mémoire]{Schématisation de la hiérarchie mémoire selon leur coût et performance}
-		\label{fig:hierarchiememoire}
-	\end{subfigure}
-	\caption{Exemple multicœur et mémoires}
-	\label{fig:multicoeurs}
-\end{figure}
-
-			Il existe des variations d'architectures différentes selon les fondeurs, que l'on peut classifier en deux catégories principales. D'une part les multicœurs basés sur le cache (comme celui susmentionné) et d'autre part les multicœurs basés sur \emph{scratchpad}, c'est-à-dire des mémoires locales dédiées à chaque cœur. On peut voir la différence fondamentale de structure entre ces deux variations sur la~\autoref{fig:ArchitecturesMulticoeur}. 
-			\comment{\textbf{TBA}}{Voir où et comment parler des multicœurs scratchpad ! Potentiellement dans "Solutions existantes".} 
-
-
-\begin{figure}[ht]
-	\centering
-	\begin{subfigure}{.45\textwidth} \centering
-		\includegraphics[width=\linewidth]{schemas/Multicore-CacheBased}
-		\caption[Diagramme Multicœur Cache]{Architecture calculateur multicœur basé sur le cache}
-		\label{fig:multicoeurCache}
-	\end{subfigure}
-	\begin{subfigure}{.45\textwidth} \centering
-		\includegraphics[width=\linewidth]{schemas/Multicore-ScratchpadBased}
-		\caption[Diagramme Multicœur Scratchpad]{Architecture calculateur multicœur basé sur Scratchpad}
-		\label{fig:multicœurScratchpad}
-	\end{subfigure}
-	\caption{Exemple multicœur et mémoires}
-	\label{fig:ArchitecturesMulticoeur}
-\end{figure}
+			\begin{figure}[ht]
+				\centering
+				\begin{subfigure}{.45\textwidth} \centering
+					\includegraphics[width=0.9\linewidth]{schemas/multicoeurIntel}
+					\caption{Exemple d'architecture multicœur}
+					\label{fig:multicoeurintel}
+				\end{subfigure}			
+				\begin{subfigure}{.45\textwidth} \centering
+					\includegraphics[width=0.85\linewidth]{schemas/hierarchieMemoire}
+					\caption[Hiérarchie mémoire]{Schématisation de la hiérarchie mémoire selon leur coût et performance}
+					\label{fig:hierarchiememoire}
+				\end{subfigure}
+				\caption{Exemple multicœur et mémoires}
+				\label{fig:multicoeurs}
+			\end{figure}
 
 		\paragraph{Calculateurs manycœurs}	Les calculateurs manycœurs sont des microprocesseurs incluant un grand nombre de cœurs dans l'objectif primaire d'une plus grande capacité d'exécution de code parallèle. Pour ce faire, les cœurs peuvent être spécialisés avec la réduction des instructions réalisables et optimisations à des tâches spécifiques. C'est la différence principale avec les multicœurs qui possèdent en en général des cœurs identiques (processeur homogène) avec de bonnes performances à la fois en série et en parallèle. 
 		Les architectures manycœurs grâce à leurs spécificités demandent  des méthodes de programmation appropriées pour pouvoir être pleinement exploités dans le cadre d'une application. Cela augmente donc le niveau de complexité de développement, mais au bénéfice d'une forte amélioration des performances.
@@ -183,17 +184,17 @@ C'est ainsi que né la volonté de passer sur des architectures électriques et 
 			\centering
 			\begin{subfigure}{.3\textwidth} \centering
 				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelDUR}
-				\caption[]{Temps-réel dur}
+				\caption[]{Temps-réel Strict}
 				\label{fig:tempReelDur}
 			\end{subfigure}
 			\begin{subfigure}{.3\textwidth} \centering
 				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelFERME}
-				\caption[]{Temps-réel ferme}
+				\caption[]{Temps-réel Ferme}
 				\label{fig:tempReelFerme}
 			\end{subfigure}
 			\begin{subfigure}{.3\textwidth} \centering
 				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelMOU}
-				\caption[]{Temps-réel mou}
+				\caption[]{Temps-réel Souple}
 				\label{fig:tempReelMou}
 			\end{subfigure}
 			\caption{Modèles d'utilité des résultats d'une tâche temps-réel}
@@ -269,7 +270,6 @@ C'est ainsi que né la volonté de passer sur des architectures électriques et 
 		
 		\newcommand{\red}{\ccolor{red}} \newcommand{\oran}{\ccolor{orange}} 
 		\newcommand{\yel}{\ccolor{yellow}} \newcommand{\gr}{\ccolor{Green}}
-		\newcommand{\mc}{\multicolumn} \newcommand{\mr}{\multirow{-4}{*}}
 		\begin{table}[ht]
 			\centering
 			\caption{Matrice de Définition des Niveaux d’ASIL - ISO 26262}
@@ -285,7 +285,7 @@ C'est ainsi que né la volonté de passer sur des architectures électriques et 
 				 			&  \gr{ E1 }  &    QM   &     QM     &    QM      &            &    QM    &     QM     &     QM      &			  &    QM     &     QM     &   \gr{ A }  \\
 				 			& \yel{ E2 }  &    QM   &     QM     &    QM      &            &    QM    &     QM     &  \gr{ A }   & 			  &    QM     &  \gr{ A }  &  \yel{ B }  \\
 				 			& \oran{ E3 } &    QM   &     QM     & \gr{ A }   &            &    QM    &  \gr{ A }  &  \yel{ B }  &			  & \gr{ A }  & \yel{ B }  & \oran{ C }  \\
-		   \mr{Probabilité} & \red{ E4 }  &    QM   &  \gr{ A }  & \oran{ B } &            & \gr{ A } & \oran{ B } & \oran{ C }  & 			  & \yel{ B } & \oran{ C } &  \red{ D }  \\
+		   \mrQ{Probabilité} & \red{ E4 }  &    QM   &  \gr{ A }  & \oran{ B } &            & \gr{ A } & \oran{ B } & \oran{ C }  & 			  & \yel{ B } & \oran{ C } &  \red{ D }  \\
 				\bottomrule
 			\end{tabular}
 		\end{table}
@@ -308,7 +308,29 @@ C'est ainsi que né la volonté de passer sur des architectures électriques et 
 	
 	On pourra pour finir, mentionner des enjeux plus divers tel que les contraintes d'encombrement. Les systèmes embarqués ont une forte tendance à la miniaturisation pour des raisons diverses selon les domaines. Cela permet une réduction de poids, essentiel pour tous les systèmes volants (avions, drones...) mais aussi d'encombrement pour des domaines comme l'automobile ou le ferroviaire qui doivent en toute circonstance rester dans des dimensions standards. Cette contrainte se fait beaucoup sentir avec l'arrivée des voitures autonomes par exemple, où les premiers prototypes --~bien que fonctionnels~-- se sont avérés trop chargés et encombrants avec le surplus d'équipement pour être transposables facilement en produits commercialisables tel-quel.
 	
-	Au regard de ces enjeux, l'évolution future naturelle est de réduire le nombre de calculateurs embarqués, en passant d'un grand nombre d'unités de calcul à une quantité limitée de "supercalculateurs", qui vont agréger différentes tâches. On passe de cette façon d'un système distribué à un système fédéré basé sur des calculateurs primaires accompagnés de processeurs satellites qui gèrent le strict nécessaire à hauteur des différents capteurs/actionneurs.  Cela permet de réduire les coûts et l'encombrement, qui va diminuer par la même occasion la quantité de câblages requis. Ce type d'architecture va faciliter l'évolutivité qui sera donc bien plus axée sur des mises à jour logicielles sans toucher au matériel. La connectivité permet de mettre en œuvre le concept du véhicule \textit{"as-a-service"}, qui va pouvoir évoluer et se mettre à jour régulièrement à distance (\textit{Over-the-Air Updates}). 
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}{\textwidth} \centering
+			\includegraphics[width=\linewidth]{ArchitectureLegende}
+			%\caption[something]{something}
+			%\label{fig:something}
+		\end{subfigure}
+		\newline
+		\begin{subfigure}{0.5\textwidth} \centering
+			\includegraphics[width=\linewidth]{ArchitectureDistribuee}
+			\caption{Architecture Distribuée}
+			\label{fig:ArchiDistrib}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth} \centering
+			\includegraphics[width=\linewidth]{ArchitectureFederee}
+			\caption{Architecture Fédérée}
+			\label{fig:ArchiFederee}
+		\end{subfigure}
+		\caption{Architectures Electrique/Electronique (AUTOSAR)}
+		\label{fig:ArchitecturesEE}
+	\end{figure}
+	
+	Au regard de ces enjeux, l'évolution future naturelle est de réduire le nombre de calculateurs embarqués, en passant d'un grand nombre d'unités de calcul à une quantité limitée de "supercalculateurs", qui vont agréger différentes tâches. On passe de cette façon d'un système distribué à un système fédéré basé sur des calculateurs primaires accompagnés de processeurs satellites qui gèrent le strict nécessaire à hauteur des différents capteurs/actionneurs. Cette différence d'architecture est illustrée en~\autoref{fig:ArchitecturesEE} Cela permet de réduire les coûts et l'encombrement, qui va diminuer par la même occasion la quantité de câblages requis. Ce type d'architecture va faciliter l'évolutivité qui sera donc bien plus axée sur des mises à jour logicielles sans toucher au matériel. La connectivité permet de mettre en œuvre le concept du véhicule \textit{"as-a-service"}, qui va pouvoir évoluer et se mettre à jour régulièrement à distance (\textit{Over-the-Air Updates}). 
 	
 	
 \section{Grandes approches du domaine}
