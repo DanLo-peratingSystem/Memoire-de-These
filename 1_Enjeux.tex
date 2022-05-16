@@ -129,8 +129,8 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 	Dans le cadre du contexte automobile, on se dirige \cmnt{de cette façon} vers un nouveau paradigme, où la voiture n'est plus un système mécanique sur lequel on adjoint du logiciel, mais à l'inverse un superordinateur multifonctionnel auquel on implante des roues et un moteur. 
 	Les systèmes automobiles sont ainsi devenus des systèmes cyberphysiques qui entrent en interaction à la fois avec les utilisateurs et l'environnement. On distingue deux grands domaines de logiciels embarqués dans le véhicule. Tout d'abord l'info-divertissement, qui réunit les systèmes multimédias et autres affichages non nécessaires à l'usage primaire du véhicule. Et deuxièmement les calculateurs enfouis qui réalisent des fonctions essentielles qui ne sont pas nécessairement visibles de l'utilisateur, telles que le contrôle moteur. Pour soutenir ces besoins émergents, il est nécessaire de se baser sur des architectures matérielles plus puissantes comme les multicœurs. Cependant, cette disruption apporte de nouveaux enjeux, notamment de sécurité, vie privée, mais aussi sur la prédictibilité et la sûreté de fonctionnement du système à cause de sa complexification. Cela fait donc évoluer les systèmes embarqués dans un environnement profondément à risques, mais qui en plus s'accompagne de contraintes fortes. Nous nous devons donc d'introduire ici les notions de Sûreté de fonctionnement nécessaire à l'analyse.
 
-	\subsection{Sûreté de Fonctionnement Informatique}~\label{sec:SureteDeFonctionnement}
 
+	\subsection{Sûreté de Fonctionnement Informatique}~\label{sec:SureteDeFonctionnement}
 		La sûreté de fonctionnement (SdF) d’un système informatique est "\textit{la propriété qui permet à ses utilisateurs de placer une confiance justifiée dans le service qu’il leur délivre, le service étant le comportement du système perçu par un utilisateur, cet utilisateur étant un système (informatique, humain, environnemental) qui interagit avec le premier.}"~\cite{arlat1995guide}. C’est donc la capacité d’un système informatique de répondre de manière correcte, conformément aux spécifications fonctionnelles, à une requête d’un autre système.  
 		La sûreté de fonctionnement est définie en fonction de trois notions principales~: \linebullets{les \textit{attributs} qui définissent les propriétés assurées, les \textit{entraves} qui caractérisent les circonstances indésirables mais prévues, et les \textit{moyens} qui précisent les techniques permettant au système de fournir son service.} 
 		Selon les services souhaités par l’utilisateur, ce dernier peut vouloir accentuer certaines propriétés pour assurer le bon fonctionnement du système. Ainsi la sûreté de fonctionnement englobe les attributs suivants~:  
@@ -142,15 +142,16 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 			\item 	La \textbf{maintenabilité} - l’aptitude à la réparation et à l’évolution du système. 
 		\end{itemize} 
 		Ces attributs permettent d’une part d’exprimer les propriétés devant être respectées par le système, et d’autre part d’évaluer la qualité du service délivré vis-à-vis de ces propriétés. Les aspects de sécurité, au sens de la confidentialité et des attaques face à des actions malveillantes indésirables ainsi que la confidentialité, c'est-à-dire, la non-divulgation d'information non autorisée, ne seront pas abordés dans cette thèse.
-		
-		Les entraves à la sûreté de fonctionnement sont les défaillances, les erreurs et les fautes. Une défaillance est une transition d’un service correct vers un service incorrect. Un service est considéré incorrect s’il n’est pas conforme à la spécification ou si la spécification ne décrit pas avec précision la fonction du système. Étant donné qu’un service consiste en une séquence d’états externes du système (observés par l’utilisateur), la survenue d’une défaillance signifie qu’au moins un des états externes s’écarte de l’état correct du service. La déviation est liée à une erreur, qui représente la partie de l’état interne du système pouvant entraîner une défaillance, dans le cas où elle atteint l’interface du service du système. La cause déterminée ou présumée d’une erreur est appelée une faute. La~\autoref{fig:suretedefonctionnemententraves} représente ce lien de cause à effet. Le fait de prévenir la causalité entre fautes est défaillances pour le bon fonctionnement se désigne par la méthode de silence sur défaillance. C'est-à-dire qu'une faute ou une erreur n'aura pas plus de conséquences et ne provoquera pas outre de défaillance, ou inversement.
-		
+
 		\begin{figure}[ht]
 			\centering
-			\includegraphics[width=0.7\linewidth]{schemas/SureteDeFonctionnement_entraves}
+			\includegraphics[width=0.7\linewidth]{schemas/SureteDeFonctionnement_Entraves}
 			\caption{Sûreté de fonctionnement - chaîne de causalité}
 			\label{fig:suretedefonctionnemententraves}
 		\end{figure}
+		
+		Les entraves à la sûreté de fonctionnement sont les défaillances, les erreurs et les fautes. Une défaillance est une transition d’un service correct vers un service incorrect. Un service est considéré incorrect s’il n’est pas conforme à la spécification ou si la spécification ne décrit pas avec précision la fonction du système. Étant donné qu’un service consiste en une séquence d’états externes du système (observés par l’utilisateur), la survenue d’une défaillance signifie qu’au moins un des états externes s’écarte de l’état correct du service. La déviation est liée à une erreur, qui représente la partie de l’état interne du système pouvant entraîner une défaillance, dans le cas où elle atteint l’interface du service du système. La cause déterminée ou présumée d’une erreur est appelée une faute. La~\autoref{fig:suretedefonctionnemententraves} représente ce lien de cause à effet. Le fait de prévenir la causalité entre fautes est défaillances pour le bon fonctionnement se désigne par la méthode de silence sur défaillance. C'est-à-dire qu'une faute ou une erreur n'aura pas plus de conséquences et ne provoquera pas outre de défaillance, ou inversement.
+	
 		
 		Pour minimiser l’impact de ces entraves, la sûreté de fonctionnement dispose de méthodes et techniques qui permettent de conforter les utilisateurs quant au bon accomplissement des fonctions du système. Le développement d’un système sûr de fonctionnement passe donc par l’utilisation combinée de ces méthodes, appelés moyens, pouvant être classées en quatre types~:
 		\begin{itemize}
@@ -269,6 +270,8 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 		Bien entendu, l'interprétation de ces trois critères doit se faire au regard du système étudié, et non de façon absolue et déterministe. 
 		Ces critères donnent lieu à une table de classification qui définit alors le niveau d'ASIL des composants tel que décrit dans le~\autoref{tab:ASILTable}. On remarquera le niveau "QM" pour \textit{Quality Management}, qui correspond aux composants qui n'impliquent pas de criticité particulière et peuvent alors être développés "au mieux" sans contrainte spécifique. Il est bien entendu moins critique qu'un ASIL A. Avec cette table on connaît alors le niveau de confiance que l'on va imposer à chaque composant pour qu'il puisse être utilisé de façon sûre de fonctionnement. Plus un composant sera critique, plus son niveau d'ASIL sera élevé en conséquence, et donc plus il faudra apporter d'efforts pour qu'il respecte les standards.
 		
+		On peut mentionner de la même manière d'autres standards équivalents dans l'avionique, DO-176 où les niveaux de criticité sont désigné en DAL ("\textit{Design Assurance Level}"), ou encore le ferroviaire avec CENELEC 5012x, mais aussi dans le nucléaire, le spatial, l'automatique, le médical... La plupart dérivés de IEC-61508.  Un certain nombre de ces standards ont été comparés dans les travaux de~\cite{baufreton_multi-domain_2010}. On y retrouve un point commun qui nous intéresse tout particulièrement ici qui est sur les contraintes temporelles.
+
 		\newcommand{\red}{\ccolor{red}} \newcommand{\oran}{\ccolor{orange}} 
 		\newcommand{\yel}{\ccolor{yellow}} \newcommand{\gr}{\ccolor{Green}}
 		\begin{table}[ht]
@@ -277,22 +280,20 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 			\label{tab:ASILTable}
 			\begin{tabular}{@{}ccccccccccccc@{}}
 				\toprule
-				 &           & \mc{11}{c}{Contrôlabilité}  \\
+				&           & \mc{11}{c}{Contrôlabilité}  \\
 				\cmidrule{3-13}
-							&           & \mc{3}{c}{\cellcolor{Green}{C1}} & \phantom{} & \mc{3}{c}{\cellcolor{yellow}{C2}} & \phantom{} & \mc{3}{c}{\cellcolor{orange}{C3}}  \\
-					\cmidrule{2-2}	\cmidrule{3-5}		\cmidrule{7-9}		\cmidrule{11-13}
-					\mc{2}{r}{Sévérité}  & \gr{ S1 } & \yel{ S2 } & \oran{ S3 } &          & \gr{ S1 } & \yel{ S2 } & \oran{ S3 } &			  & \gr{ S1 } & \yel{ S2 } & \oran{ S3 } \\
+				&           & \mc{3}{c}{\cellcolor{Green}{C1}} & \phantom{} & \mc{3}{c}{\cellcolor{yellow}{C2}} & \phantom{} & \mc{3}{c}{\cellcolor{orange}{C3}}  \\
+				\cmidrule{2-2}	\cmidrule{3-5}		\cmidrule{7-9}		\cmidrule{11-13}
+				\mc{2}{r}{Sévérité}  & \gr{ S1 } & \yel{ S2 } & \oran{ S3 } &          & \gr{ S1 } & \yel{ S2 } & \oran{ S3 } &			  & \gr{ S1 } & \yel{ S2 } & \oran{ S3 } \\
 				\midrule
-				 			&  \gr{ E1 }  &    QM   &    QM     &    QM      &            &    QM    &     QM     &     QM      &			&    QM     &     QM     &   \gr{ A }	\\
-				 			& \yel{ E2 }  &    QM   &    QM     &    QM      &            &    QM    &     QM		&  \gr{ A }   & 		&    QM     &  \gr{ A }  &  \yel{ B }	\\
-				 			& \oran{ E3 } &    QM   &    QM     &  \gr{ A }  &            &    QM    &  \gr{ A }	&  \yel{ B }  &			& \gr{ A }  & \yel{ B }  & \oran{ C }	\\
-		  \mrQ{Probabilité} & \red{ E4 }  &    QM   & \gr{ A }  & \oran{ B } &            & \gr{ A } & \oran{ B }	
-		  					& \oran{ C }  & 		& \yel{ B } & \oran{ C } &  \red{ D }	\\
+				&  \gr{ E1 }  &    QM   &    QM     &    QM      &            &    QM    &     QM     &     QM      &			&    QM     &     QM     &   \gr{ A }	\\
+				& \yel{ E2 }  &    QM   &    QM     &    QM      &            &    QM    &     QM		&  \gr{ A }   & 		&    QM     &  \gr{ A }  &  \yel{ B }	\\
+				& \oran{ E3 } &    QM   &    QM     &  \gr{ A }  &            &    QM    &  \gr{ A }	&  \yel{ B }  &			& \gr{ A }  & \yel{ B }  & \oran{ C }	\\
+				\mrQ{Probabilité} & \red{ E4 }  &    QM   & \gr{ A }  & \oran{ B } &            & \gr{ A } & \oran{ B }	
+				& \oran{ C }  & 		& \yel{ B } & \oran{ C } &  \red{ D }	\\
 				\bottomrule
 			\end{tabular}
 		\end{table}
-
-		On peut mentionner de la même manière d'autres standards équivalents dans l'avionique, DO-176 où les niveaux de criticité sont désigné en DAL ("\textit{Design Assurance Level}"), ou encore le ferroviaire avec CENELEC 5012x, mais aussi dans le nucléaire, le spatial, l'automatique, le médical... La plupart dérivés de IEC-61508.  Un certain nombre de ces standards ont été comparés dans les travaux de~\cite{baufreton_multi-domain_2010}. On y retrouve un point commun qui nous intéresse tout particulièrement ici qui est sur les contraintes temporelles.
 		
 		Que ce soit IEC-61508 ou plus spécifiquement ISO 26262, il est clairement stipulé que 
 		"\textit{les contraintes temporelles des fonctions à durée critique doivent être gérées par les spécifications de sûreté de fonctionnement logicielle. Ici, à la fois les pires temps d'exécution au niveau du code et les temps de réponse au niveau système doivent être considérés.}". Et précisément, "\textit{l'absence de tout interférence se doit d'être assuré et, tout comme dans IEC-61508, le logiciel est sujet au plus haut niveau d'ASIL impliqué quand l'indépendance temporelle entre les fonctionnalités ne peut être assurée.}"~\cite{iso_26262-7_road_2018}. C'est au regard de ce type de contrainte industrielle qu'il est essentiel de proposer de nouvelles solutions avec l'arrivée de calculateurs multicœurs qui complexifient grandement les garanties de non-interférence.
