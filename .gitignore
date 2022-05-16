@@ -43,6 +43,7 @@
 ## Build tool directories for auxiliary files
 # latexrun
 latex.out/
+tex/
 
 ## Auxiliary and intermediate files from other packages:
 # algorithms
@@ -289,3 +290,5 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
 gitcommit.sh
+Preliminary_Versions_PDF/
+tmp/
