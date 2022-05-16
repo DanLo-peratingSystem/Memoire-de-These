@@ -3,17 +3,34 @@
 \documentclass[a4paper,11pt,twoside]{StyleThese}
 \include{formatAndDefs}
 \sloppy
+
+
+
 \begin{document}
+\setcounter{chapter}{6} %% Numéro du chapitre précédent ;)
+\dominitoc
 \fi
 
-
-\chapter*{Conclusion et Perspectives}
+\chapter*{Conclusion et Perspectives} \label{chap:Conclusion}
+\chaptermark{Conclusion et Perspectives}
 \addstarredchapter{Conclusion} %Sinon cela n'apparait pas dans la table des matières
 
-\section{Conclusion}
-\section{Perspectives et améliorations possibles}
-    \subsection{Mode dégradé multi-niveau}
-    \subsection{mode dégradé par mécanismes de contrôle hardware}
+
+\section*{Perspectives}
+\markboth{Conclusion et Perspectives}{Perspectives}
+\addcontentsline{toc}{section}{Perspectives}
+\lipsum[1-20]
+%%\subsection{Mode dégradé multi-niveau}
+%%\subsection{mode dégradé par mécanismes de contrôle hardware}
+
+\section*{Conclusion}
+\markboth{Conclusion et Perspectives}{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+\lipsum[1-20]
+
+
+
+
 
 \ifdefined\included
 \else
