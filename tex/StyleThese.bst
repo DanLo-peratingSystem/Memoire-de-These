@@ -26,7 +26,8 @@ ENTRY
     chapter
     edition
     editor
-    howpublished
+    url
+    doi
     institution
     journal
     key
@@ -264,6 +265,28 @@ FUNCTION {format.title}
   if$
 }
  
+FUNCTION {is.use.url} { #1 }
+
+FUNCTION {format.url}
+{ is.use.url
+    { url empty$
+        { doi empty$
+            { "" 
+            }
+            { new.block "\href{http://dx.doi.org/" doi * "}{[Online]. Available: http://dx.doi.org/" * doi * "}" *  
+            }
+          if$
+        }
+        { new.block " [ONLINE] \par \url{" url * "}" *
+        %name.url.prefix " [ONLINE] - " *
+         %   "\url{" * url * "}" * 
+        }
+    if$
+    }
+    { "" }
+  if$
+}
+ 
 FUNCTION {n.dashify}
 { 't :=
   ""
@@ -449,7 +472,7 @@ FUNCTION {format.in.ed.booktitle}
 }
  
 FUNCTION {empty.misc.check}
-{ author empty$ title empty$ howpublished empty$
+{ author empty$ title empty$ url empty$
   month empty$ year empty$ note empty$
   and and and and and
   key empty$ not and
@@ -577,6 +600,7 @@ FUNCTION {article}
       format.pages output
     }
   if$
+  format.url output
   new.block
   note output
   fin.entry
@@ -619,8 +643,8 @@ FUNCTION {booklet}
   format.authors output
   new.block
   format.title "title" output.check
-  howpublished address new.block.checkb
-  howpublished output
+  url address new.block.checkb
+  url output
   address output
   format.date output
   new.block
@@ -776,11 +800,12 @@ FUNCTION {mastersthesis}
 FUNCTION {misc}
 { output.bibitem
   format.authors output
-  title howpublished new.block.checkb
+  title url new.block.checkb
   format.utitle output
-  howpublished new.block.checka
-  howpublished output
+  url new.block.checka
+  %url output
   format.date output
+  format.url output
   new.block
   note output
   fin.entry

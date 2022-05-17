@@ -27,6 +27,8 @@ ENTRY
     edition
     editor
     howpublished
+    url
+    doi
     institution
     journal
     key
@@ -261,6 +263,28 @@ FUNCTION {format.title}
 { title empty$
     { "" }
     { title "t" change.case$ }
+  if$
+}
+ 
+FUNCTION {is.use.url} { #1 }
+
+FUNCTION {format.url}
+{ is.use.url
+    { url empty$
+        { doi empty$
+            { "" 
+            }
+            { new.block "\href{http://dx.doi.org/" doi * "}{[Online]. Available: http://dx.doi.org/" * doi * "}" *  
+            }
+          if$
+        }
+        { new.block " [ONLINE] \par \url{" url * "}" *
+        %name.url.prefix " [ONLINE] - " *
+         %   "\url{" * url * "}" * 
+        }
+    if$
+    }
+    { "" }
   if$
 }
  
@@ -576,6 +600,7 @@ FUNCTION {article}
     { format.article.crossref output.nonnull
       format.pages output
     }
+  format.url output
   if$
   new.block
   note output
@@ -778,10 +803,11 @@ FUNCTION {misc}
   format.authors output
   title howpublished new.block.checkb
   format.utitle output
-  howpublished new.block.checka
-  howpublished output
+  %howpublished new.block.checka
+  %howpublished output
   format.date output
-  new.block
+  %new.block
+  format.url output
   note output
   fin.entry
   empty.misc.check
