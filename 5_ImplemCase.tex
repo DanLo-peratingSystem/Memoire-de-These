@@ -1,3 +1,4 @@
+% !TeX root = These.tex
 \ifdefined\included
 \else
 \documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
@@ -46,153 +47,183 @@ Nous avons jusqu'alors présenté notre contribution pour garantir le respect d'
         \paragraph{Système d'exploitation Linux}
         Pour mettre en application nos bancs d'essais sur cette plateforme matérielle, nous avons cherché à reprendre un système d'exploitation qui permette le plus de versatilité possible via l'utilisation d'un système Linux. L'intérêt est double. 
         
-        D'une part cela offre l'opportunité de tester une grande variété de logiciels et donc de pouvoir réadapter la solution à d'autres cas et contextes d'application. Cette richesse de logiciel se traduit aussi par l'existence de librairies déjà mises à disposition et éprouvées pour nos différents besoins. On pourra mentionner la capacité de gestion de l'ordonnancement (\cite{ishkov_complete_2015}) et de l'exécution des tâches, l'automatisation des tests par scripts, des outils de stress du matériel ou encore de benchmarking (\cite{king_stress-ng_2019}) et monitoring du logiciel comme avec~\cite{girbal_metrics_2018}. Par ailleurs, plusieurs travaux ont déjà été effectués sur l'étude de Linux dans le cadre d'usage pour des systèmes temps-réel, tel que~\cite{gerum_xenomai_2004}, \cite{litayem_building_2011}, \cite{allende_towards_2019}. Ainsi, ce type de système d'exploitation est déjà largement utilisé pour des cas d'application comme en robotique~\cite{bouchier_embedded_2013} ou sur des plateforme de prototypage automobile~\cite{sivakumar_automotive_2020}, \cite{gobillot_esprit_2018}.
+        D'une part cela offre l'opportunité de tester une grande variété de logiciels et donc de pouvoir réadapter la solution à d'autres cas et contextes d'application. Cette richesse de logiciel se traduit aussi par l'existence de librairies déjà mises à disposition et éprouvées pour nos différents besoins. On pourra mentionner la capacité de gestion de l'ordonnancement et de l'exécution des tâches, l'automatisation des tests par scripts, des outils de stress du matériel ou encore de benchmarking (\cite{king_stress-ng_2019}) et monitoring du logiciel comme avec~\cite{girbal_metrics_2018}. Par ailleurs, plusieurs travaux ont déjà été effectués sur l'étude de Linux dans le cadre d'usage pour des systèmes temps-réel, tel que~\cite{litayem_building_2011}, \cite{allende_towards_2019} ou encore \cite{serra_architecture_2020}. Ainsi, ce type de système d'exploitation est déjà largement utilisé pour des cas d'application comme en robotique~\cite{bouchier_embedded_2013} ou sur des plateformes de prototypage automobile~\cite{sivakumar_automotive_2020}, \cite{gobillot_esprit_2018}.
         
-        D'autre part, l'utilisation d'une plateforme matérielle et logicielle Linux apporte un niveau de complexité supplémentaire vis-à-vis d'une plateforme industrielle usuelle, notamment au regard de la complexité du kernel impliqué. Cela se traduit particulièrement sur la politique d'ordonnancement et de gestion des tâches dans Linux comme cela a pu être couvert dans~\cite{lozi_linux_2016}. Cela présente un intérêt particulier, car si l'on arrive à obtenir des résultats probants sur l'efficacité d'un tel mécanisme de surveillance et de contrôle dans un environnement où l'on ne maîtrise pas totalement les couches bas niveau du support logiciel alors on sera en droit d'être relativement optimistes pour un usage dans des cas qui impliquent une plateforme logicielle plus focalisée sur un cas industriel. La différence principale étant d'embarquer uniquement le logiciel dans un cas réel contrairement à un choix de test comme une distribution Linux grand public qui implique déjà un certain nombre de tâches et de drivers qui s'exécutent en fond. 
+        D'autre part, l'utilisation d'une plateforme matérielle et logicielle Linux apporte un niveau de complexité supplémentaire vis-à-vis de plateformes industrielles COTS qui emploient un micro-kernel. Cela se traduit particulièrement sur la politique d'ordonnancement et de gestion des tâches dans Linux comme cela a pu être couvert dans~\cite{lozi_linux_2016}. Cela présente un intérêt particulier. En effet, en obtenant des résultats probants sur l'efficacité d'un mécanisme de surveillance et de contrôle dans un environnement où l'on ne maîtrise pas totalement les couches bas niveau du logiciel alors on sera en droit d'être optimistes pour des cas d'utilisation sur des supports logiciels plus maîtrisés. La différence principale étant de soumettre un test sur une distribution Linux grand public qui implique déjà un certain nombre de tâches et de drivers qui s'exécutent en fond, qui n'ont pas été pensés pour du temps réel, plutôt que d'embarquer uniquement le logiciel dédié et contrôlé d'un cas réel.
         
-        Nous nous baserons plus spécifiquement sur une distribution Linux Mint XFCE, version 20.04, avec un kernel en version 4.15.8.
+        Nous nous baserons plus spécifiquement sur une distribution Linux Mint XFCE, version 20.04, avec un noyau en version 4.15.8.
         
-        \paragraph{Co-kernel Xenomai}
+        \paragraph{Co-noyau Xenomai}
         De façon à utiliser Linux dans le cadre d'applications temps-réel, nous y adjoignons Xenomai~\cite{gerum_xenomai_2004} en version 3.1. Il s'agit d'un co-noyau qui se patche au noyau de base Linux de façon à lui apporter des fonctionnalités propres au développement d'applications temps-réel. Cela apporte notamment de meilleures performances en termes de latence comparé aux appels système Linux natif. Cela est dû au fait qu'initialement, le noyau Linux présente une grande part de code qui est non-préemptif. En conséquence, l'exécution de code non critique peut retarder la gestion d'interruptions destinées à exécuter du code temps-réel. Les différentes solutions de modification du noyau comme Xenomai, ou encore le patch \texttt{preempt-rt} dans une moindre mesure, répondent directement à cette problématique pour diminuer au mieux la latence constatée. Les écarts de latences observées sur la gestion des interruptions de l'ordre de millisecondes sont réduites à des microsecondes avec Xenomai. Les différentes solutions qui modifient Linux pour tenter d'y apporter un meilleur cadre d'utilisation de logiciel temps-réel ont pu être comparés dans~\cite{brown_how_2010}. 
         
         Le choix que nous avons fait a été déterminé aussi du fait qu'il fournit un framework complet pour exécuter des tâches temps-réel avec une gestion de tous les outils relatifs au domaine : \begin{itemize}
         	\item sémaphores et mutex,
-        	\item protocoles d'envoi/réception de données entre tâches,
+        	\item d'envoi/réception de messages: pile, buffer, queues,
         	\item ordonnancement et allocation de tâches avec périodicité,
         	\item gestion d'alarmes et interruptions,
-        	\item gestion d'entrée/sortie en évitant des latences propres à Linux.
-        	\end{itemize}
+        	\item gestion d'entrée/sortie en évitant des latences propres à Linux.\end{itemize}
     	De plus, ce framework est disponible suivant différentes interfaces de développement. Cela facilite la portabilité d'une application entre différents frameworks temps-réels et le framework Xenomai natif. Ainsi, il est possible d'exécuter sur un support Xenomai du logiciel utilisant les interfaces de POSIX, PSOS, RTAI (qui est le prédécesseur de Xenomai), \textmu-ltron, VRTX, VxWorks et rtdm avec peu de modification du logiciel. Par ailleurs, notre choix de cette combinaison d'une carte mère basée sur un processeur Intel avec Xenomai est confortée par le fait qu'Intel ait déjà étudié la question de l'usage de Xenomai sur ses calculateurs multicœur~\cite{intel_corporation_hard_2009}. Ce framework sera utilisé pour l'implémentation du mécanisme de surveillance et contrôle.
     	
-    	De façon générale, ce qui permet à Xenomai d'offrir toutes ces fonctionnalités avec des latences réduites en cohabitation avec le noyau Linux réside dans l'ajout d'une couche \texttt{Adeos}~\cite{gerum2005life} qui est un pipeline des  interruptions. Il permet la préemption de toutes les interruptions système pour les distribuer en priorité vers le domaine Xenomai avant tout envoi de ces dernières vers le domaine Linux. Cela inclut à la fois les interruptions matérielles et logicielles, ainsi que tous les envois de signaux système (changement d'état d'une tâche pour la mettre en pause/démarrer/arrêter, mutex etc.). Cela priorise \textit{de facto} l'exécution de code du domaine Xenomai et réduit au maximum les latences dues au noyau Linux. La différence entre un noyau Linux simple et avec un patch Xenomai est représenté en ~\autoref{fig:architecturekernel}. On constate que le co-noyau propose un équivalent symétrique aux composants natifs du noyau Linux, il s'agit 
+    	De façon générale, ce qui permet à Xenomai d'offrir toutes ces fonctionnalités avec des latences réduites en cohabitation avec le noyau Linux réside dans l'ajout d'une couche \texttt{Adeos}~\cite{gerum_life_2005} qui est un pipeline des  interruptions. Il permet la préemption de toutes les interruptions système pour les distribuer en priorité vers le domaine Xenomai avant tout envoi de ces dernières vers le domaine Linux. Cela inclut à la fois les interruptions matérielles et logicielles, ainsi que tous les envois de signaux système (changement d'état d'une tâche pour la mettre en pause/démarrer/arrêter, gestion de mutex etc.). Cela priorise \textit{de facto} l'exécution de code du domaine Xenomai et réduit au maximum les latences dues au noyau Linux. La différence entre un noyau Linux simple et avec un patch Xenomai est représenté en ~\autoref{fig:architecturekernel}. On constate que le co-noyau propose un équivalent symétrique aux composants natifs du noyau Linux, il s'agit en effet de répliquer en grande partie ce qui est mis à disposition dans le noyau Linux. À la différence d'être directement prévu pour limiter au maximum les latences d'exécution tout en ajoutant les couches nécessaires de compatibilité.
 
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=\linewidth]{schemas/Architecture_kernel}
-			\caption[Architecture co-noyau Linux et Xenomai]{Architecture du noyau Linux et avec patch Xenomai}
+			\caption[Architecture co-noyau Linux et Xenomai]{Architecture du noyau Linux et Linux avec co-noyau Xenomai}
 			\label{fig:architecturekernel}
 		\end{figure}
     	
 		Il est à noter qu'au sein des systèmes Linux, ce que l'on nomme "\textit{tâche}" est désigné sous le nom de processus ou de thread. La différence fondamentale entre ces deux appellations étant que chaque processus possède son propre espace mémoire virtuel, tandis que les threads peuvent se partagent un espace mémoire virtuel commun s'ils sont lancés à partir d'un même processus parent. Du point de vue de l'ordonnancement du système d'exploitation, threads et processus sont équivalents. Cette différence sur la mémoire est, en ce qui nous concerne, négligeable. En effet, il s'agit bien de mémoire \textit{virtuelle}, c'est-à-dire que du point de vue des processus ils disposent d'un espace mémoire réservé, mais dans les faits il s'agit de mémoire physique qui est partagée. Le contrôleur mémoire du système d'exploitation étant responsable de la mise en correspondance entre adresses mémoires virtuelles et espaces mémoires physiques. Ainsi, que l'on travaille avec des threads ou des processus, les risques d'interférences par usage de ressources partagées tel que les cache reste identique. On continuera à parler de "tâches" par la suite.
 		
-		Il existe deux modes d'exécution des tâches sur un système Linux~:  en mode User ou Noyau, que l'on peut retrouver sur les 2 couches supérieures de l'architecture logicielle de la~\autoref{fig:architecture}. Dans le mode Noyau, les tâches ont les droits pour exécuter des instructions privilégiées. Cette distinction est importante, car les opérations bas niveau que nous devons employer pour la surveillance et la gestion d'ordonnancement des tâches nécessite l'emploi d'instructions privilégiées. Avec l'utilisation de Xenomai s'ajoute une nouvelle dimension. Les tâches peuvent alors s'exécuter soit dans le domaine Xenomai en mode Primaire, soit dans le domaine Linux en mode Secondaire. L'avantage principal du domaine Xenomai étant la faible latence d'exécution, proche d'un système temps-réel dur. En revanche si une tâche dans ce domaine requiert des appels système Linux, alors une migration vers le domaine Linux est nécessaire. Xenomai réalise cela par un mécanisme de \textit{shadowing} où la tâche est clonée dans le domaine Linux dit mode "secondaire" pour effectuer les appels systèmes nécessaires. La transition entre les modes se fait de façon fainéante" (\textit{lazy mode switch}) dans le sens où  un changement de mode n'est fait qu'au moment où un appel de fonction requiert d'être dans l'autre mode de fonctionnement. 
+		Il existe deux modes d'exécution des tâches sur un système Linux~:  en mode User ou Noyau, que l'on peut retrouver sur les 2 couches supérieures de l'architecture logicielle de la~\autoref{fig:architecture}. Dans le mode Noyau, les tâches ont les droits pour exécuter des instructions privilégiées. Cette distinction est importante, car les opérations bas niveau que nous devons employer pour la surveillance et la gestion d'ordonnancement des tâches nécessite l'emploi d'instructions privilégiées. Avec l'utilisation de Xenomai s'ajoute une nouvelle dimension. Les tâches peuvent alors s'exécuter soit dans le domaine Xenomai en \textit{mode Primaire}, soit dans le domaine Linux en \textit{mode Secondaire}. L'avantage principal du domaine Xenomai étant la faible latence d'exécution, proche d'un système temps-réel dur. En revanche si une tâche dans ce domaine requiert des appels système Linux, alors une migration vers le domaine Linux est nécessaire. Xenomai réalise cela par un mécanisme de \textit{shadowing} où la tâche est clonée dans le domaine Linux en mode Secondaire pour effectuer les appels systèmes nécessaires. La transition entre les modes se fait de façon "fainéante" (\textit{lazy mode switch}) dans le sens où un changement de mode n'est fait qu'au moment où un appel de fonction requiert d'être dans l'autre mode de fonctionnement.
 		
-		Si nous relevons cette spécificité logicielle, c'est parce que chaque changement de mode engendre un surcoût de temps d'exécution. Par conséquent, une tâche qui utiliserait successivement des appels système Linux et des fonctionnalités Xenomai bas-niveau peut très vite engendrer un très fort surcoût d'exécution. Dans les fonctionnalités de Xenomai sont inclus la gestion de mutex, de signaux ou autres appels aux APIs temps-réel de Xenomai (gestion d'ordonnancement, alarme, interruptions...). C'est d'ailleurs pour cette raison qu'au fil du temps un bon nombre d'appels système ont eu droit à un équivalent dans les API de Xenomai, pour éviter un passage en mode secondaire. C'est le cas par exemple des fonctions de récupération des \texttt{timers}. De façon plus générale, la correspondance entre les différents domaines applicatifs de Xenomai est un aspect très important de son développement pour permettre le plus facilement possible une inter-compatibilité entre les différents systèmes temps-réel et Linux. Une bonne part des enjeux et des méthodes déployées pour l'implémentation d'un système temps-réel donné sous Linux est développé dans~\cite{gerum_xenomai_2015}. 
-	    Suivant ce constat, dans le cadre de l'utilisation d'un jeu de tâche arbitraire pour la réalisation de nos tests, nous devons être vigilants sur l'utilisation d'appels système et du nombre de changements de mode. Des tâches ayant de mauvais résultats sur ces métriques (notamment un surplus de changement de modes) sont probablement inadaptés à représenter des tâches temps-réel, à moins d'être modifiées spécifiquement pour éviter ce problème. 
+		Si nous relevons cette spécificité logicielle, c'est parce que chaque changement de mode engendre un surcoût de temps d'exécution avec le clonage de la tâche. Par conséquent, une tâche qui utiliserait successivement des appels système Linux et des fonctionnalités Xenomai bas-niveau peut très vite engendrer un très fort surcoût d'exécution. Dans les fonctionnalités de Xenomai sont inclus la gestion de mutex, de signaux ou autres appels aux APIs temps-réel de Xenomai (gestion d'ordonnancement, alarme, interruptions...). C'est d'ailleurs pour cette raison qu'au fil du temps un bon nombre d'appels système ont eu droit à leur équivalent dans les API de Xenomai, pour éviter un passage en mode secondaire. C'est le cas par exemple des fonctions d'écriture dans la sortie standard \texttt{printf()} qui devient \texttt{rt\_printf()}. De façon plus générale, la correspondance entre les différents domaines applicatifs de Xenomai est un aspect très important de son développement pour permettre le plus facilement possible une inter-compatibilité entre les différents systèmes temps-réel et Linux. Une bonne part des enjeux et des méthodes déployées pour l'implémentation d'un système temps-réel donné sous Linux est développé dans~\cite{gerum_xenomai_2015}. 
+	    Dans le cadre de l'utilisation d'un jeu de tâche arbitraire pour la réalisation de nos tests, nous devons être vigilants sur l'utilisation d'appels système et du nombre de changements de mode. Des tâches ayant de mauvais résultats sur ces métriques (notamment un surplus de changement de modes) sont probablement inadaptés à représenter des tâches temps-réel, à moins d'être modifiées spécifiquement pour éviter ce problème. 
 
 
+        En résumé, par le biais de ce support logiciel, il est possible d'exécuter un set de tâches donné, sous forme de processus séparés. Pour chacun d'entre eux la stratégie d'ordonnancement employée, le niveau de priorité, ainsi que l'allocation de la tâche sont configurables. L'allocation indique au système d'exploitation quels sont les cœurs qui sont autorisés à exécuter une tâche, autrement dit, à quels cœurs elle est allouée. C'est ce qui permet de déterminer pour chaque tâche si elle subira un ordonnancement partitionné (allocation à un unique cœur) ou global (allocation à tous les cœurs, par défaut).  Ainsi, pour un système à 4 cœurs par exemple, chaque tâche $\tau$ sera associée à une table d'affinité $A(\tau) = \begin{pmatrix}1 & 1 & 1 & 1\end{pmatrix}$ par défaut. Signifiant que par défaut, elle peut être exécutée sur n'importe lequel des 4 cœurs. Cette liberté rend notamment service à l'ordonnanceur pour équilibrer la charge entre les cœurs. Pour notre cas, et quand il s'agit d'exécuter une application temps-réel, il est intéressant d'exploiter ce mécanisme d'affinité. De cette façon, il sera possible d'isoler des tâches critiques sur un cœur par exemple, et d'appliquer une politique semi-partitionnée, voire complètement partitionnée.
         
-        %~\cite{wong_towards_2008}, \cite{lelli_efficient_2011} %% scheduling
-        %We used Linux (Linux Mint xfce 18.04 distribution) to mix general purpose and real-time applications with different scheduling policies (\cite{wong_towards_2008}, \cite{lelli_efficient_2011}). Its versatility grants easier compatibility with benchmarking suites. Moreover, by adding Xenomai (v. 3.1) real-time co-kernel~\cite{gerum_xenomai_2004}, it is possible to get closer to real-time applications with latencies lowered from milliseconds down to microseconds. It also grants an API for real-time application development, used for the MCA framework.
+        Et à propos d'ordonnancement sous Linux (et donc par extension, avec Xenomai), il s'établit selon un schéma assez spécifique\cite{ishkov_complete_2015}. Il s'agit d'un ordonnancement global, mais qui prend en ligne de compte les 3 éléments susmentionnés dans l'ordre suivant~:
+        \begin{itemize}
+        	\item l'allocation de la tâche,
+        	\item le niveau de priorité,
+        	\item la stratégie d'ordonnancement.
+        \end{itemize}
+    	En effet, il s'agit en premier lieu d'un ordonnanceur par niveau de priorités. Pour les tâches classiques exécutées par Linux, ce niveau de priorité est dynamique, selon le temps déjà donné à chaque tâche par le processeur. Il s'agit de l'ordonnancement \textit{Completely Fair Scheduling} (CFS)~\cite{wong_towards_2008}, \cite{pabla_completely_2009}. En revanche, quand il s'agit de tâches à plus haut niveau de priorité (labellisées \texttt{RT} par le gestionnaire de tâches), où cette priorité est fixe, alors il existe plusieurs stratégies d'ordonnancement possibles. L'ordonnanceur sélectionne les tâches en attende d'abord par niveau de priorité décroissant. Puis les tâches d'un même niveau de priorité sont alors traitées selon leur politique individuelle. On a notamment First-In First-Out (FIFO), Rond-Robin (RR) et Earliest Deadline First (EDF\footnote{g-EDF pour être exact, disponible par patch~\cite{lelli_efficient_2011}. Linux ne gère pas une allocation partitionnée d'une tâche ordonnancée par EDF.}). Ceci étant dit, il est difficile de trancher de façon certaine sur la réaction de l'ordonnanceur en cas de coexistence de tâches de même niveau de priorité, mais avec plusieurs stratégies d'ordonnancement différentes...
+    	Ainsi, si l'on souhaite par exemple tester un système à priorité fixe on pourra laisser la stratégie d'ordonnancement par défaut et modifier uniquement les niveaux de priorité. Pour un système en round-robin, il faudra positionner toutes les tâches au même niveau de priorité, toutes avec l'ordonnancement RR.
+
+   %Therefore, we add a Xenomai co-kernel to improve latency down to micro-seconds and run our MCA to respect desired real-time constraints.
                         
-		%Notably, POSIX enables to force tasks execution to dedicated cores and change both priority and scheduling policy. As we are in a controlled context that suppose no malicious behavior, we do not implement mechanisms like memory protection or strong space isolation policies. As stated before, vanilla Linux Kernel is not made for hard real-time application. That is mainly because kernel is not preemptive on most parts of it, this can cause high latency for real-time interrupts, from kernel code execution that could be linked to non-critical applications. % due to its non-preemptiveness. It causes high latencies to the system due to kernel and drivers interrupts.
-        %Therefore, we add a Xenomai co-kernel to improve latency down to micro-seconds and run our MCA to respect desired real-time constraints.
-        %Please note that from Linux point of view, ``threads" and ``processes" are equivalent and correspond to ``tasks" for us.
-            
-                        Threads are assigned 2 parameters, a scheduling policy and a static priority (\textit{sched\_priority}). Both are considered by the global scheduler. It first gathers the threads by priority level to execute highest priority processes first. Then for a same priority level, the scheduling policy of each task will define which one to run first. For normal processes the priority level is ignored (considered at 0) to be executed following the CFS policy. This way, a real-time process with a priority level from 1 (lowest) to 99 (highest), always run before them. The threads' scheduling policy defines how they are inserted into the list of same priority level and how they move in this list, all processes being preemptive.  We can list 3 real-time policies for real-time process: FIFO, EDF and Round-Robin. \\
-                        For this purpose, Linux allows to bound threads to cores. For a processor with $j$ cores, every thread has a core affinity represented by an array of $j$ Booleans. Each of these Booleans of affinity $b_{Ti}$ indicates if the thread $T$ can be executed on the core $i$. By default, every normal process has a core affinity of $\begin{pmatrix}1 & 1 & 1 & 1\end{pmatrix}$, for a quad-core processor, meaning that it can be executed by every core. It makes it easier for the scheduler to balance load between every core. But for our case and when it comes to run hard real-time applications, it is interesting to use such affinity. This way, it will be possible to isolate our MCA on an isolated core and bound the benchmark processes to the other threads.
-        %Xenomai is a real-time kernel that can be installed as a co-kernel to a classic Linux distribution as presented in deep by \cite{gerum_xenomai_2004}. Our framework and experiments are implemented on the real-time APIs proposed by Xenomai 3.1.
-            %in order to implement it and add measurements instrumentation. %Xenomai version installed is 3.0.5, from tutorial \cite{hoarau_beta_2017}.
-        %In such configuration, it adds an interruption pipeline (ADEOS) directly between the hardware and OS low-level software (i.e. Hardware Abstraction Layer, OS Kernel and drivers). This enables to catch all the interrupts and distribute them in priority to Xenomai real-time kernel.
-        %Threads executed with Xenomai are executed either in primary or secondary mode. In both cases they are memory-protected from other processes. By default, Xenomai threads starts in primary mode. They get directly access to Xenomai API and are scheduled by its real-time scheduler. A Xenomai thread can however use kernel API with system calls. When it happens, the Xenomai tasks goes temporarily to the Linux scheduler and automatically goes back to Xenomai domain once done. As the priority system used on primary mode is compatible with the secondary one, the Xenomai tasks keep their highest priority status. It makes the mode switch transparent.
-            
-        %All things considered, we mainly use Xenomai to get a significant latency gain (divided by up to 10) for the critical tasks. We can stay on the classic Linux domain for our non-critical tasks.
-            
-        Such OS configuration allows us to specify a per-task core allocation and priority level. Linux scheduler as explained in~\cite{ishkov_complete_2015} selects tasks first by priority level, (from 1 to 99 for real-time tasks domain). Then for a given priority level, multiple scheduling policies are possible: Global Earliest Deadline First, FIFO, Round-Robin, and other best-effort policies. To test a system using classic Round-Robin for instance, every task are launched at same priority level with Round-Robin policy. We use Rate-Monotonic scheduling policy for our tests this way.
-                        
-    \section{Benchmark MiBench}
-        \subsection{Présentation}
-        MiBench~\cite{guthaus_mibench_2001} est un benchmark qui a été développé par Guthaus \& al.~\cite{guthaus_mibench_2001} dans l'idée de proposer une librairie d'applications qui couvrent un large panel de domaines. Nous l'utilisons de façon à pouvoir en sélectionner des tâches pour représenter au mieux un cas d'application réaliste. 
-        Ce benchmark dispose de codes source classifiés en 6 domaines d'application : automobile, réseau, utilisateur, bureautique, sécurité et télécoms. Dans chaque domaine plusieurs tâches sont proposée, chacune d'entre elle en deux versions, "petite" et "grande", qui représente en relativement plus ou moins de temps d'exécution (notamment via la taille de la donnée d'entrée, quand il s'agit d'un traitement d'image par exemple). Au total, ce sont plus de 30 tâches, chacune en version "petite" et "grande" donc. Le résumé des tâches de ce benchmark est présenté dans la~\autoref{tab:mibench_tasks} .
+    \section{Logiciel Applicatif}
+        \subsection{Benchmark MiBench}
+        MiBench est un benchmark qui a été développé par Guthaus \& al.~\cite{guthaus_mibench_2001} dans l'idée de proposer une librairie d'applications qui couvrent un large panel de domaines. Nous l'utilisons de façon à pouvoir en sélectionner des tâches pour représenter au mieux un cas d'application réaliste. 
+        Ce benchmark dispose de codes source ainsi que de données type qui sont utilisables pour lancer chaque application. Aussi, chacune d'entre elle est disponible en deux versions, "petite" et "grande" qui, comme cela le laisse penser, implique des temps d'exécution ou une emprinte mémoire (selon l'application) plus ou moins conséquente. Cela se fait soit par l'utilisation d'un code différent volontairement plus complexe et plus demandeur en ressources de calcul, soit par la modification des données d'entrée/sortie pour prévoir des plus grandes tailles de données (quand il s'agit d'un traitement d'image par exemple). Au total, ce sont 30 tâches, chacune en version "petite" et "grande" donc. Le résumé des tâches de ce benchmark est présenté dans la~\autoref{tab:mibench_tasks} .
         
-\begin{table}[ht!]
-	\centering
-	\caption{Tâches MiBench}
-	\label{tab:mibench_tasks}
-	\begin{tabular}{@{}llll@{}}
+\begin{longtable}{@{}llll@{}}
+%	\centering
+	\caption{Tâches MiBench}\label{tab:mibench_tasks} \\
+%	\begin{tabular}{@{}llll@{}}
 		\toprule
 		Nom          & Description                                  & Type d'entrée      & Type de sortie         \\ \midrule
-		bitcount     & comptage de bits	vers entiers        & texte ASCII        & texte ASCII         \\
-		qsort        & algorithme de tri                    & texte ASCII        & texte ASCII         \\
-		susan c      & reconnaissance de coins              & image (.pgm)       & image (.pgm)        \\
-		susan e      & reconnaissance de bords              & image (.pgm)       & image (.pgm)        \\
-		susan s      & lissage d'image (réduction de bruit) & image (.pgm)       & image (.pgm)        \\
-		jpeg c       & encodeur JPEG                        & image (.ppm)       & image (.jpeg)       \\
-		jpeg d       & décodeur JPEG                        & image (.jpeg)      & image (.ppm)        \\
-		lame         & encodeur MP3                         & audio (.wave)      & audio (.mp3)        \\
-		mad          & décodeur audio MP3                   & audio (.mp3)       & audio (.wave)       \\
-		tiff2bw      & conversion en noir et blanc          & image (.tiff)      & image (.tiff)       \\
-		tiff2rgba    & conversion couleurs RGB en TIFF		& image (.tiff)      & image (.tiff)       \\
-		tiffdither   & tramage noir et blanc (dithering)    & image (.tiff)      & image (.tiff)       \\
-		tiffmedian   & réduction de plage de couleur      	& image (.tiff)      & image (.tiff)       \\
-		dijkstra     & recherche de plus court chemin		& texte ASCII        & texte ASCII         \\
-		patricia     & recherche sur arbre PATRICIA			& texte ASCII        & texte ASCII         \\
-		ghostscript  & interpréteur PostScript              & PostScript		 & image (.ppm)        \\
-		ispell       & Vérificateur orthographique          & texte              & texte ASCII		   \\
-		rsynth       & synthèse vocale de texte             & texte              & audio (.AU)         \\
-		strgsearch & recherche de mot dans un texte			& texte              & texte               \\
-		blowfish d   & déchiffrement blowfish               & données (bin.)  	 & données (bin.)      \\
-		blowfish e   & chiffrement blowfish                 & texte              & données (bin.)      \\
-		pgp d        & déchiffrement asymétrique      		& données (bin.)  	 & texte               \\
-		pgp e        & chiffrement asymétrique				& texte              & données (bin.)      \\
-		rijndael d   & déchiffrement AES                    & données (bin.)  	 & texte               \\
-		rijndael e   & chiffrement AES                      & texte              & données (bin.)      \\
-		sha          & algorithme de calcul de hash			& texte              & texte ASCII         \\
-		adpcm c      & encodeur de PWM                      & audio (.wave)      & données (bin.)      \\
-		adpcm d      & décodeur de PWM                      & données (bin.)  	 & données (bin.)      \\
-		CRC32        & somme de contrôle 32 bits     		& audio (.wave)      & texte ASCII         \\
-		gsm          & encodage GSM                         & audio (.AU)        & données (bin.)      \\ 
-		\bottomrule
-	\end{tabular}
-\end{table}
+	\endfirsthead
+		\multicolumn{4}{c}{\tablename\ \thetable\ -- Tâches MiBench (suite)}\\[1ex]
+		\toprule
+		Nom          & Description                                  & Type d'entrée      & Type de sortie         \\ \midrule
+	\endhead
+		\bottomrule 
+	\endfoot
+		basicmath	 & calculs scientifiques				& /					 & données (dec.)	\\
+		bitcount     & comptage de bits	vers entiers        & texte ASCII        & texte ASCII      \\
+		qsort        & algorithme de tri                    & texte ASCII        & texte ASCII      \\
+		susan c      & reconnaissance de coins              & image (.pgm)       & image (.pgm)     \\
+		susan e      & reconnaissance de bords              & image (.pgm)       & image (.pgm)     \\
+		susan s      & lissage d'image (réduction de bruit) & image (.pgm)       & image (.pgm)     \\
+		jpeg c       & encodeur JPEG                        & image (.ppm)       & image (.jpeg)    \\
+		jpeg d       & décodeur JPEG                        & image (.jpeg)      & image (.ppm)     \\
+		lame         & encodeur MP3                         & audio (.wave)      & audio (.mp3)     \\
+		mad          & décodeur audio MP3                   & audio (.mp3)       & audio (.wave)    \\
+		tiff2bw      & conversion en noir et blanc          & image (.tiff)      & image (.tiff)    \\
+		tiff2rgba    & conversion couleurs RGB en TIFF		& image (.tiff)      & image (.tiff)    \\
+		tiffdither   & tramage noir et blanc (dithering)    & image (.tiff)      & image (.tiff)    \\
+		tiffmedian   & réduction de plage de couleur      	& image (.tiff)      & image (.tiff)    \\
+		dijkstra     & recherche de plus court chemin		& texte ASCII        & texte ASCII      \\
+		patricia     & recherche sur arbre PATRICIA			& texte ASCII        & texte ASCII      \\
+		ghostscript  & interpréteur PostScript              & PostScript		 & image (.ppm)     \\
+		ispell       & Vérificateur orthographique          & texte              & texte ASCII		\\
+		rsynth       & synthèse vocale de texte             & texte              & audio (.AU)      \\
+		stringsearch & recherche de mot dans un texte		& texte              & texte            \\
+		blowfish d   & déchiffrement blowfish               & données (bin.)  	 & données (bin.)   \\
+		blowfish e   & chiffrement blowfish                 & texte              & données (bin.)   \\
+		pgp d        & déchiffrement asymétrique      		& données (bin.)  	 & texte            \\
+		pgp e        & chiffrement asymétrique				& texte              & données (bin.)   \\
+		rijndael d   & déchiffrement AES                    & données (bin.)  	 & texte            \\
+		rijndael e   & chiffrement AES                      & texte              & données (bin.)   \\
+		sha          & algorithme de calcul de hash			& texte              & texte ASCII      \\
+		adpcm c      & encodeur de PWM                      & audio (.wave)      & données (bin.)   \\
+		adpcm d      & décodeur de PWM                      & données (bin.)  	 & données (bin.)   \\
+		CRC32        & somme de contrôle 32 bits     		& audio (.wave)      & texte ASCII      \\
+  FFT (/ FFT\up{-1}) & transformée de fourrier (/inverse)	& signal (sinus)	 & signal (sinus)	\\ 
+		gsm toast    & encodage GSM                         & audio (.AU)        & données (bin.)   \\ 
+		gsm untoast  & decodage GSM                         & données (bin.)     & audio (.AU)	    \\ 		
+%		\bottomrule
+%	\end{tabular}
+\end{longtable}
     
-        Those tasks do different jobs similar to ones in these domains, with different levels of complexity that is of high interest for us.
+    
+    Ces tâches sont classifiées en 6 domaines d'application : automobile, réseau, utilisateur, bureautique, sécurité et télécoms. On retrouve ici la notion de criticité mixte qui nous intéresse pour la cohabitation de ces fonctionnalités au sein d'un même calculateur, car chaque domaine applicatif implique sans aucun doute des niveaux de criticité différents.
+    Il faut cependant préciser que nous n'avons pas pu faire fonctionner toutes ces fonctions, pour une bonne partie à cause de l'utilisation de librairies obsolètes, ou encore pour des difficultés de compilation difficilement surmontables de par la complexité du code impliqué. Par conséquent, un premier tri de ces tâches s'effectue naturellement. Le récapitulatif des tâches que nous avons pu prendre en considération, classées par domaines, est donc en~\autoref{tab:MiBench_final}. Des analyses comportementales de ces tâches ont déjà pu être réalisées par le passé, notamment par Blin \& Al.~\cite{blin_understanding_2016} sur la consommation mémoire et le profil d'accès mémoire/calculs/écriture mémoire de ces tâches. Ce type de données et les expérimentations réalisées pour les obtenir demeurent donc une source précieuse et complémentaire au protocole expérimental que nous proposons pour la caractérisation des tâches et la compréhension de leur rôle dans l'introduction de ralentissements.
+    
+    \begin{table}[ht!]
+    	%% increase table row spacing, adjust to taste
+    	\renewcommand{\arraystretch}{1.3}
+    	% if using array.sty, it might be a good idea to tweak the value of
+    	%\extrarowheight as needed to properly center the text within the cells
+    	\caption{Tâches MiBench conservées}
+    	\label{tab:MiBench_final}
+    	\centering
+    	%% Some packages, such as MDW tools, offer better commands for making tables
+    	%% than the plain LaTeX2e tabular which is used here.
+    	\begin{tabular}{@{}ll@{}}
+    		\toprule
+    		Domaine		& Tâches					\\
+    		\midrule
+    		Automotive  & basicmath, bitcount, qsort, susan (smooth/edges/corners)	\\
+    		Network     & dijkstra, patricia                                        \\
+    		Consumer    & jpeg (décode \& encode)		                            \\
+    		Office      & stringsearch                                              \\
+    		Security    & blowfish (décode \& encode), rijndael (décode \& encode), sha, CRC32		\\
+    		Telecom     & adpcm (décode \& encode), FFT, FFT\up{-1}, gsm (décode \& encode)   \\
+    		\bottomrule
+    	\end{tabular}
+    \end{table}
+   % En amont de l'implémentation de ce benchmark à notre cas de test, il est important de préciser qu'il a fallu passer par une phase d'adaptation et de compilation dédiée. 
 
-            To run an artificial system load as a ``worst-case" cache, memory, CPU use and I/O stress, we use Linux \textit{Stress-ng} tool presented in~\cite{king_stress-ng_2019}. 
+	\subsection{Charge de test}
+	En complément du benchmark pour représenter la charge utile du système, il nous faut l'outillage nécessaire à l'application d'un stress matériel pour obtenir les profils des tâches en pire cas tel que décrit dans le \hyperref[chap:4_ProtocolExpe]{Chapitre précédent}. A cette fin, nous utilisons deux éléments.
+	
+	D'une part la suite \texttt{Stress-ng}~\cite{king_stress-ng_2019} qui est un outil relativement complet et avancé pour stresser chaque partie du système de façon assez précise. Il est ainsi possible de lancer une charge artificielle forcée sur l'utilisation du CPU, sur le cache (avec même des effacements forcés du cache), la mémoire ou encore les entrées/sorties (communication réseau par exemple). Pour pousser le système dans des conditions de fonctionnement encombrées, nous utiliseront en particulier la commande suivante : 
+	\smallbreak
+	\texttt{stress-ng -{}-ionice-class rt -{}-cache 4 -{}-fault 4 -{}-io 4 -{}-matrix 2}
+	\smallbreak
+	
+	Si l'on regarde en détail cette commande, on identifie en premier lieu le passage en priorité haute avec \texttt{-{}-ionice-class rt} de façon à ce que le stress ne reste pas relégué à l'arrière plan best-effort. Ensuite, 4 éléments de stress distinct sont lancés : 
+	\begin{description}
+		\item \texttt{-{}-cache 4} -- Stress du cache via 4 processus,
+		\item \texttt{-{}-fault 4} -- Stress de la mémoire (par provocation de \textit{page faults}),
+		\item \texttt{-{}-io 4} -- Stress des entrées/sorties génériques,
+		\item \texttt{-{}-matrix 2} -- Stress multi-éléments sur l'utilisation CPU, cache et mémoire par calculs matriciels avec virgule flottante via 2 processus.
+	\end{description}
 
-
-            As we do not have yet real industrial application for testing, for now the MiBench Benchmark suite~\cite{guthaus_mibench_2001} has been used for our experiments. The objective is to use applications similar as much as possible to computation profiles that could be found in real applications, in order to reproduce memory containment and resource usage close to real cases. 
-            %We lack real applications to test, but 
-            
-            MiBench consists of a large panel of tasks with different memory needs and execution profiles to mimic existing applications. We have at disposal applications from 5 different domains, as presented in the \autoref{MiBenchTable}. It is used here to validate the framework and put into practice our experiments.\\
-            \begin{table}[!t]
-                %% increase table row spacing, adjust to taste
-                \renewcommand{\arraystretch}{1.3}
-                % if using array.sty, it might be a good idea to tweak the value of
-                %\extrarowheight as needed to properly center the text within the cells
-                \caption{tâches MiBench retenues}
-                \label{MiBenchTable}
-                \centering
-                %% Some packages, such as MDW tools, offer better commands for making tables
-                %% than the plain LaTeX2e tabular which is used here.
-                \begin{tabular}{|c||c|}
-                    \hline
-                    Automotive  & basicmath, bitcount, qsort, susan (smooth/edges/corners)\\
-                    \hline
-                    Network     & dijkstra, patricia                                        \\
-                    \hline
-                    Consumer    & jpeg (code \& decode), typeset                            \\
-                    \hline
-                    Office      & stringsearch                                              \\
-                    \hline
-                    Security    & blowfish, rijndael, sha                                   \\
-                    \hline
-                    Telecom     & adpcm (coding \& decoding), CRC32, FFT, FFT\up{-1}, gsm               \\
-                    \hline
-                \end{tabular}
-            \end{table}
-            We selected a set of 16 applications from MiBench for our experiments. Most of them exists in ``small" and ``large" version that allows to change proportionally their execution time and resource needs. Also, some of these tasks may have several variants according to setup parameters. For instance, $Sunsan$ has 6 different variants: edge detection, corner detection and smoothing, all 3 existing in both ``small" and ``large" version which works with a bigger image for processing. This way, those 16 applications leads to 45 different possible tasks for our experiments. It enables to test different combination following the ``size" and number of tasks but also the kind of tasks we use.
-            Tasks profile classification were already made by Guthaus \& al. in~\cite{guthaus_mibench_2001} and detailed work about their memory consumption can be found in~\cite{blin_understanding_2016}. 
+	En complément de cette outil, Xenomai propose aussi de quoi effectuer des stress avec la fonction \texttt{DoHell}. En revanche, il est moins clair des effets exacts de ce stress sur le système. Par conséquent, nous pourront employer les deux pour avoir une double soumission au stress de nos tâches. Nous pourront donc de la même façon utiliser : 
+	\smallbreak
+	\texttt{dohell -b -s 192.168.0.1 -m /tmp 800}
+	\smallbreak
+	
+	Cette commande permet d'exécuter une charge spécifique avec l'option \texttt{-b}, en plus d'un fort trafic réseau avec \texttt{-s 192.168.0.1} et une charge de lecture/écriture mémoire avec \texttt{-m /tmp}, pendant 800 secondes.
         
-        \subsection{Demandes d'adaptation/modification des tâches}
-    \section{Agent de Monitoring et Control}
+    \section{Implémentation de la plateforme expérimentale logicielle}
+    
+    À partir de tous les éléments que nous venons de présenter, il est possible de mettre en place une plateforme expérimentale complète pour tester le mécanisme de surveillance et contrôle dans un environnement personnalisable.
+    	\subsection{Framework expérimental}
+    
+    \begin{figure}[h]
+    	\centering
+    	\includegraphics[width=\linewidth]{schemas/Implementation_DiagrammeDeClasse}
+    	\caption{Architecture Logicielle du Framework}
+    	\label{fig:implementationdiagrammedeclasse}
+    \end{figure}
+    
+    
+    	\subsection{Agent de Surveillance et Contrôle}
             \begin{figure}
                 \centering
                 \includegraphics[width=\linewidth]{ExperimentsArch}
                 \caption{Experimental Platform structure\label{fig:expe}}
             \end{figure}
     
-%\chapter{Bilan de l'expérimentation}
+    	\subsection{Caractérisation et Conception du cas de test}
+    	
+
     \section{Solutions adoptées à la complexité d'implémentation}
         Difficultés rencontrées dans la mise en place de ce concept et leçons apprises (en cas de volonté de reproduction)
 
