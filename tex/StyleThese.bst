@@ -273,11 +273,11 @@ FUNCTION {format.url}
         { doi empty$
             { "" 
             }
-            { new.block "\href{http://dx.doi.org/" doi * "}{[Online]. Available: http://dx.doi.org/" * doi * "}" *  
+            { new.block "\href{https://dx.doi.org/" doi * "}{[Online]. Available: https://dx.doi.org/" * doi * "}" *  
             }
           if$
         }
-        { new.block " [ONLINE] \par \url{" url * "}" *
+        { new.block " [Online] \par \url{" url * "}" *
         %name.url.prefix " [ONLINE] - " *
          %   "\url{" * url * "}" * 
         }
