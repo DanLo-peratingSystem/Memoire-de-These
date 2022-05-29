@@ -46,10 +46,9 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 		
 		D'un point de vue logiciel, les mises à jour de systèmes embarqués incluent à la fois de nouvelles fonctionnalités critiques pour le bon fonctionnement du système, mais aussi l'ajout de fonctions moins critiques. Ces mises à jour de services non essentiels amplifient  la multiplicité des niveaux de criticités du logiciel embarqué et donc la cohabitation entre sous-systèmes critiques et sous-systèmes non-critiques que l'on pourrait qualifier de "confort".
 		
-		D'un point de vue matériel, il y a de fortes convergences sur les architectures employées dans les différents domaines. Historiquement, on retrouvait en premier lieu des calculateurs monocœurs. Cependant, les diverses évolutions d'exigences ont fait apparaître des limites en capacité de calcul. La montée en fréquence de fonctionnement atteint un seuil maximum à cause de la chauffe et la consommation que cela implique. Tandis que l'augmentation du nombre de transistors qui composent les processeurs arrive aux abords des limites physiques~: la taille de gravure du silicium arrive au même ordre de grandeur que la taille des atomes de silicium dont elle est composé. De fait, jusqu'à récemment encore, la Loi de Moore~\cite{thompson_moores_2006} sur la puissance des processeurs s'est vérifiée. Des premiers microprocesseurs Intel en 1971, avec quelques milliers de transistors de \SI{10}{\micro\metre}, l'on est aujourd'hui à plus de 1 milliards de transistors de près de \SI{10}{\nano\metre}. Mais à l'aune d'une gravure proche des \SI{2}{\nano\metre}, on environne les dimensions de 10 à 15 atomes et les effets de la physique quantique entrent en jeu. Par conséquent, l'on se dirige vers les limites des technologies actuelles pour poursuivre ces améliorations de puissance. Pour ces raisons, le plus grand levier de progression disponible aujourd'hui repose sur la parallélisation des unités de calcul, et donc la notion de calculateur multicœur, qui est apparue dès les années 1950~\cite{smotherman_history_2005}. Les fondeurs s'orientent vers des processeurs où la montée en puissance est assurée par la multiplication des unités de calcul (dit "cœurs") parallèles dans le processeur. On passe ainsi de monocœurs toujours plus petits et compacts à des duals/quadri cœurs... et l'on va aujourd'hui jusqu'à des supercalculateurs à plus de 128 cœurs. Tous ces changements se visualisent parfaitement avec l'évolution des caractéristiques des processeurs au fil des années en~\autoref{fig:processorstrend}, tel qu'agrégé par K. Rupp~\cite{rupp_42_2020}. Cette évolution est la bienvenue dans tous les secteurs concernés, allant du grand public dans les ordinateurs, téléphones et autres multimédias jusqu'aux applications industrielles en passant par les usages de serveurs réseaux et centres de calculs.
-		
-				
-		\begin{figure}[ht!]
+		D'un point de vue matériel, il y a de fortes convergences sur les architectures employées dans les différents domaines. Historiquement, on retrouvait en premier lieu des calculateurs monocœurs. Cependant, les diverses évolutions d'exigences ont fait apparaître des limites en capacité de calcul. La montée en fréquence de fonctionnement atteint un seuil maximum à cause de la chauffe et la consommation que cela implique. Tandis que l'augmentation du nombre de transistors qui composent les processeurs arrive aux abords des limites physiques~: la taille de gravure du silicium arrive au même ordre de grandeur que la taille des atomes de silicium dont elle est composé. De fait, jusqu'à récemment encore, la Loi de Moore~\cite{thompson_moores_2006} sur la puissance des processeurs s'est vérifiée. Des premiers microprocesseurs Intel en 1971, avec quelques milliers de transistors de \SI{10}{\micro\metre}, l'on est aujourd'hui à plus de 1 milliards de transistors de près de \SI{10}{\nano\metre}. Mais à l'aune d'une gravure proche des \SI{2}{\nano\metre}, on environne les dimensions de 10 à 15 atomes et les effets de la physique quantique entrent en jeu. Par conséquent, l'on se dirige vers les limites des technologies actuelles pour poursuivre ces améliorations de puissance. Pour ces raisons, le plus grand levier de progression disponible aujourd'hui repose sur la parallélisation des unités de calcul, et donc la notion de calculateur multicœur, qui est apparue dès les années 1950~\cite{smotherman_history_2005}. Les fondeurs s'orientent vers des processeurs où la montée en puissance est assurée par la multiplication des unités de calcul (dit "cœurs") parallèles dans le processeur. On passe ainsi de monocœurs toujours plus petits et compacts à des duals/quadri cœurs... et l'on va aujourd'hui jusqu'à des supercalculateurs à plus de 128 cœurs. Tous ces changements se visualisent parfaitement avec l'évolution des caractéristiques des processeurs au fil des années en~\autoref{fig:processorstrend}, tel qu'agrégé par K. Rupp \cite{rupp_42_2020}. Cette évolution est la bienvenue dans tous les secteurs concernés, allant du grand public dans les ordinateurs, téléphones et autres multimédias jusqu'aux applications industrielles en passant par les usages de serveurs réseaux et centres de calculs. %
+			%	
+		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.8\linewidth]{graphiques/processors_trend}
 			\caption[Évolution des processeurs]{42 Ans d'évolution des processeurs - Tendances}
@@ -64,7 +63,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 			
 		Il existe des variations d'architectures que l'on peut notamment distinguer entre d'une part les multicœurs basés sur le cache (comme celui susmentionné) qui sont prédominants et d'autre part les multicœurs basés sur \emph{scratchpad}, c'est-à-dire des mémoires locales dédiées à chaque cœur. On peut voir la différence fondamentale de structure entre ces deux variations sur la~\autoref{fig:ArchitecturesMulticoeur}.			
 			
-			\begin{figure}[ht]
+			\begin{figure}[h!]
 				\centering
 				\begin{subfigure}{.48\textwidth} 
 					\includegraphics[width=\linewidth]{schemas/Multicore-CacheBased}
@@ -94,7 +93,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 		Un espace mémoire pourra être soit de petite taille, mais rapide au niveau de son temps d'accès, soit de grande taille et plus lent comme schématisé dans la~\autoref{fig:hierarchiememoire}.  On a par conséquent au plus proche des cœurs les registres, de taille très limitée (octets) mais au temps d'accès très rapide~: ils sont la base pour toutes les opérations effectuées par le processeur. À l'opposé, la mémoire principale, de très grande taille (Go/To) pour laquelle tous les cœurs doivent passer par un bus commun pour y accéder. C'est donc la mémoire la plus lente d'accès, mais aussi la moins coûteuse. Plusieurs intermédiaires ont été mis en place entre ces deux types de mémoire. Il s'agit typiquement de niveaux de cache qui peuvent être non partagés, c'est-à-dire propres à chaque cœur ou bien commun à tous. Le dernier niveau de cache, partagé, est classiquement appelé LLC (\emph{Last Level Cache}) et donne la limite entre les espaces mémoire limités en cache avec des accès rapides d'une part et la mémoire principale qui va provoquer de grands ralentissements d'autre part. 			
 		On retrouve ainsi avec l'exemple de la~\autoref{fig:multicoeurintel} un cas de calculateur multicœur basé sur le cache, avec 8 cœurs, des niveaux de cache mémoire séparés (L1 et L2) et partagé (L3) ainsi que le bus d'accès à la mémoire principale. 
 		
-		\begin{figure}[ht!]
+		\begin{figure}[h!]
 			\centering
 			\begin{subfigure}{.42\textwidth} \centering
 				\includegraphics[width=0.9\linewidth]{schemas/multicoeurIntel}
@@ -143,7 +142,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 		\end{itemize} 
 		Ces attributs permettent d’une part d’exprimer les propriétés devant être respectées par le système, et d’autre part d’évaluer la qualité du service délivré vis-à-vis de ces propriétés. Les aspects de sécurité, au sens de la confidentialité et des attaques face à des actions malveillantes indésirables ainsi que la confidentialité, c'est-à-dire, la non-divulgation d'information non autorisée, ne seront pas abordés dans cette thèse.
 
-		\begin{figure}[ht]
+		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.7\linewidth]{schemas/SureteDeFonctionnement_Entraves}
 			\caption{Sûreté de fonctionnement - chaîne de causalité}
@@ -185,7 +184,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 		
 	Tous ces éléments de contrôle-commande ont en commun d'avoir des contraintes temporelles. Le temps de réaction --qui définit la durée entre la récupération des données des capteurs jusqu'à la réalisation de la commande par les actionneurs--  peut alors être une donnée critique pour certaines applications comme l'exemple donné ci-dessus (\textit{inutile de dire qu'un contrôle d'injection moteur qui prend trop de temps à déterminer combien de carburant injecter aura des conséquences bien évidemment indésirables...}). Ainsi, ce genre d'applications nécessite à la fois de retourner des résultats corrects, mais aussi de les délivrer dans les temps. 
 		
-		\begin{figure}[ht]
+		\begin{figure}[h!]
 			\centering
 			\begin{subfigure}{.3\textwidth} \centering
 				\includegraphics[width=\linewidth]{schemas/SdF_TempsReelDUR}
@@ -274,7 +273,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 
 		\newcommand{\red}{\ccolor{red}} \newcommand{\oran}{\ccolor{orange}} 
 		\newcommand{\yel}{\ccolor{yellow}} \newcommand{\gr}{\ccolor{Green}}
-		\begin{table}[ht]
+		\begin{table}[h!]
 			\centering
 			\caption{Matrice de Définition des Niveaux d’ASIL - ISO 26262}
 			\label{tab:ASILTable}
@@ -309,7 +308,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 	Il est très important de noter par ailleurs une catégorie transverse des systèmes \textit{Legacy}, qui sont des composants où les altérations et modifications sont impossibles pour diverses raisons. Soit parce qu'il s'agit d'une black box que l'on ne souhaite ou ne peut remplacer, soit pour des raisons de compatibilité restreinte où toute modification risquerait de compromettre la totalité du système intégré. 
 	Ces différents types de sous-systèmes sont importants à présenter, car tout ce qui va toucher aux boites noires et aux composants \textit{legacy} ajoutent une contrainte forte sur le développement de solutions à la sûreté de fonctionnement. De fait, tout mécanisme de sûreté de fonctionnement impliquant la modification ou l'adaptation du code de fonctions intégrées au système risque d'être éliminé d'office !
 	
-		\begin{figure}[ht!]
+		\begin{figure}[h!]
 		\centering
 		\begin{subfigure}{\textwidth} \centering
 			\includegraphics[width=\linewidth]{ArchitectureLegende}
