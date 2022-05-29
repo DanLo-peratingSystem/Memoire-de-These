@@ -17,6 +17,8 @@
 \usepackage[french]{babel} %
 \usepackage{lmodern} \normalfont %to load T1lmr.fd 
 \DeclareFontShape{T1}{cmr}{b}{sc} { <-> ssub * cmr/bx/sc }{}
+\DeclareUnicodeCharacter{202F}{\,}
+\DeclareUnicodeCharacter{00A0}{\nobreakspace}
 %\hyphenation{gar}
 
 \usepackage{amsmath,amssymb}             % AMS Math
@@ -26,8 +28,6 @@
 \usepackage{blindtext}
 
 \usepackage{datetime}
-
-\usepackage{lipsum} 
 
 \usepackage[inline]{enumitem}
 
@@ -41,19 +41,11 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-% Table of contents for each chapter
-
-\usepackage[nottoc, notlof, notlot]{tocbibind}
-\usepackage[nohints]{minitoc}
-\setcounter{minitocdepth}{2}
-\mtcindent=15pt
-% Use \minitoc where to put a table of contents
-
 \usepackage{aecompl}
 
 %% Package cosmetic meilleur layout du texte en jouant sur le spacing par caractères
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
-\usepackage[absolute,overlay]{textpos} 
+\usepackage[absolute,overlay]{textpos}
 \setlength{\TPHorizModule}{\paperwidth}\setlength{\TPVertModule}{\paperheight}
 \sloppy
 
@@ -61,11 +53,18 @@
 \usepackage{tabularx}		%\usepackage{tabular}
 \usepackage{longtable}
 \usepackage{multirow}
-\newcommand{\mc}{\multicolumn} 
-\newcommand{\mr}[2]{\multirow{#1}{*}{#2}} 	\newcommand{\mrQ}{\multirow{-4}{*}}
+\newcommand{\mc}{\multicolumn}
+\newcommand{\mr}[2]{\multirow{#1}{*}{#2}}
+\newcommand{\mrQ}{\multirow{-4}{*}}
 \usepackage{booktabs}
+\usepackage{changepage}
 
-\usepackage[usenames,dvipsnames]{xcolor} 
+\usepackage[usenames,dvipsnames]{xcolor}
+%\usepackage{color}
+\definecolor{linkcol}{rgb}{0,0,0.4}
+\definecolor{citecol}{rgb}{0.5,0,0}
+\definecolor{linkcol}{rgb}{0,0,0}
+\definecolor{citecol}{rgb}{0,0,0}
 
 \makeatletter
 \newcommand{\ccolor}[3][]{%
@@ -117,6 +116,14 @@
   \end{enumerate*}
 }
 
+\newenvironment{bulletList}%
+{ \begin{list}%
+		{$\bullet$}%
+		{\setlength{\labelwidth}{25pt}%
+			\setlength{\leftmargin}{30pt}%
+			\setlength{\itemsep}{\parsep}}}%
+	{ \end{list} }
+
 \newcommand{\cmnt}[1]{}  %%%%% AJOUT DE COMMENTAIRE MULTILIGNES
 
 
@@ -134,80 +141,9 @@
 
 \makenomenclature
 
-% My pdf code
-
-\usepackage{ifpdf}
-
-\ifpdf
-  \usepackage[pdftex]{graphicx}
-  \DeclareGraphicsExtensions{.pdf,PDF,.png,PNG,.jpg,JPG}
-  \usepackage[pagebackref,hyperindex=true]{hyperref} %% use \autoref{} instead of Table~\ref{}.
-  \usepackage{tikz}
-  \usetikzlibrary{arrows,shapes,calc}
-\else
-  \usepackage{graphicx}
-  \DeclareGraphicsExtensions{.ps,.eps}
-  \usepackage[a4paper,dvipdfm,pagebackref,hyperindex=true]{hyperref}
-\fi
+%\usepackage{etoolbox}
 
 \graphicspath{{.}{schemas/}{graphiques/}{tables/}}
-
-%% nicer backref links. NOTE: The flag ThesisInEnglish is used to define the
-% language in the back references. Read more about it in These.tex
-
-\IfLanguageName{english}{
-\renewcommand*{\backref}[1]{}
-\renewcommand*{\backrefalt}[4]{%
-\ifcase #1 %
-(Not cited.)%
-\or
-(Cited in page~#2.)%
-\else
-(Cited in pages~#2.)%
-\fi}
-\renewcommand*{\backrefsep}{, }
-\renewcommand*{\backreftwosep}{ and~}
-\renewcommand*{\backreflastsep}{ and~}
-}{
-\renewcommand*{\backref}[1]{}
-\renewcommand*{\backrefalt}[4]{%
-\ifcase #1 %
-(Non cité.)%
-\or
-(Cité en page~#2.)%
-\else
-(Cité en pages~#2.)%
-\fi}
-\renewcommand*{\backrefsep}{, }
-\renewcommand*{\backreftwosep}{ et~}
-\renewcommand*{\backreflastsep}{ et~}
-}
-
-% Links in pdf
-\usepackage{color}
-\definecolor{linkcol}{rgb}{0,0,0.4} 
-\definecolor{citecol}{rgb}{0.5,0,0} 
-\definecolor{linkcol}{rgb}{0,0,0} 
-\definecolor{citecol}{rgb}{0,0,0}
-% Change this to change the informations included in the pdf file
-
-\hypersetup
-{
-bookmarksopen=true,
-pdftitle="Prévention des fautes temporelles sur architectures multicœur pour les systèmes à criticité mixte",
-pdfauthor="Daniel LOCHE", %auteur du document
-pdfsubject="Thèse", %sujet du document
-%pdftoolbar=false, %barre d'outils non visible
-pdfmenubar=true, %barre de menu visible
-pdfhighlight=/O, %effet d'un clic sur un lien hypertexte
-colorlinks=true, %couleurs sur les liens hypertextes
-pdfpagemode=UseNone, %aucun mode de page
-%pdfpagelayout=DoublePage, %ouverture en simple page
-pdffitwindow=true, %pages ouvertes entierement dans toute la fenetre
-linkcolor=linkcol, %couleur des liens hypertextes internes
-citecolor=citecol, %couleur des liens pour les citations
-urlcolor=linkcol %couleur des liens pour les url
-}
 
 % definitions.
 % -------------------
@@ -228,7 +164,7 @@ urlcolor=linkcol %couleur des liens pour les url
 \usepackage{rotating}                    % Sideways of figures & tables
 
 % \usepackage{txfonts}                     % Public Times New Roman text & math font
-  
+
 %%% Fancy Header %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fancy Header Style Options
 
@@ -302,23 +238,13 @@ urlcolor=linkcol %couleur des liens pour les url
 \end{minipage}
 }
 
-\let\minitocORIG\minitoc
-\renewcommand{\minitoc}{\minitocORIG \vspace{1.5em}}
+\usepackage{epigraph}
 
 %\usepackage{slashbox}
 
-\newenvironment{bulletList}%
-{ \begin{list}%
-	{$\bullet$}%
-	{\setlength{\labelwidth}{25pt}%
-	 \setlength{\leftmargin}{30pt}%
-	 \setlength{\itemsep}{\parsep}}}%
-{ \end{list} }
-
-
 %%%%%%% Outils pour \comment \alert \add %%%%%
 \usepackage{easyReview}
-\usepackage{soulutf8} % for accented letters
+\usepackage{soulutf8} % for accented letters in easyReview
 
 \let\newalert\alert
 \renewcommand{\alert}[1]{\textit{\newalert{#1}}}
@@ -332,12 +258,12 @@ urlcolor=linkcol %couleur des liens pour les url
 {\newpage\vspace*{\fill}\thispagestyle{empty}\renewcommand{\headrulewidth}{0pt}}
 {\vspace*{\fill}}
 
-\usepackage{tablefootnote}
+%\usepackage{tablefootnote}
 
 %%%%%% MISE EN FORME CADRES DEFINITIONS/THEOREMES/LEMES %%%%%%%%%%
 \usepackage{amsthm}  % for theoremstyle
 
-\theoremstyle{plain} 
+\theoremstyle{plain}
 \newtheorem{theorem}{Théorème}[section]
 \newtheorem{corollary}{Corolaire}[theorem]
 
@@ -353,31 +279,31 @@ urlcolor=linkcol %couleur des liens pour les url
 	\usepackage{ntheorem} %\usepackage{amsthm}  % for theoremstyle
 	%\usepackage{mdframed}
 	\usepackage[most]{tcolorbox}
-	
-	\theoremstyle{plain} 
+
+	\theoremstyle{plain}
 	\theoremindent20pt
 	\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
 	\newtheorem{theorem}{Théorème}[section]
 	\newtheorem{corollary}{Corolaire}[theorem]
-	
+
 	\theoremstyle{plain}
 	\newtheorem{lemma}[theorem]{Lemme}
-	
-	
+
+
 	\tcolorboxenvironment{theorem}{
 		blanker,
 		breakable,
-		before skip=\topsep,
+		bme skip=\topsep,
 		after skip=\topsep,
 		borderline west={1pt}{10pt}{double, shorten <=12pt}
 	}
-	
+
 	\theorembodyfont{\normalfont}
 	\theoremindent20pt
 	\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
 	\newtheorem{definition}[theorem]{Définition}
-	
-	
+
+
 	\tcolorboxenvironment{definition}{
 		blanker,
 		breakable,
@@ -387,19 +313,41 @@ urlcolor=linkcol %couleur des liens pour les url
 	}
 }
 
-\cmnt{ 
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Code}% Listing -> Algorithm
+
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\lstdefinestyle{codeStyle}{
+	language=C,
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	basicstyle=\ttfamily\small,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+\lstset{style=codeStyle}
+
+\cmnt{
 	\begin{theorem}
 		Ceci est un Théorème.
-	\end{theorem} 
-	
+	\end{theorem}
+
 	\begin{corollary}
 		Ceci est un Corollaire.
 	\end{corollary}
-	
+
 	\begin{definition}
 		Ceci est une Définition.
 	\end{definition}
-	
+
 	\begin{lemma}
 		Ceci est un Lemme.
 	\end{lemma}
@@ -407,3 +355,76 @@ urlcolor=linkcol %couleur des liens pour les url
 
 \def\UrlBigBreaks{\do\/\do-\do:}
 \usepackage{url}
+
+% Change this to change the informations included in the pdf file
+% My pdf code
+\usepackage{ifpdf}
+
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,PDF,.png,PNG,.jpg,JPG}
+\usepackage[pagebackref,hyperindex=true]{hyperref} %% use \autoref{} instead of Table~\ref{}.
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,calc}
+\else
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.ps,.eps}
+\usepackage[a4paper,dvipdfm,pagebackref,hyperindex=true]{hyperref}
+\fi
+
+%% nicer backref links. NOTE: The flag ThesisInEnglish is used to define the
+% language in the back references. Read more about it in These.tex
+\IfLanguageName{english}{
+	\renewcommand*{\backref}[1]{}
+	\renewcommand*{\backrefalt}[4]{%
+		\ifcase #1 %
+		(Not cited.)%
+		\or
+		(Cited in page~#2.)%
+		\else
+		(Cited in pages~#2.)%
+		\fi}
+	\renewcommand*{\backrefsep}{, }
+	\renewcommand*{\backreftwosep}{ and~}
+	\renewcommand*{\backreflastsep}{ and~}
+}{
+	\renewcommand*{\backref}[1]{}
+	\renewcommand*{\backrefalt}[4]{%
+		\ifcase #1 %
+		(Non cité.)%
+		\or
+		(Cité en page~#2.)%
+		\else
+		(Cité en pages~#2.)%
+		\fi}
+	\renewcommand*{\backrefsep}{, }
+	\renewcommand*{\backreftwosep}{ et~}
+	\renewcommand*{\backreflastsep}{ et~}
+}
+
+% Table of contents for each chapter
+\usepackage[nottoc, notlof, notlot]{tocbibind}
+\usepackage[nohints]{minitoc}
+\setcounter{minitocdepth}{2}
+\mtcindent=15pt
+% Use \minitoc where to put a table of contents
+\let\minitocORIG\minitoc
+\renewcommand{\minitoc}{\minitocORIG \vspace{1.5em}}
+
+\hypersetup
+{
+	bookmarksopen=true,
+	pdftitle="Prévention des fautes temporelles sur architectures multicœur pour les systèmes à criticité mixte",
+	pdfauthor="Daniel LOCHE", %auteur du document
+	pdfsubject="Thèse", %sujet du document
+	%pdftoolbar=false, %barre d'outils non visible
+	pdfmenubar=true, %barre de menu visible
+	pdfhighlight=/O, %effet d'un clic sur un lien hypertexte
+	colorlinks=true, %couleurs sur les liens hypertextes
+	pdfpagemode=UseNone, %aucun mode de page
+	%pdfpagelayout=DoublePage, %ouverture en simple page
+	pdffitwindow=false, %pages ouvertes entierement dans toute la fenetre
+	linkcolor=linkcol, %couleur des liens hypertextes internes
+	citecolor=citecol, %couleur des liens pour les citations
+	urlcolor=linkcol %couleur des liens pour les url
+}

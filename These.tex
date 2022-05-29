@@ -11,7 +11,7 @@
 \overfullrule=.5cm %% GROS TRAIT NOIR quand ça dépasse de la marge !
 
 \include{formatAndDefs}
-\usepackage{etoolbox}
+
 \renewcommand\nomgroup[1]{%  % GROUPES NOMENCLATURE
 	\item[\bfseries
 	\ifstrequal{#1}{D}{Abréviations}{%
@@ -22,8 +22,6 @@
 		]
 	} 
 \setlength{\nomlabelwidth}{2cm}
-\DeclareUnicodeCharacter{202F}{\,}
-\DeclareUnicodeCharacter{00A0}{\nobreakspace}
 
 \include{0_Garde}
 
@@ -61,8 +59,8 @@
 %\makenomenclature
 
 
-
-{ % NOMENCLATURE
+ %%%%%%%%%%%%%%%%%%%%%%%%
+{ %%%%% NOMENCLATURE %%%%%
 	\nomenclature[A, 01]{$\tau_i$}{Tâche, d'indice i}
 	\nomenclature[A, 03]{$T_i$}{Période d'apparition d'une tâche}
 	\nomenclature[A, 04]{$D_i$}{Date limite d'échéance à la terminaison d'une tâche}
@@ -89,13 +87,14 @@
 }
 
 \printnomenclature
-% Use \mtcfixnomenclature below if you have a glossary (added with
+\cmnt{	% Use \mtcfixnomenclature below if you have a glossary (added with
 % \printnomenclature above) and you're see a shift in the mini-table of
 % contents at the begining of each chapter (example: no mini-toc in chapter 1;
 % mini-toc of chapter 1 appearing in chapter 2; and so on).
 %
 % You should not use \mtcfixnomenclature if you have no glossary (that means,
-% if you don't use \printnomenclature or if your glossary is empty).
+% if you don't use \printnomenclature or if your glossary is empty). 
+}
 \mtcfixnomenclature
 
 
@@ -111,25 +110,12 @@
 
 %\include{Conclusion}
 
-\cmnt{
-	\begin{bibunit}
-	\renewcommand{\bibsection}{\large \textbf{\begin{center}
-				Publications
-	\end{center}}}
-	\makeatletter
-	\renewcommand\@biblabel[1]{}
-	\makeatother
-	\def\bibfont{\small}
-	
-	%list all the references in the publications bibtex file
-	\nocite{*}
-	\putbib[MyPublications]
-\end{bibunit}
-}
 
 %\appendix
 \include{Annexe1}
 
+%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%% BIBLIOGRAPHIE %%%%%
 \hyphenation{ONLINE}
 \raggedright
 \bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
