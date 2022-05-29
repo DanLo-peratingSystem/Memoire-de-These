@@ -117,9 +117,44 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
  %%%% BIBLIOGRAPHIE %%%%%
 \hyphenation{ONLINE}
-\raggedright
+\begingroup\raggedright
 \bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
 \bibliography{these}
+\endgroup
+
+%%%%%%%%%%%%%%%%%%%%%%%
+ %%%% PUBLICATIONS %%%%%
+\chapter*{Publications}
+\addstarredchapter{Publications}
+Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au Laboratoire d’Analyse et d’Architecture des Systèmes (LAAS) du Centre National de la Recherche Scientifique (CNRS) au sein de l'équipe Tolérance aux Fautes et Sûreté de Fonctionnement. Ils ont été réalisés dans le cadre d'une collaboration CIFRE avec le Technocentre Renault, Guyancourt et plus spécifiquement l'équipe SW-T. À l'heure à laquelle ces lignes sont écrites, cela a donné lieu aux publications suivantes~:
+
+\begingroup\raggedright
+\begin{description}
+	\item	D. Loche, M. Lauer, M. Roy, et J.-C. Fabre, « \textit{Mixed Critical Automotive Embedded Applications on Multicores: A Safe Scheduling Approach for Dependability} ». Dans 5th International Workshop on Critical Automotive Applications: Robustness \& Safety (CARS), 2019, Naples, Italy 
+	\smallbreak
+	\item	D. Loche, M. Lauer, M. Roy, et J.-C. Fabre, « \textit{Safe Scheduling on Multicores: an approach leveraging multi-criticality and end-to-end deadlines} ». Dans 10th European Congress on Embedded Real Time Software and Systems (ERTS 2020), 2020, Toulouse, France.
+	\smallbreak	
+	\item	D. Loche, A. Generes, M. Lauer, et J.-C. Fabre, « \textit{Run-time Monitoring and Control for Temporal Fault Prevention in Mixed-criticality Systems} ». Dans European Dependable Computing Conference (EDCC 2021), Intel; Fraunhofer IKS; LAAS, 2021, Munich (virtual), Germany. pp.53-60. ⟨doi~: 10.1109/EDCC53658.2021.00015⟩	
+\end{description}
+\endgroup
+\vspace*{\fill}
+
+\cmnt
+{ %% Tentative list Publications - foiré...
+	\begin{bibunit}
+		\renewcommand{\bibsection}{\large \textbf{\begin{center}
+					Publications
+		\end{center}}}
+		\makeatletter
+		\renewcommand\@biblabel[1]{}
+		\makeatother
+		\def\bibfont{\small}
+		
+		%list all the references in the publications bibtex file
+		\nocite{*}
+		\putbib[MyPublications]
+	\end{bibunit}
+}
 
 \cleardoublepage
 \begin{vcenterpage}
