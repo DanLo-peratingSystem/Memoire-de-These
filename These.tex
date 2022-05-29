@@ -7,8 +7,7 @@
 \documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 
 \newcommand{\included}{}
-
-\overfullrule=.5cm %% GROS TRAIT NOIR quand ça dépasse de la marge !
+%\overfullrule=.5cm %% GROS TRAIT NOIR quand ça dépasse de la marge !
 
 \include{formatAndDefs}
 
@@ -35,6 +34,8 @@
 \pagenumbering{roman}
 
  \cleardoublepage
+%%%%%%%%%%%%%%%%%%
+ %%%%% MAXIME %%%%% 
 %\topskip-10cm
 \vspace*{5cm}
 % \begin{maxime}{Pierre-Henri Cami.}
@@ -157,10 +158,13 @@ Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au La
 }
 
 \cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%% RESUMÉ - ABSTRACT %%%%%
 \begin{vcenterpage}
 \noindent\rule[2pt]{\textwidth}{0.5pt}
-\\
-	{\large\textbf{Résumé :}
+\\ %%%%% RESUME EN FRANCAIS %%%%
+	{\large\textbf{Résumé :} \addstarredchapter{Résumé}
 		
 		L'émergence de calculateurs multicœurs plus puissants, mais aussi plus complexes, présente à la fois une opportunité et de nouveaux enjeux pour l'intégration de systèmes à criticité mixte. Ces systèmes, qui embarquent des fonctionnalités de différents niveaux d'importance, requièrent le respect d'exigences temporelles. En effet, plus un logiciel est critique, plus les conséquences en cas de dépassement d'échéance d'exécution peuvent être catastrophiques. Par conséquent, des mécanismes de sûreté de fonctionnement doivent être mis en place pour prévenir ce risque. 
 		
@@ -178,7 +182,7 @@ Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au La
 
 \begin{vcenterpage}
 \noindent\rule[2pt]{\textwidth}{0.5pt}
-\\
+\\ %% RESUME EN ANGLAIS %%
 	{\large\textbf{Abstract:} 
 		
 		The emergence of more powerful, but also more complex, multicore computers presents both an opportunity and new challenges for the integration of mixed criticality systems. These systems, which embed functionalities of different levels of importance, require the respect of temporal requirements. Indeed, the more critical a software is, the more catastrophic the consequences in case of a missed execution deadline. Consequently, mechanisms for operational safety must be put in place to prevent this risk. 
