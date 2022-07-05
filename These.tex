@@ -69,14 +69,14 @@
 	\nomenclature[A, 04]{$D_i$}{Date limite d'échéance à la terminaison d'une tâche}
 	\nomenclature[A, 05]{$C_i$}{Temps d'exécution pire cas d'une tâche}
 	\nomenclature[A, 06]{$L_i$}{Niveau de criticité d'une tâche}
-	\nomenclature[A, 07]{$\tau_{i,j}$}{j\up{ème} occurence d'exécution de la tâche $\tau_i$ à sa période $T_i$}
+	\nomenclature[A, 07]{$\tau_{i,j}$}{j\up{ème} occurrence d'exécution de la tâche $\tau_i$ à sa période $T_i$}
 	\nomenclature[A, 08]{$a_{i,j}$}{Moment d'activation du job $\tau_{i,j}$}
 	\nomenclature[A, 09]{$s_{i,j}$}{Début d'exécution du job $\tau_{i,j}$}
 	\nomenclature[A, 10]{$e_{i,j}$}{Fin d'exécution (terminaison) du job $\tau_{i,j}$}
 	\nomenclature[B, 20]{$succ(\tau_i)$}{Fonction qui permet de trouver le job successeur du job $\tau_i$ d'une chaîne de tâches}
 	\nomenclature[B, 21]{$succ^p(\tau_i)$}{fonction itérative pour trouver le p\up{ème} successeur du job $\tau_i$}
 	\nomenclature[B, 15]{$R_j$}{Temps de réponse bout-en-bout d'une chaîne de tâches}
-	\nomenclature[B, 16]{$D_c$}{Date limite d'échéance d'exécution bout-en-bout d'une chaîne de tâche}
+	\nomenclature[B, 16]{$D_c$}{Délai limite d'échéance d'exécution bout-en-bout d'une chaîne de tâche}
 	\nomenclature[B, 23]{$S(t)$}{Etat de la chaîne de tâches à l'instant $t$}
 	\nomenclature[B, 24]{$ET(j,t)$}{j\up{ème} trace d'exécution de la chaîne de tâches, à un instant t}
 	\nomenclature[B, 30]{$RT(t)$}{Temps de réponse partiel d'une chaîne de tâche active à l'instant t}
@@ -114,17 +114,6 @@
 \include{_Conclusion}
 
 
-%\appendix
-\include{Annexe1}
-
-%%%%%%%%%%%%%%%%%%%%%%%%
- %%%% BIBLIOGRAPHIE %%%%%
-\hyphenation{ONLINE}
-\begingroup\raggedright
-\bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
-\bibliography{these}
-\endgroup
-
 %%%%%%%%%%%%%%%%%%%%%%%
  %%%% PUBLICATIONS %%%%%
 \chapter*{Publications}
@@ -137,10 +126,21 @@ Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au La
 	\smallbreak
 	\item	D. Loche, M. Lauer, M. Roy, et J.-C. Fabre, « \textit{Safe Scheduling on Multicores: an approach leveraging multi-criticality and end-to-end deadlines} ». Dans 10th European Congress on Embedded Real Time Software and Systems (ERTS 2020), 2020, Toulouse, France.
 	\smallbreak	
-	\item	D. Loche, A. Generes, M. Lauer, et J.-C. Fabre, « \textit{Run-time Monitoring and Control for Temporal Fault Prevention in Mixed-criticality Systems} ». Dans European Dependable Computing Conference (EDCC 2021), Intel; Fraunhofer IKS; LAAS, 2021, Munich (virtual), Germany. pp.53-60. ⟨doi~: 10.1109/EDCC53658.2021.00015⟩	
+	\item	D. Loche, A. Generes, M. Lauer, et J.-C. Fabre, « \textit{Run-time Monitoring and Control for Temporal Fault Prevention in Mixed-criticality Systems} ». Dans European Dependable Computing Conference (EDCC 2021), Intel; Fraunhofer IKS; LAAS, 2021, Munich (virtual), Germany. pp.53-60. (doi~: 10.1109/EDCC53658.2021.00015)
 \end{description}
 \endgroup
 \vspace*{\fill}
+
+%\appendix
+\include{Annexe1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%% BIBLIOGRAPHIE %%%%%
+\hyphenation{ONLINE}
+\begingroup\raggedright
+\bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
+\bibliography{these}
+\endgroup
 
 \cmnt
 { %% Tentative list Publications - foiré...
