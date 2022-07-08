@@ -36,7 +36,7 @@ Intro Chapitre 1
 		Contenu 1.1.2
 
 		Exemple 2 figures côte à côte, que l'on peut mentionner par \autoref{fig:ArchitecturesMulticoeur}.
-		Il est possible de faire référence à la \ref{sec:1.1Sous-section1} aussi simplement que cela.
+		Il est possible de faire référence à la \autoref{sec:1.1Sous-section1} aussi simplement que cela.
 
 		\begin{figure}[ht!]
 			\centering
@@ -57,10 +57,15 @@ Intro Chapitre 1
 		\end{figure}
 
 	Ceci est un exemple de tableau "propre", qui utilise uniquement des traits horizontaux.
+
 	Les traits se font avec /toprule /midrule /bottomrule et pour des traits partiels : /cmidrule{c1-c2}, c1, c2 étant les colonnes de début et fin de la ligne.
+
 	/mc{cols}{alignement}{texte} pour fusionner des cellules sur la même ligne (raccourci de /multicolumns)
+
 	/mr{lines}{alignement}{texte} pour fusionner des cellules sur la même colonne, /mrQ pour en fusionner 4..!
+
 	Il est possible de colorer des cases, ici avec des defines pour rendre les choses plus digestes.
+	
 	c.f. fichier formatAndDefs.tex pour plus d'infos sur les alias disponibles ou pour en ajouter :)
 
 		\newcommand{\red}{\ccolor{red}} \newcommand{\oran}{\ccolor{orange}}
