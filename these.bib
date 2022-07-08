@@ -1219,7 +1219,7 @@
   collaborator = {Nicomette, Vincent and Alata, Eric},
   copyright = {Licence Etalab},
   school = {Toulouse, INSA},
-  keywords = {004,Apprentissage,Avionic,Avionique,Détection d'intrusion,Ima,Intrusion Detection,Machine Learning,Sécurité,Security,Systèmes de détection d'intrusion (informatique)},
+  keywords = {Apprentissage,Avionic,Avionique,Détection d'intrusion,Ima,Intrusion Detection,Machine Learning,Sécurité,Security,Systèmes de détection d'intrusion (informatique)},
   file = {/home/danlo/Zotero/storage/TJXTZN7A/Damien - 2020 - Sécurité par analyse comportementale de fonctions .pdf}
 }
 
@@ -2075,7 +2075,7 @@
   pages = {2--14},
   publisher = {{IEEE/AIAA 29th}},
   langid = {english},
-  keywords = {aeronautical industry,Aerospace electronics,Aerospace industry,aerospace simulation,Application software,ARINC 653 standard,avionics,Costs,Design engineering,Hardware,integrated modular avionics development environment,Linux,Prototypes,safety critical systems,Software prototyping,Standards development,Testing},
+  keywords = {aeronautical industry,Aerospace electronics,Aerospace industry,aerospace simulation,Application software,ARINC 653,avionics,Costs,Design engineering,Hardware,integrated modular avionics development environment,Linux,Prototypes,safety critical systems,Software prototyping,Standards development,Testing},
   annotation = {MBSEAV}
 }
 
@@ -2586,6 +2586,12 @@
   abstract = {Although multi/many-core platforms enable the parallel execution of tasks, the sharing of resources may lead to long WCETs that fail to meet the real-time constraints of the system. Then, a safe solution is the execution of the most critical tasks in isolation followed by the execution of the remaining tasks. To improve the system performance, we propose an approach where a critical task can run in parallel with less critical tasks, as long as the real-time constraints are met. When no further interferences can be tolerated, the proposed run-time control suspends the low critical tasks until the termination of the critical task. In this paper, we describe the design and prove the correctness of our approach. To do so, a graph grammar is defined to formally model the critical task as a set of control flow graphs on which a safe partial WCET analysis is applied and used at run-time to control the safe execution of the critical task.},
   langid = {english},
   file = {/home/danlo/Zotero/storage/HF33GCWH/Kritikakou et al. - 2014 - Run-Time Control to Increase Task Parallelism In M.pdf}
+}
+
+@techreport{krono-asterios-2017,
+  title = {Dependable Real-Time Systems and Mixed-Criticality: {{Seeking}} Safety, Flexibility and Efficiency with {{ASTERIOS}}},
+  author = {DAVID, Vincent and BARBOT, Adrien and CHABROL, Damien},
+  year = {2017}
 }
 
 @misc{kuppens_exercises_2016,
@@ -3811,14 +3817,18 @@
   file = {/home/danlo/Zotero/storage/QMFRT2WY/Using_SCHED_DEADLINE.pdf}
 }
 
-@misc{rupp_42_2020,
-  title = {42 {{Years}} of {{Microprocessor Trend Data}} | {{Karl Rupp}}},
+@misc{rupp_48_2020,
+  title = {48 {{Years}} of {{Microprocessor Trend Data}}},
   author = {Rupp, Karl},
   year = {2020},
-  url = {https://www.karlrupp.net/2018/02/42-years-of-microprocessor-trend-data/},
-  urldate = {2022-01-18},
-  langid = {american},
-  file = {/home/danlo/Zotero/storage/YDXLDAQQ/42-years-of-microprocessor-trend-data.html}
+  month = jul,
+  publisher = {{Zenodo}},
+  doi = {10.5281/ZENODO.3947824},
+  abstract = {This chart compares the transistors, single-thread performance, clock frequency, thermal design power, and number of logical cores of microprocessors from 1971-2019.},
+  copyright = {Creative Commons Attribution 4.0 International, Open Access},
+  langid = {english},
+  keywords = {microprocessor; trend; cpu; gpu; transistors; tdp; specint},
+  file = {/home/danlo/Zotero/storage/I48IGIPU/Rupp - 2020 - 48 Years of Microprocessor Trend Data.pdf}
 }
 
 @article{rushby_critical_1994,
@@ -3987,7 +3997,6 @@
   collaborator = {Herbstritt, Marc},
   isbn = {978-3-939897-28-6},
   langid = {english},
-  keywords = {000 Computer science; knowledge; general works,Computer Science},
   file = {/home/danlo/Zotero/storage/XJ83RMM6/Schoeberl et al. - 2011 - Towards a Time-predictable Dual-Issue Microprocess.pdf}
 }
 
@@ -3998,7 +4007,7 @@
   abstract = {The ARINC 653 standard has taken a leading role within the aeronautical industry in the development of safety-critical systems based on the Integrated Modular Avionics (IMA) concept. One of the main promises of IMA is cost saving in reduced development, integration and verification and validation effort. To exploit the full potential of cost savings, it is necessary to establish an effective way to prototype, develop, test and analyse on-board applications without having access to the final IMA target platform for all engineers. Target platforms are usually extremely expensive considering hardware and software prices as well as training costs. This paper describes the architecture of the Integrated Modular Avionics Development Environment (IMADE) that is based on Linux and the ARINC 653 simulator Simulated IMA (SIMA) that was developed by Skysoft Portugal, 2007-2009.},
   isbn = {1-4244-4078-5},
   langid = {english},
-  keywords = {aeronautical industry,Aerospace electronics,Aerospace industry,aerospace simulation,Application software,ARINC 653 standard,avionics,Costs,Design engineering,Hardware,integrated modular avionics development environment,Linux,Prototypes,safety critical systems,Software prototyping,Standards development,Testing},
+  keywords = {aeronautical industry,Aerospace electronics,Aerospace industry,aerospace simulation,Application software,ARINC 653,avionics,Costs,Design engineering,Hardware,integrated modular avionics development environment,Linux,Prototypes,safety critical systems,Software prototyping,Standards development,Testing},
   annotation = {MBSEVSIB}
 }
 
@@ -4019,6 +4028,24 @@
   number = {3},
   pages = {18},
   annotation = {seiler2008larrabee}
+}
+
+@inproceedings{sensfelder_modeling_2019,
+  title = {Modeling {{Cache Coherence}} to {{Expose Interference}}},
+  booktitle = {31st {{Euromicro Conference}} on {{Real-Time Systems}} ({{ECRTS}} 2019)},
+  author = {Sensfelder, Nathana{\"e}l and Brunel, Julien and Pagetti, Claire},
+  editor = {Quinton, Sophie},
+  year = {2019},
+  series = {Leibniz {{International Proceedings}} in {{Informatics}} ({{LIPIcs}})},
+  volume = {133},
+  pages = {18:1--18:22},
+  publisher = {{Schloss Dagstuhl\textendash Leibniz-Zentrum fuer Informatik}},
+  address = {{Dagstuhl, Germany}},
+  issn = {1868-8969},
+  doi = {10.4230/LIPIcs.ECRTS.2019.18},
+  isbn = {978-3-95977-110-8},
+  keywords = {cache coherence,formal methods,multi-core processor,Real-time systems},
+  file = {/home/danlo/Zotero/storage/QWR6LLSQ/Sensfelder et al. - 2019 - Modeling Cache Coherence to Expose Interference.pdf;/home/danlo/Zotero/storage/XPRN5TPU/10755.html}
 }
 
 @inproceedings{serra_architecture_2020,

@@ -75,7 +75,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     Le système que nous allons étudier ici est dit à niveau de criticité dual. Il exécute un ensemble de tâches logicielles (aussi appelé \textit{charge utile}) exécutées sur un support logiciel (classiquement, le système d'exploitation). Elles se répartissent entre les tâches à haute criticité d'une part (dites Critiques, par la définition donnée ci-dessus, et à faible criticité d'autre part (non critiques). 	Dans ce cadre particulier, il est alors possible de définir : 
     
     \begin{definition}\textbf{ -- Tâche critique} \\
-    	Une tâche critique est une tâche au niveau d'importance élevée. On peut aussi parler communément de tâche "vitale", dans le sens où une défaillance de cette fonctionnalité aurait soit des conséquences sévères pour l'utilisateur, soit empêcherait le bon fonctionnement d'un des modes d'opération essentiels du système.
+    	Une tâche critique est une tâche au niveau d'importance le plus élevé. On peut aussi parler communément de tâche "vitale", dans le sens où une défaillance de cette fonctionnalité aurait soit des conséquences sévères pour l'utilisateur, soit empêcherait le bon fonctionnement d'un des modes d'opération essentiels du système.
     	Inversement, une tâche pour laquelle une faute provoquant un dépassement d'échéance n'aurait pas de répercussions sévères sur l'utilisateur ou ne préviendrait pas la réalisation des fonctionnalités essentielles peut se définir comme non critique. En d'autres termes, une tâche de faible importance (relativement aux tâches critiques).
     \end{definition}
     
@@ -130,7 +130,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
 	    
 	    De façon formelle, on peut définir cette relation entre une tâche $\tau_i$ et son successeur $\tau_{i+1}$. Pour produire la donnée de sortie du job $\tau_{i+1,k}$ de la tâche $\tau_{i+1}$, ce dernier consomme toutes les données d'entrée en attente provenant des jobs $\tau_{i,j}$. Les données en attente étant celles qui n'ont pas été consommées par le job $\tau_{i+1,k-1}$ qui est le job précédent de $\tau_{i+1}$. On peut donc écrire que pour un $\{i,k\}$ donnés, sont consommées les données de tous les jobs $\tau_{i,j}$ tel que $ e_{i,j} \leq s_{i+1, k}$ et $e_{i,j} > s_{i+1, k-1}$. Autrement dit, un job $\tau_{i,j}$ n'a un effet sur $\tau_{i+1,k}$ si et seulement si ce dernier est le premier job de $\tau_{i+1}$ exécuté après la terminaison de $\tau_{i,j}$.
 	    
-	    \textbf{Remarque de compréhension} : \textit{les indices $j$ et $k$ ci-dessus représentent tous deux la différenciation des jobs pour une tâche donnée ($\tau_1$ pour $j$ et $\tau_2$ pour $k$). Si 2 lettres différentes sont utilisées, c'est uniquement du fait qu'il n'y a pas de relation entre 2 jobs de tâches différentes qui auraient le même indice d'occurrence. D'où la distinction $j$/$k$}.
+	    \textbf{Note de lecture} : \textit{les indices $j$ et $k$ ci-dessus représentent tous deux la différenciation des jobs pour une tâche donnée ($\tau_1$ pour $j$ et $\tau_2$ pour $k$). Si 2 lettres différentes sont utilisées, c'est uniquement du fait qu'il n'y a pas de relation entre 2 jobs de tâches différentes qui auraient le même indice d'occurrence. D'où la distinction $j$/$k$}.
 	    
 		Dans ces conditions, on nomme $\tau_{i+1,k}$ le \textbf{successeur} du job $\tau_{i,j}$. On note $succ()$ la fonction qui permet de trouver le successeur d'un job donné tel que~: 
 		\begin{multline*}
@@ -434,7 +434,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
         
 		Une des questions principales dans le cadre d'un cas d'application réel réside dans la façon de passer des spécifications fonctionnelles aux tâches logicielles qui sont allouées et exécutées sur le processeur.
 		
-		\begin{figure}[h!]
+		\begin{figure}[ht!]
 			\centering
 			\includegraphics[width=\linewidth]{SchemaChaineFonctionnelle.pdf}
 			\caption{Définition d'architecture fonctionnelle}

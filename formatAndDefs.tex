@@ -259,12 +259,19 @@
 {\vspace*{\fill}}
 
 %\usepackage{tablefootnote}
+\interfootnotelinepenalty=10000
 
 %%%%%% MISE EN FORME CADRES DEFINITIONS/THEOREMES/LEMES %%%%%%%%%%
 \usepackage{amsthm}  % for theoremstyle
+\usepackage[framemethod=tikz]{mdframed}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Théorème}[section]
+\surroundwithmdframed[outerlinewidth=1.5pt,
+innerlinewidth=1.5pt,
+middlelinewidth=2pt,
+middlelinecolor=white,
+bottomline=false,topline=false,rightline=false]{theorem}
 \newtheorem{corollary}{Corolaire}[theorem]
 
 %\theoremstyle{lemma}
@@ -273,7 +280,10 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Définition}
-
+\surroundwithmdframed[%outerlinewidth=1.5pt,
+%innerlinewidth=1.5pt,
+middlelinewidth=2pt,
+bottomline=false,topline=false,rightline=false]{definition}
 
 \cmnt{
 	\usepackage{ntheorem} %\usepackage{amsthm}  % for theoremstyle

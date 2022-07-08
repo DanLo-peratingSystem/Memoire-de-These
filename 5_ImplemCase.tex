@@ -30,8 +30,7 @@ Nous avons jusqu'alors présenté notre contribution pour garantir le respect d'
        		\label{fig:inteli58250Udie}
        	\end{figure}
        
-        	Sur ce type d'architecture, de nombreux points de contention peuvent provoquer des interférences entre les tâches. Dans la version schématisée du processeur en figure~\autoref{fig:kabylakesocblockdiagram}, une partie de ces éléments de contentions sont mis en valeur. On notera notamment le cache partagé ainsi que tous les bus de transfert de donnée (le "ring"), et les différents contrôleurs d'accès aux divers éléments. La problématique de la cohérence du cache a pu être étudiée en détail notamment dans %%% citer sensfelder 2019 ecrts !!
-        	\cmnt{\cite{boniol_identification_2019}} pour les multicœurs COTS.
+        	Sur ce type d'architecture, de nombreux points de contention peuvent provoquer des interférences entre les tâches. Dans la version schématisée du processeur en figure~\autoref{fig:kabylakesocblockdiagram}, une partie de ces éléments de contentions sont mis en valeur. On notera notamment le cache partagé ainsi que tous les bus de transfert de donnée (le "ring"), et les différents contrôleurs d'accès aux divers éléments. La problématique de la cohérence du cache a pu être étudiée en détail notamment dans~\cite{sensfelder_modeling_2019} ou encore \cite{boniol_identification_2019} pour les multicœurs COTS\footnote{COTS -- Commercial Off-The-Shell ou "Composant sur Étagère" désigne les produits disponible dans le commerce sans avoir été conçus pour un besoin spécifique.}.
         	
 		\begin{figure}[ht]
 			\centering
@@ -252,7 +251,7 @@ ComputeTraj   7  ./ComputeTraj.in      187       RM
 \end{lstlisting}
 
 	Aussi, chaque groupe dans ce fichier de configuration pointe vers des fichiers de configuration secondaires \texttt{tasks.in} qui donnent la liste de toutes les tâches de ce groupe à être exécutées avec les paramètres de chacune d'elles. Un exemple d'un tel fichier de configuration secondaire est donné en~\autoref{code:task.in}.
-	
+	\pagebreak
 	\begin{lstlisting}[caption={Fichier d'entrée pour une chaine de tâche}, label={code:task.in}]
 ID name         rWCRT    T   P  A prec FUNC     ARGS
 1  fft_S       129000   40  10  1   0  fft      8 2048 [...]
@@ -290,7 +289,7 @@ ID name         rWCRT    T   P  A prec FUNC     ARGS
     	\label{fig:implementationarchi}
     \end{figure}
 
-\pagebreak 
+%\pagebreak 
     À la fin de l'expérimentation, le Mécanisme de Contrôle gèle l'exécution de l'ensemble de tâches et enregistre les profils d'exécution de la chaîne de tâche dans un fichier de sortie \texttt{logs.out}.  Enfin, grâce à un \texttt{DataLogger} ajouté dans l'encapsulation des tâches, chacune d'entre-t-elle enregistre aussi en sortie tous ses logs d'exécution. Ce module de log d'exécution, propre à notre plateforme expérimentale, est décorrélé du mécanisme de Surveillance et Contrôle. Il a été ajouté uniquement pour obtenir des mesures de début et fin d'exécution plus complètes (incluant les tâches non critiques), de façon à analyser plus en détail le comportement du système.
         
     	\subsubsection{Agent de Surveillance et Contrôle}
@@ -308,7 +307,7 @@ ID name         rWCRT    T   P  A prec FUNC     ARGS
 	Ainsi, le module de Surveillance reçoit les données de début/fin des tâches critiques par évènements, pour enregistrer ces données dans une mémoire tampon. Ensuite, à chaque période $T_{CCC}$, le module de Contrôle traite les données en mémoire tampon pour mettre à jour l’État de la chaîne de tâches et calcule la condition \autoref{eq:safe_cond} - $ RT(t) + rWCRT(\tau_i) + W_{max} + t_{SW} \leq D_c $ pour anticiper une situation à risque qui demande un passage en mode dégradé.
 	Nous avons fait ce choix d'implémentation en deux composantes de façon à ce que la liaison entre l'Agent de Contrôle et les Wrappers se résume à un envoi de message, avec une tâche dédiée très simple qui a pour seul rôle de mettre ces messages en mémoire tampon pour être traités périodiquement par le CCC. Ainsi, une erreur dans l'envoi de ces messages ou dans leur réception n'empêche pas au module de Contrôle d'effectuer la vérification périodique. Cela évite aussi le partage de ressources entre les Wrappers et l'Agent de Contrôle. Et l'unique ressource partagée est interne à ce dernier, en la présence de la mémoire tampon. En conclusion, la modélisation de l'ensemble figure dans le diagramme de classe simplifié en~\autoref{fig:implementationdiagrammedeclasse}.
 	
-	\pagebreak
+%	\pagebreak
 	
 	\begin{figure}[ht]
 		\centering
@@ -363,7 +362,8 @@ Ce tri des tâches est résumé dans la~\autoref{tab:MiBench_classify}. Au vu de
 		CLEAN  		& fft-P, fft-G, fft-inv-P, basicmath-P, basicmath-G, bitcount-P						\\
 		NOISE     	& jpeg-D-P, susan-corners-P, susan-smooth-P, susan-edges-P, sha-P, gsm-Toast-P, gsm-UToast-P, fft-inv-G, rijndael-E-P, adpcm-C-P, sha-G, susan-corners-G, susan-edges-G 		   					\\
 		OVERHEAD    & stringsearch-G, jpeg-C-P, rijndael-D-P, jpeg-D-G, jpeg-C-G, adpcm-D-P, susan-smooth-G	   	\\
-		REJECT      & rijndael-D-G, adpcm-D-G, gsm-Toast-G, adpcm-C-G, gsm-UToast-G, rijndael-E-G (\textit{trop longues}), qsort-P, qsort-G, patricia-P, patricia-G, blowfish-E-P, blowfish-D-G, blowfish-D-P, blowfish-E-G (\textit{trop courtes})				\\
+		REJECT      & rijndael-D-G, adpcm-D-G, gsm-Toast-G, adpcm-C-G, gsm-UToast-G, rijndael-E-G (\textit{trop longues}), \\
+					& qsort-P, qsort-G, patricia-P, patricia-G, blowfish-E-P, blowfish-D-G, blowfish-D-P, blowfish-E-G (\textit{trop courtes})				\\
 		\bottomrule
 		\multicolumn{2}{c}{(\textit{-P/-G = version Petite/Grande ; -D/-E = Decode/enCode}) }
 	\end{tabularx}
