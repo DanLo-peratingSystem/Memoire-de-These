@@ -11,7 +11,7 @@
 %
 %
 % This work has the LPPL maintenance status `maintained'.
-% 
+%
 % The Current Maintainer of this work is T. GREGOIRE
 %
 
@@ -36,57 +36,58 @@
 % - defence date
 % - laboratory
 % - cotutelle
-\title{Prévention des fautes temporelles sur architectures multicœur pour les systèmes à criticité mixte}
-\author{Daniel LOCHE}
-\defencedate{01/07/2022}
+\title{Titre de la Thèse}
+\author{Nom Prénom}
+\defencedate{DD/MM/YY}
 \lab{Laboratoire d'analyse et d'architecture des systèmes -- LAAS-CNRS}
-%\cotutelle{}
+%\cotutelle{}    %% Insérer labo cotutelle cas échéant.
 
 % ==================
 % Setup people like your boss, the jury team and the referees
 % - First you need to define how number they will be in each category
 %   It is done with the commands \nboss{n}, \nreferee{n} and \njudge{n}.
-%   You can define more people in each category than the number given 
+%   You can define more people in each category than the number given
 %   but only the first "\npeople" will be print.
 % - Then use the command \makesomeone{<category>}{<number>}{<name>}{<status>}{<other>}
 %   where:
 %     <category> should be select in ['boss', 'referee', 'judge', 'invitee']
-%     <number>   is the rank for printing the person. 
+%     <number>   is the rank for printing the person.
 %                Only number <= "\npeople" will be printed
 %     <name>     First name and last name of the people
 %     <status>   Is (s)he a "charg\'e de recher" ou un "professeur d'universit\'e"...
 %     <other>    What ever string you want to add (laboratory, jury member place...).
 %% Boss
 \nboss{2}
-\makesomeone{boss}{2}{Michael LAUER}{}{}  % Sera affiche en second
-\makesomeone{boss}{1}{Jean-Charles FABRE}{}{} % Sera afiche en premier
-%% Referee
+\makesomeone{boss}{1}{Directeur thèse #1}{}{} % Sera afiche en premier
+\makesomeone{boss}{2}{(co-)Directeur thèse #2}{}{}  % Sera affiche en second
+
+%% Referee - Rapporteurs
 \nreferee{2}
-\makesomeone{referee}{1}{Liliana CUCU-GROSJEAN}{Chargée de Recherche}{INRIA, Paris}
-\makesomeone{referee}{2}{Emmanuel GROLLEAU}{Professeur}{ISAE-ENSMA, Poitiers}
-%% Judges
-\njudge{7}
-%\cmnt
+\makesomeone{referee}{1}{Prénom NOM}{Titre}{Lieu}
+\makesomeone{referee}{2}{Prénom NOM}{Titre}{Lieu}
+
+%% Judges - Jury
+\njudge{7}  %% Nombre de membres du jury
+\makesomeone{judge}{3}{Prénom NOM}{Titre, \\Institution}{Rôle Jury}
+\makesomeone{judge}{5}{Prénom NOM}{Titre, \\Institution}{Rôle Jury}
+\makesomeone{judge}{4}{Prénom NOM}{Titre, \\Institution}{Rôle Jury}
+\makesomeone{judge}{6}{Prénom NOM}{Titre, \\Institution}{Rôle Jury}
+\makesomeone{judge}{2}{Prénom NOM}{Titre, \\Institution}{Rôle Jury}
+\makesomeone{judge}{1}{Prénom NOM}{Titre, \\Institution}{Rôle Jury}
+%% Invitees - Invités
+%\ninvitee{1} %% Ne fonctionne pas,inclure au jury.
+\makesomeone{judge}{7}{Prénom NOM}{Métier, Entreprise}{Invité}
+
+\cmnt %%% EXEMPLE COMPLÉTÉ - si liste du jury trop longue (constater avec rendu PDF), retirer la partie "institution".
 {
-\makesomeone{judge}{3}{Claire PAGETTI}{Ingénieure de Recherche, \\ONERA}{Examinatrice}
+\makesomeone{judge}{1}{Claire PAGETTI}{Ing. de Recherche, \\ONERA}{Président du Jury}
 \makesomeone{judge}{5}{Jean-Charles FABRE}{Professeur des Universités, \\Toulouse INP}{Directeur de Thèse}
-\makesomeone{judge}{4}{Sébastien FAUCOU}{Maître de Conférences, \\Univ. de Nantes}{Examinateur}
+\makesomeone{judge}{2}{Sébastien FAUCOU}{Maître de Conférences, \\Univ. de Nantes}{Examinateur}
 \makesomeone{judge}{6}{Michael LAUER}{Maître de Conférences, \\Univ. Toulouse 3}{Co-directeur de Thèse}
-\makesomeone{judge}{2}{Liliana CUCU-GROSJEAN}{Directrice de Recherche, \\INRIA}{Rapporteure}
-\makesomeone{judge}{1}{Emmanuel GROLLEAU}{Professeur des Universités, \\ISAE-ENSMA}{Président}
+\makesomeone{judge}{4}{Liliana CUCU-GROSJEAN}{Directrice de Recherche, \\INRIA}{Rapporteure}
+\makesomeone{judge}{3}{Emmanuel GROLLEAU}{Professeur des Universités, \\ISAE-ENSMA}{Rapporteur}
 }
-\cmnt
-{
-\makesomeone{judge}{1}{Claire PAGETTI}{Ing. de Recherche\cmnt{, \\ONERA}}{Président du Jury}
-\makesomeone{judge}{5}{Jean-Charles FABRE}{Professeur des Universités\cmnt{, \\Toulouse INP}}{Directeur de Thèse}
-\makesomeone{judge}{2}{Sébastien FAUCOU}{Maître de Conférences\cmnt{, \\Univ. de Nantes}}{Examinateur}
-\makesomeone{judge}{6}{Michael LAUER}{Maître de Conférences\cmnt{, \\Univ. Toulouse 3}}{Co-directeur de Thèse}
-\makesomeone{judge}{4}{Liliana CUCU-GROSJEAN}{Directrice de Recherche\cmnt{, \\INRIA}}{Rapporteure}
-\makesomeone{judge}{3}{Emmanuel GROLLEAU}{Professeur des Universités\cmnt{, \\ISAE-ENSMA}}{Rapporteur}
-}
-%% Invitees
-%\ninvitee{1}
-\makesomeone{judge}{7}{François GŒUSSE}{Ingénieur, Renault SWLabs}{Invité}
+
 
 % ============================================================
 % DOCUMENT

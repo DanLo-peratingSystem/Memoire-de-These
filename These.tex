@@ -11,7 +11,7 @@
 
 \include{formatAndDefs}
 
-\renewcommand\nomgroup[1]{%  % GROUPES NOMENCLATURE
+\renewcommand\nomgroup[1]{%  % GROUPEMENT DES ÉLÉMENTS DE LA NOMENCLATURE. ON PEUT EN AJOUTER AUTANT QUE NÉCESSAIRE.
 	\item[\bfseries
 	\ifstrequal{#1}{D}{Abréviations}{%
 		\ifstrequal{#1}{A}{Modèle de Tâches}{%
@@ -19,9 +19,9 @@
 				\ifstrequal{#1}{C}{Mécanisme de Surveillance et Contrôle}{%
 		}}}}%
 		]
-	} 
-\setlength{\nomlabelwidth}{2cm}
- 
+	}
+\setlength{\nomlabelwidth}{2cm}			%% PARAMÉTRABLE POUR ADAPTER LE PLACEMENT DES COLONNES DE LA NOMENCLATURE, SELON LA LONGUEUR DE VOTRE ABRÉVIATION LA PLUS LONGUE
+
 \include{_Garde}
 
 \begin{document}
@@ -35,14 +35,14 @@
 
  \cleardoublepage
 %%%%%%%%%%%%%%%%%%
- %%%%% MAXIME %%%%% 
+ %%%%% MAXIME %%%%%
 %\topskip-10cm
 \vspace*{5cm}
 % \begin{maxime}{Pierre-Henri Cami.}
 %	Souvent une évolution est une révolution sans en avoir l'R.
 %\end{maxime}
-\epigraph{{\large Souvent une évolution est une révolution sans en avoir l'R.}}
-{{\smallbreak\large \textit{Pierre-Henri Cami}}}
+\epigraph{{\large Ceci est ma citation pour faire stylé}}
+{{\smallbreak\large \textit{Moi-même}}}
 %\vspace*{\fill}
 
 \cleardoublepage
@@ -53,8 +53,8 @@
 }{%
 \section*{Préface}
 \addstarredchapter{Préface}
-	
-	
+
+	Remerciements, à écrire à la fin.
 
 }
 
@@ -64,7 +64,10 @@
 
 
  %%%%%%%%%%%%%%%%%%%%%%%%
-{ %%%%% NOMENCLATURE %%%%%
+{ %%%%% NOMENCLATURE %%%%%  [lettre, ordre]{contenu}
+								% => lettre = groupe tel que défini plus haut.
+								% => ordre = si différents, permet de forcer un ordre d'apparition (sinon, ordre alphébétique)
+								% => contenu = bah ton contenu, andouille.
 	\nomenclature[A, 01]{$\tau_i$}{Tâche, d'indice i}
 	\nomenclature[A, 03]{$T_i$}{Période d'apparition d'une tâche}
 	\nomenclature[A, 04]{$D_i$}{Date limite d'échéance à la terminaison d'une tâche}
@@ -87,17 +90,18 @@
 	\nomenclature[C, 44]{$t_{SW}$}{Latence de changement de mode}
 	\nomenclature[C, 40]{TWC}{Task-Wrapper Component : module d'encapsulation pour la surveillance des tâches}
 	\nomenclature[C, 41]{CCC}{Core Control Component : module de décision de changement de mode}
-	
+
 }
 
 \printnomenclature
-\cmnt{	% Use \mtcfixnomenclature below if you have a glossary (added with
+\cmnt{	 %% IMPORTANT SI T'AS DES SOUCIS DE DÉCALLAGE ENTRE LES PLANS DANS CHAQUE CHAPITRE ET LE NUMÉRO DES CHAPITRES !!
+% Use \mtcfixnomenclature below if you have a glossary (added with
 % \printnomenclature above) and you're see a shift in the mini-table of
 % contents at the begining of each chapter (example: no mini-toc in chapter 1;
 % mini-toc of chapter 1 appearing in chapter 2; and so on).
 %
 % You should not use \mtcfixnomenclature if you have no glossary (that means,
-% if you don't use \printnomenclature or if your glossary is empty). 
+% if you don't use \printnomenclature or if your glossary is empty).
 }
 \mtcfixnomenclature
 
@@ -109,8 +113,6 @@
 \include{2_StateOfArt}
 \include{3_PrincipeArchi}
 \include{4_ProtocolExpe}
-\include{5_ImplemCase}
-%\include{6_BilanExpe}
 
 \include{_Conclusion}
 
@@ -123,28 +125,17 @@ Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au La
 
 \begingroup\raggedright
 \begin{description}
-	\item	D. Loche, M. Lauer, M. Roy, et J.-C. Fabre, « \textit{Mixed Critical Automotive Embedded Applications on Multicores: A Safe Scheduling Approach for Dependability} ». Dans 5th International Workshop on Critical Automotive Applications: Robustness \& Safety (CARS), 2019, Naples, Italy 
+	\item	D. Loche, M. Lauer, M. Roy, et J.-C. Fabre, « \textit{Mixed Critical Automotive Embedded Applications on Multicores: A Safe Scheduling Approach for Dependability} ». Dans 5th International Workshop on Critical Automotive Applications: Robustness \& Safety (CARS), 2019, Naples, Italy
 	\smallbreak
 	\item	D. Loche, M. Lauer, M. Roy, et J.-C. Fabre, « \textit{Safe Scheduling on Multicores: an approach leveraging multi-criticality and end-to-end deadlines} ». Dans 10th European Congress on Embedded Real Time Software and Systems (ERTS 2020), 2020, Toulouse, France.
-	\smallbreak	
+	\smallbreak
 	\item	D. Loche, A. Generes, M. Lauer, et J.-C. Fabre, « \textit{Run-time Monitoring and Control for Temporal Fault Prevention in Mixed-criticality Systems} ». Dans European Dependable Computing Conference (EDCC 2021), Intel; Fraunhofer IKS; LAAS, 2021, Munich (virtual), Germany. pp.53-60. (doi~: 10.1109/EDCC53658.2021.00015)
 \end{description}
 \endgroup
 \vspace*{\fill}
 
-%\appendix
-\include{Annexe1}
-
-%%%%%%%%%%%%%%%%%%%%%%%%
- %%%% BIBLIOGRAPHIE %%%%%
-\hyphenation{ONLINE}
-\begingroup\raggedright
-\bibliographystyle{StyleThese} % or StyleTheseWithEtAl  // plain
-\bibliography{these}
-\endgroup
-
 \cmnt
-{ %% Tentative list Publications - foiré...
+{ %% Tentative list Publications - foiré... du coup j'ai fais à la main !
 	\begin{bibunit}
 		\renewcommand{\bibsection}{\large \textbf{\begin{center}
 					Publications
@@ -153,12 +144,23 @@ Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au La
 		\renewcommand\@biblabel[1]{}
 		\makeatother
 		\def\bibfont{\small}
-		
+
 		%list all the references in the publications bibtex file
 		\nocite{*}
 		\putbib[MyPublications]
 	\end{bibunit}
 }
+
+%\appendix
+\include{Annexe1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%% BIBLIOGRAPHIE %%%%%
+\begingroup\raggedright        	%% Je préfère enlever l'ajustement du texte (plutôt qu'aligné à gauche) dans la biblio, c'est + lisible.
+\bibliographystyle{StyleThese} 	% ou StyleTheseWithEtAl  // plain
+\bibliography{these}			%% Penser à bien nommer son fichier these.bib pour la bibliographie.
+\endgroup
+
 
 \cleardoublepage
 
@@ -170,34 +172,25 @@ Les travaux présentés dans ce manuscrit ont été effectués à Toulouse au La
 \noindent\rule[2pt]{\textwidth}{0.5pt}
 \\ %%%%% RESUME EN FRANCAIS %%%%%
 	{\large\textbf{Résumé :} \addstarredchapter{Résumé}
-		
-		L'émergence de calculateurs multicœurs plus puissants, mais aussi plus complexes, présente à la fois une opportunité et de nouveaux enjeux pour l'intégration de systèmes à criticité mixte. Ces systèmes, qui embarquent des fonctionnalités de différents niveaux d'importance, requièrent le respect d'exigences temporelles. En effet, plus un logiciel est critique, plus les conséquences en cas de dépassement d'échéance d'exécution peuvent être catastrophiques. Par conséquent, des mécanismes de sûreté de fonctionnement doivent être mis en place pour prévenir ce risque. 
-		
-		L'usage de calculateurs multicœurs exacerbe cette problématique avec l'exécution concurrente de tâches qui peut provoquer des interférences inter-tâches. Cela est dû au partage de ressources associées à la plateforme matérielle partagée. La mémoire, les périphériques, les bus d'accès ainsi que les espaces mémoire partagés constituent ainsi des points de congestion potentielle. Cela peut alors mener à des retards dans l'exécution de tâches critiques uniquement du fait de l'exécution parallèle de tâches à plus faible niveau de criticité. En conséquence, les risques de non-respect des exigences temps-réel deviennent d'autant plus importants sur ces processeurs. De plus, la complexité croissante des architectures matérielle rend aussi plus difficile de complètement maîtriser et prévenir en amont tout risque d'interférences.
-		
-		Les solutions existantes à un tel problème se font au détriment d'autres éléments qui deviennent tout autant nécessaires dans l'industrie, dont notamment la maximisation d'usage des ressources de calcul. Ainsi, notre proposition cherche à répondre à la fois au besoin de garanties temps-réel sur les tâches critiques tout en permettant une bonne utilisation des ressources offertes par les calculateurs multicœurs. Dans ce cadre, ces travaux se focalisent sur l'étude des tâches critiques sous forme de chaînes de tâches fonctionnelles. De fait chaque fonctionnalité exécutée correspond à une chaîne de différents blocs logiciels exécutés séquentiellement. Avec cette approche, on propose un mécanisme de Surveillance et de Contrôle qui offre des garanties minimales sur une chaîne de tâche critique, par anticipation de risques d'interférences qui pourraient mener à une défaillance. L'anticipation ayant pour moyen de neutralisation des interférences la mise en pause temporaire des tâches non critiques. L'objectif est d'obtenir une garantie d'exécution bout-en-bout de la chaîne de tâche sans dépassement d'échéance, avec une limitation des tâches non critiques uniquement quand nécessaire, de façon à ce que le reste du temps, on puisse exploiter au maximum la puissance de calcul et les ressources disponibles. Avec un tel mécanisme, nous proposons un protocole d'implémentation et de calibration, ainsi qu'une première analyse à partir d'une plateforme expérimentale dédiée
+
+		Ceci est un résumé de votre thèse en Français, en moins de 1000 caractères.
 	}
 \smallbreak
-{\large\textbf{Mots clés~:} multicœur, temps-réel, criticité mixte, sûreté de fonctionnement}
+{\large\textbf{Mots clés~:} mots-clés, de la thèse, séparés, par une virgule}
 \\
 \noindent\rule[2pt]{\textwidth}{0.5pt}
 \end{vcenterpage}
 %\newpage
 \begin{vcenterpage}
 \noindent\rule[2pt]{\textwidth}{0.5pt}
-\section*{Preventing temporal faults on multicore architectures for mixed-criticality systems}
+\section*{Thesis title in english}
 %\\ %%%%% RESUME EN ANGLAIS %%%%%
 	{\large\textbf{Abstract:}
-			
-		The emergence of more powerful, but also more complex, multicore computers presents both an opportunity and new challenges for the integration of mixed criticality systems. These systems, which embed functionalities of different levels of importance, require the respect of temporal requirements. Indeed, the more critical a software is, the more catastrophic the consequences in case of a missed execution deadline. Consequently, mechanisms for operational safety must be put in place to prevent this risk. 
 
-		The use of multicore computers exacerbates this problem with the concurrent execution of tasks that can cause inter-task interference. This is due to the sharing of resources associated with the shared hardware platform. Memory, peripherals, access to buses and shared memory spaces are potential congestion points. This can lead to delays in the execution of critical tasks only due to the parallel execution of lower criticality tasks. Consequently, the risks of non-compliance with real-time requirements become even more prominent. %Moreover, the increasing complexity of hardware architectures makes it more difficult to completely control and prevent any risk of interference upstream.
-
-		The existing solutions to such a problem are done at the expense of other elements that are becoming equally necessary in the industry, including the maximization of computing resources use. Thus, our proposal seeks to address both the need for real-time guarantees on critical tasks while allowing a good use of the resources offered by multicore computers. This thesis work focuses on the study of critical tasks modeled as functional task chains to guarantee their response times. Each functionality of the system corresponds to a chain of different software components executed sequentially. With this more functional approach to software execution, we propose a Monitoring and Control mechanism that offers guarantees on a critical task chain, by anticipating risks of interference that could lead to a failure. The anticipation consist of pausing temporarily the noncritical tasks to control and mitigate interference. The objective is to obtain a guarantee of end-to-end response time of the task chain without missing deadlines, with a limitation of interference only when necessary, so that the rest of the time, all the tasks of the system can exploit the computing power and the available resources to the maximum. 
-		We propose along with such mechanism an implementation protocol and a first analysis with an experimental platform as a proof of concept to analyze the results obtained with such solution.
+		That's your english version of the abstract, in less than 1000 caracters.
 	}
 	\smallbreak
-	{\large\textbf{Keywords:} multicore, real-time, mixed-criticality, safety}
+	{\large\textbf{Keywords:} english, keywords}
 \\ %\Large\textbf{\textsc{Preventing temporal faults on multicore architectures for mixed-criticality systems}}
 \noindent\rule[2pt]{\textwidth}{0.5pt}
 \end{vcenterpage}
