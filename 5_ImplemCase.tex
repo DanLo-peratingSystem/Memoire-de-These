@@ -36,7 +36,8 @@ Nous avons jusqu'alors présenté notre contribution pour garantir le respect d'
 			\centering
 			\includegraphics[width=\linewidth]{schemas/kaby_lake_soc_block_diagram}
 			\captionsetup{justification=centering}
-			\caption{Représentation schématique du processeur avec les points d'interférences notables}
+			\caption[Schéma de processeur multicœur avec points d'interférence]
+					{Représentation schématique du processeur avec les points d'interférences notables}
 			\label{fig:kabylakesocblockdiagram}
 		\end{figure}
 	
@@ -473,7 +474,7 @@ Sur 120 secondes d'expérimentation, on obtient 1985 exécutions bout-en-bout de
 	\centering
 	\scalebox{0.9}{\input{graphiques/TaskChain_sans_interference.pgf}}
 	\captionsetup{justification=centering}
-	\caption{Profil de la chaîne de tâche en fonctionnement nominal \\ sans mécanisme de contrôle}
+	\caption[Profil de la chaîne de tâche en isolation sans contrôle]{Profil de la chaîne de tâche en isolation sans mécanisme de contrôle}
 	\label{graph:taskchainsansinterference}
 \end{figure}
 
@@ -580,7 +581,7 @@ Le résultat que l'on obtient sur le profil d'exécution de la chaîne de tâche
 	\centering
 	\scalebox{0.9}{\input{graphiques/TaskChain_avec_interference.pgf}}
    	\captionsetup{justification=centering}
-	\caption{Profil de la chaîne de tâche sans mécanisme de contrôle}
+	\caption[{Profil de la chaîne de tâche en mode nominal sans contrôle}]{Profil de la chaîne de tâche en mode nominal sans mécanisme de contrôle}
 	\label{graph:taskchainavecinterference}
 \end{figure}
 
@@ -644,7 +645,7 @@ Pour finir, l'expérimentation finale consiste à exécuter la totalité du syst
 	\centering
 	\scalebox{0.9}{\input{graphiques/TaskChain_avec_interference_et_mecanisme.pgf}}
 	\captionsetup{justification=centering}
-	\caption{Profil de la chaîne de tâche avec et sans mécanisme de contrôle}
+	\caption[Profil de la chaîne de tâche en mode nominal avec contrôle]{Profil de la chaîne de tâche avec mécanisme de contrôle et comparatif}
 	\label{graph:taskchain_Interference_Control}
 \end{figure}
 

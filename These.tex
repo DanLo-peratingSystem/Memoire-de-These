@@ -58,11 +58,16 @@
 
 }
 
-
 \tableofcontents
-%\makenomenclature
 
+\renewcommand{\listfigurename}{Liste des figures et graphiques}
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
 
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+\makenomenclature
  %%%%%%%%%%%%%%%%%%%%%%%%
 { %%%%% NOMENCLATURE %%%%%
 	\nomenclature[A, 01]{$\tau_i$}{Tâche, d'indice i}

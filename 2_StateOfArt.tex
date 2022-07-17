@@ -36,7 +36,8 @@ Nous présentons dans ce chapitre une vue d'ensemble des différents études aca
     	\centering
     	\includegraphics[width=\linewidth]{schemas/StateOfTheArt_plan}
     	\captionsetup{justification=centering}
-    	\caption{Vue d'ensemble des solutions pour systèmes à criticité mixte sur calculateur multicœur}
+    	\caption[Classification État de l'Art Systèmes à criticité mixte sur multicœur]
+    			{Vue d'ensemble des solutions pour systèmes à criticité mixte sur calculateur multicœur}
     	\label{fig:stateoftheartsituation}
     \end{figure}
 
@@ -88,7 +89,8 @@ Nous présentons dans ce chapitre une vue d'ensemble des différents études aca
      \begin{figure}[ht]
      	\centering
      	\includegraphics[width=0.7\linewidth]{schemas/MC2_scheduling_model}
-     	\captionsetup{justification=centering} \caption{Allocation de conteneurs avec leurs politiques d'ordonnancement pour chaque niveau de criticité avec MC\up{2} sur un quadricœur~\cite{herman_rtos_2012}}
+     	\captionsetup{justification=centering} 
+     	\caption[Politique d'ordonnancement avec MC\up{2} sur quadricœur~\cite{herman_rtos_2012}]{Allocation de conteneurs avec leurs politiques d'ordonnancement pour chaque niveau de criticité avec MC\up{2} sur un quadricœur~\cite{herman_rtos_2012}}
      	\label{fig:mc2schedulingmodel}
      \end{figure}
  
@@ -136,7 +138,7 @@ Nous présentons dans ce chapitre une vue d'ensemble des différents études aca
     \begin{figure}[ht!]
     	\centering
     	\includegraphics[width=0.7\linewidth]{schemas/DYNASCORE_tasks_sched_example}
-    	\caption{Principe de contrôle d'exécution non optimisé dans \cite{kritikakou_multiplexing_2016}}
+    	\caption[Principe de contrôle d'exécution DYNASCORE \cite{kritikakou_multiplexing_2016}]{Principe de contrôle d'exécution (non optimisé) dans \cite{kritikakou_multiplexing_2016}}
     	\label{fig:dynascoretasksschedexample}
     \end{figure}
     Dans ce sens, \cite{kritikakou_distributed_2014}, \cite{kritikakou_dynascore_2017} propose un mécanisme réactif qui se base sur deux niveaux de criticité avec le diagnostic de risque d'interférences des tâches à faible niveau de criticité sur les tâches critiques du fait du matériel partagé. La proposition consiste à surveiller l'exécution des tâches critiques de façon à identifier le moment où les interférences ne peuvent plus être tolérées, au risque de déclencher des dépassements d'échéances critiques. À cet instant-là, les tâches non-critiques sont stoppées pour prévenir le risque. La méthode de contrôle consiste à mesurer à des points de fonctionnement prédéfinis l'état d'avancement de l'exécution des tâches critiques, et de le comparer à des estimations de pire temps d'exécution restant à ce point de fonctionnement. Par calcul d'une condition de sûreté, le mécanisme de contrôle identifie le risque  pour passer en mode dégradé. Tel qu'illustré en ~\autoref{fig:dynascoretasksschedexample}, les tâches critiques $\tau_{C1}$, $\tau_{C2}$ sont exécutées sur les cœurs 1 et 2 tandis que les tâches non critiques $\tau_{1}$ [...] $\tau_{n}$ sont exécutées sur les autres cœurs. La vérification à intervalles réguliers permet d'identifier le point de décision au-delà duquel les tâches non critiques sont arrêtées temporairement pour garantir la terminaison des tâches critiques avant leur date butoir.
