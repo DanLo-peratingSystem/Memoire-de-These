@@ -294,9 +294,13 @@ ID name         rWCRT    T   P  A prec FUNC     ARGS
         
     	\subsubsection{Agent de Surveillance et Contrôle}
 
-	L'agent de Surveillance et Contrôle que nous avons développé se décompose en 2 processus. D'une part un processus de réception des données de fin d'exécution des tâches critiques, et d'autre part un module de prise de décision pour effectuer le Contrôle à proprement parler.
+	L'agent de Surveillance et Contrôle que nous avons développé se décompose en 2 processus. 
 	
-	L’interaction entre les modules du Core Control Component et du Task Wrapper Component est illustré sur la~\autoref{fig:agentsurveillancecontrole}, avec la réception par évènement des timestamps de fin de tâches critiques (Real-Time) et l'envoi de signal de passage en mode dégradé vers les tâches non critiques (BE - Best-Effort) en cas d'anticipation.
+	D'une part, le processus de \textbf{Surveillance} réceptionne les données de fin d'exécution des tâches critiques grâce à leur encapsulation et les stockent dans une mémoire tampon. Il s'exécute de façon évènementielle à chaque arrivée d'un nouveau timestamp. 
+	
+	D'autre part, un module de \textbf{Contrôle} consomme les données en mémoire tampon pour suivre exhaustivement l'état de la chaîne de tâches et permet le changement de mode. Ces deux processus correspondent ainsi aux deux blocs décrits dans le~\autoref{chap:3_PrincipeArchi} : Task Wrapper Component et Core Control Component.
+	
+	L’interaction entre les modules du Core Control Component et du Task Wrapper Component est illustré sur la~\autoref{fig:agentsurveillancecontrole}, avec la réception par évènement des timestamps de fin de tâches critiques et l'envoi de signal de passage en mode dégradé vers les tâches non critiques en cas d'anticipation.
 
 	\begin{figure}[ht]
 		\centering
@@ -304,7 +308,24 @@ ID name         rWCRT    T   P  A prec FUNC     ARGS
 		\caption{Interactions Agent de Surveillance-Contrôle avec les tâches}
 		\label{fig:agentsurveillancecontrole}
 	\end{figure}
-	Ainsi, le module de Surveillance reçoit les données de début/fin des tâches critiques par évènements, pour enregistrer ces données dans une mémoire tampon. Ensuite, à chaque période $T_{CCC}$, le module de Contrôle traite les données en mémoire tampon pour mettre à jour l’État de la chaîne de tâches et calcule la condition \autoref{eq:safe_cond} - $ RT(t) + rWCRT(\tau_i) + W_{max} + t_{SW} \leq D_c $ pour anticiper une situation à risque qui demande un passage en mode dégradé.
+
+	À la période $T_{CCC}$, le module de Contrôle traite les données en mémoire tampon. Pour se faire il conserve en mémoire les timestamps classées par tâches, de façon à pouvoir reconstruire l’État de la chaîne de tâches $S(t) = \left\langle t_0, \tau_p \right\rangle$ à partir de la date de début de la tâche entrante de la chaîne et par reconstruction de sa trace d'exécution jusqu'à l'instant t. Il peut alors calculer la condition \autoref{eq:safe_cond} - $ RT(t) + rWCRT(\tau_i) + W_{max} + t_{SW} \leq D_c $ pour anticiper une situation à risque qui demande un passage en mode dégradé. Le détail du fonctionnement interne du processus de Contrôle est représenté dans la \autoref{fig:algorithmecontrole}. On remarquera la nécessité des tables de stockage des timestamps des tâches $\tau_i$, de taille $L_i$, qui se remplissent à partir des éléments reçus par le TWC, et sont retirés à chaque complétion de la chaîne de tâche (tous les timestamps respectant les contraintes de précédence avec le timestamp de la tâche terminale sont délestés). 
+	
+	\begin{figure}[th]
+		\centering
+		\includegraphics[width=0.7\linewidth]{schemas/Algorithme_Controle}
+		\caption{Fonctionnement interne du Core Control Component}
+		\label{fig:algorithmecontrole}
+	\end{figure}
+	
+	Il est possible de définir les tailles minimales $L_i$ nécessaires des tables pour stocker les différents timestamps des tâches $\tau_i$ de la chaîne critique. Pour une tâche $\tau_i$, $i \in [\![1,n]\!]$ alors $L_i$ est fonction de la période d'activation et du nombre maximum possible d'instances actives de la chaîne de tâche à prendre en compte à un instant donné tel que défini au~\autoref{chap:3_PrincipeArchi} (Def.~\ref{def:EtatChaine}). Ainsi, avec $T_i$ et $C_i$ respectivement la période et le temps d'exécution pire cas de la tâche critique $\tau_i$, on a~: 
+	\begin{equation}~\label{Cond:sizeBuffers}
+		\forall~\tau_i, \  i \in [\![ 1, n ]\!],  \qquad L_i = \left\lceil \frac{\sum_{j=i}^{n}(C_j + T_j)-T_i}{T_i} \right\rceil
+	\end{equation}
+	On notera que pour $i=n$, la tâche terminale, on trouve bien $L_n=1$ qui est logique cas dès qu'un job de la tâche terminale s'exécute, elle est directement délestée dans le mécanisme de Contrôle par la terminaison de l'exécution bout-en-bout correspondante. Il n'y aura donc jamais plus d'un timestamp de la tâche terminale de stockée, et il sera immédiatement retiré par définition des traces d'exécutions actives, qui sont les seuls conservées pour le suivi à un instant t.
+	
+	\pagebreak
+	
 	Nous avons fait ce choix d'implémentation en deux composantes de façon à ce que la liaison entre l'Agent de Contrôle et les Wrappers se résume à un envoi de message, avec une tâche dédiée très simple qui a pour seul rôle de mettre ces messages en mémoire tampon pour être traités périodiquement par le CCC. Ainsi, une erreur dans l'envoi de ces messages ou dans leur réception n'empêche pas au module de Contrôle d'effectuer la vérification périodique. Cela évite aussi le partage de ressources entre les Wrappers et l'Agent de Contrôle. Et l'unique ressource partagée est interne à ce dernier, en la présence de la mémoire tampon. En conclusion, la modélisation de l'ensemble figure dans le diagramme de classe simplifié en~\autoref{fig:implementationdiagrammedeclasse}.
 	
 %	\pagebreak

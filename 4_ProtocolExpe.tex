@@ -213,21 +213,36 @@ L'objectif de cette seconde phase de caractérisation consiste justement à cara
     
     	\paragraph{\ctxt{1} -- Système exécuté en mode dégradé}
     	
-    		Cette étape a pour objectif de déterminer deux des grandeurs susmentionnées. $T_{CCC}$ la période de vérification du mécanisme de contrôle. Et les différents $rWCRT(\tau_p)$ qui indiquent chacun la pire temps d'exécution restant garanti en mode dégradé pour la chaîne de tâche, selon le nombre de tâches restantes à exécuter pour la terminaison de la chaîne. 
+    		Cette étape a pour objectif de déterminer deux des grandeurs susmentionnées. $T_{CCC}$ la période de vérification du mécanisme de contrôle. Et les différents $rWCRT(\tau_p)$ qui indiquent chacun la pire temps d'exécution restant garanti en mode dégradé pour la chaîne de tâche, selon le nombre de tâches restantes à exécuter pour la terminaison de la chaîne.
     		
-    		La chaîne de tâches est exécutée dans les mêmes conditions que le mode dégradé du système, avec le mécanisme qui est exécuté uniquement pour sa composante de Surveillance. Il convient donc de fixer en premier lieu le choix de $T_{CCC}$, qui est déterminé pour permettre au mécanisme implémenté de gérer la charge de réception des timestamps de terminaison des tâches critiques d'une part, et par le niveau de sensibilité à l'anticipation que l'on souhaite donner au mécanisme d'autre part. Il est ainsi hautement dépendant des spécifications de la partie critique du système. 
-    		Pour donner une première valeur de période, nous nous focalisons sur la charge de réception. Il faut à chaque instant garantir qu'aucun timestamp ne soit perdu. Par conséquent, soit $L_{BUF}$ le nombre d'emplacements disponibles dans la mémoire tampon de réception des timestamps et $n$ le nombre de tâches critiques ayant pour périodes d'exécution $T_i, i \in [\![1,n]\!]$, alors la condition suffisante pour garantir le traitement de tous les timestamps est~:
+    		La chaîne de tâches est exécutée dans les mêmes conditions que le mode dégradé du système, avec le mécanisme qui est exécuté uniquement pour sa composante de Surveillance. Il convient donc de fixer en premier lieu le choix de $T_{CCC}$, la période d'exécution. Il faut garder en tête les deux contraintes reliées au choix de cette valeur. 
+    		\begin{itemize}
+    			\item Elle doit impérativement permettre au mécanisme de gérer la charge de réception des timestamps de terminaison des tâches critiques d'une part. Cela demande une période suffisamment rapide vis-à-vis de la période d'exécution des tâches critiques. 
+    			\item Cependant, le choix de la valeur influe aussi sur les propriétés du mécanisme. Plus la période est faible plus le mécanisme va utiliser de ressources de calcul. À l'inverse, plus elle est grande, plus le mécanisme est sensible aux variations de temps de réponse dans l'anticipation ) cause de la prise en compte de $W_{MAX}$ dans la condition de changement de mode. Cela peut aller jusqu'à déclencher des changements de mode non nécessaires (faux positifs). 
+    		\end{itemize}
+    		Il est ainsi hautement dépendant des spécifications de la partie critique du système.
+    		Le mécanisme de Surveillance stocke les timestamps de façon temporaire dans une mémoire tampon avant qu'ils ne soient traitaient par le Core Control Component. Cette mémoire tampon ayant une capacité de stockage de $L_{buf}$ timestamps, il est alors possible de définir la taille de cette mémoire en fonction de la période d'exécution $T_{CCC}$ choisie, et des caractéristiques des différentes tâches critiques. 
+    		Ainsi, pour garantir à chaque instant qu'aucun timestamp ne soit perdu, dans les conditions où il y a n tâches critiques $\tau_i, i \in [\![1,n]\!]$ de périodes respectives $T_i$, ayant chacune un pire temps de réponse $WCRT(\tau_i)$, alors on a la condition minimale suivante~:
     		\begin{equation}\label{eq:conditionsMemoireControle}
-    			L_{BUF} \geq n  \quad \texttt{et} \quad T_{CCC} \leq \min{(T_i)}
+    			L_{buf} = \sum_{i=1}^{n}\left\lceil \frac{T_{CCC}+WCRT(\tau_i)}{T_i} \right\rceil
     		\end{equation}
-    		De cette façon, il est garanti qu'à chaque instant $t$, en pire cas le Core Control Component aura au maximum $n$ nouveaux timestamps à traiter, dans l'hypothèse --peu probable-- où toutes les tâches critiques se terminent en même temps. Une fois traités, ils sont ajoutés aux Traces d'Exécution actives gérée par la CCC pour le Contrôle.
-    		De plus la récupération des timestamps doit être plus fréquente que l'occurrence de toute tâche critique, en particulier celle dont la période est la plus petite. En d'autres termes, le flux de traitement des timestamps par le mécanisme doit être supérieur au flux de terminaison des tâches critiques. 
-    		Avec ces deux conditions, on a la garantie de ne perdre aucun timestamp envoyé. De fait, en considérant que chaque emplacement de la mémoire tampon correspond à une des tâches critiques, on a bien au moins 1 emplacement pour chaque tâche (première inéquation). Donc avec le mécanisme de contrôle qui s'exécute plus souvent que chacune des tâches critiques, on est sûr qu'il n'y aura pas plus d'un timestamp par tâche critique à gérer à chaque période de contrôle. On est donc sûr que la mémoire tampon n'aura pas de débordement et donc qu'aucun timestamp ne sera perdu. 
+    	%% Par ailleurs, si d'aventure le Task Wrapper Component devrait gérer en plus des timestamps de fin, les timestamps de début d'exécution des tâches critiques, alors la condition deviendrait la suivante~: 
+    	%%  \begin{equation}\label{eq:conditionsMemoireControleBIS}
+	    	%		L_{buf} = \sum_{i=1}^{n}\left\lceil \frac{T_{CCC}+WCRT(\tau_i)}{T_i} \right\rceil + $\sum_{i=1}^{n} \left\lceil \frac{T_{CCC}}{T_i} \right\rceil$
+    	%%	\end{equation}
+    		De cette façon, il est garanti qu'à chaque instant $t$, en pire cas le Core Control Component aura au maximum $L_{buf}$ nouveaux timestamps à traiter. Une fois traités, ils sont ajoutés aux Traces d'Exécution actives gérée par la CCC pour le Contrôle et donc retirées de la mémoire tampon.
     		
-    		Ces deux conditions de l'~\autoref{eq:conditionsMemoireControle} sont suffisantes, mais pas nécessaires. Cela fournit un premier couple de valeurs de période d'exécution et de taille de mémoire tampon simples et fonctionnels. Dans un cadre où la contrainte de mémoire disponible est très contraignante, il est probable que selon la chaîne de tâches étudiée, on puisse réduire taille de mémoire tampon, en calculant le nombre maximal de terminaison de tâches critiques possible durant une période de temps $T_{CCC}$.
-    		Ou inversement, pour diminuer l'empreinte mémoire du mécanisme de surveillance et de contrôle, cette valeur de $T_{CCC}$ pourra être affinée en étape \ctxt{5}. Cela permet par la même occasion de jouer sur le niveau de sensibilité à l'anticipation du mécanisme, si nécessaire.
+    		On remarquera que par design, tous les $WCRT(\tau_i)$ sont nécessairement inférieurs aux périodes $T_i$ de leurs tâches respectives. On peut donc proposer aussi une version simplifiée de cette condition, qui est suffisante (mais potentiellement sur-estimée), dans laquelle on se borne au pire cas où les $ WCRT(\tau_i) = T_i $. On obtient alors une condition simplifiée qui ne requiert pas l'estimation des pires temps de réponse des tâches critiques~: 
     		
-    		Le mécanisme de surveillance est activé pour conserver les traces d'exécution de la chaîne de tâches $ET(j,t)$. 
+    		\begin{equation}\label{eq:conditionsMemoireSimplifiee}
+    			L_{buf} = \sum_{i=1}^{n}\left\lceil \frac{T_{CCC}}{T_i} +1 \right\rceil
+    		\end{equation}
+    		
+    		Cette dernière condition de l'~\autoref{eq:conditionsMemoireControle} est donc suffisantes, mais pas nécessaire. Elle fournit un premier couple de valeurs de période d'exécution $T_{ccc}$ et de taille de mémoire tampon $L_{buf}$ simples et fonctionnels. Dans un cadre où la contrainte de mémoire disponible est très contraignante, il est probable que selon la chaîne de tâches étudiée, on puisse réduire taille de mémoire tampon en utilisant donc la condition complète précédente, qui requiert les valeurs des pires temps de réponses des tâches critiques.
+    		
+    		\pagebreak
+    		
+    		Maintenant que ces valeurs sont fixées, le mécanisme de surveillance est activé pour conserver les traces d'exécution de la chaîne de tâches $ET(j,t)$, de façon à déterminer expérimentalement les $rWCRT(\tau_i)$ nécessaires au Contrôle.
     		Pour rappel, chaque trace d'exécution enregistre le timestamps de fin d'exécution de toutes les tâches de la chaîne selon le respect de la contrainte de précédence dans la chaîne. On reconstitue donc à partir de ces traces les temps d'exécution intermédiaires de la chaîne de tâche~: \\
     		pour chaque $p \in [\![1;n-1]\!], \quad ET(\,j\,,~t=succ^{\,p}(e_{1,j})~) = succ^{\,p}(e_{1,j}) - a_{1,j}$. \\
     		Comme on a pu le décrire en~\autoref{chap:3_PrincipeArchi}, les $e_{1,j}$ et $a_{1,j}$ correspondent respectivement aux dates de fin et d'activation du j\up{ème} job de la première tâche critique de la chaîne. Et $succ^{\,p}(e_{1,j})$ le timestamp de terminaison du p\up{ème} successeur du job d'entrée $\tau_{1,j}$ de la chaîne de tâches.
