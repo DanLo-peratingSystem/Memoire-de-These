@@ -31,7 +31,7 @@
 
 \dominitoc
 
-\pagenumbering{roman}
+\thispagestyle{empty}
 
  \cleardoublepage
 %%%%%%%%%%%%%%%%%%
@@ -46,14 +46,56 @@
 %\vspace*{\fill}
 
 \cleardoublepage
-
+\pagenumbering{roman}
 %Another use of \if toggle can be found at the end of this file.
 \IfLanguageName{english}{%
 \section*{Acknowledgments}
 }{%
 \section*{Préface}
 \addstarredchapter{Préface}
+	 
+	Quand j'étais au collège, je souhaitais faire interprète. Mais arrivé au Lycée, je me suis ravisé pour m'orienter vers un cursus scientifique. Je m'étais fixé de ne pas faire d'études (trop) longues, et d'aller travailler dès que possible.
 	
+	Force est de constater que l'objectif n'a pas été maintenu, en allant en Classes Prépa, puis l'école d'ingénieur qu'est l'ENSEEIHT. Mais toujours dans mon objectif initial, aucune chance que je continue dans la recherche ou que je fasse une thèse~: les 3 ans, le diplôme, et puis boulot dans l'industrie... Enfin, c'était en théorie.
+	
+	Et bien cette fois-ci encore, l'avenir m'a donné tort, avec cette proposition tant inattendue qu'intéressante de réaliser cette thèse au LAAS-CNRS avec Renault. Après un long mois de réflexion, j'ai franchi ce pas le cœur léger, et me voici aujourd'hui sans regret à regarder cette page se tourner. 
+	Comme quoi, on ne sait jamais ce que l'avenir nous réserve ! Prévus comme imprévus, l'important reste de choisir ce qui correspond le mieux à ses désirs.
+	
+\paragraph*{}
+	C'est donc avec une grande joie et un vrai sentiment d'accomplissement que j'écris ces lignes aujourd'hui. Après tant de pages dédiées au bilan de ces années de thèse passées, il est l'heure du repos et des remerciements. 
+	
+	Je me dois de remercier en premier lieu les différentes institutions sans qui cette thèse n'aurait pas été possible. Tout d'abord, je remercie le Technocentre Renault pour avoir proposé un sujet aussi intéressant et qui représente un vrai défi à la fois personnel et industriel. Plus spécifiquement, merci à Régis Valentin pour avoir supporté toute la charge administrative, toujours aussi légère et agréable à faire dans ce milieu (\textit{c'est faux}).  Merci aussi au LAAS-CNRS et plus particulièrement à l'équipe Tolérance aux Fautes et Sûreté de Fonctionnement Informatique (TSF) menée successivement par Mohamed Kaâniche puis Hélène Waeselynck. Vous m'avez offert un environnement de travail qui est resté agréable et épanouissant le long de ces années de labeur, ainsi que permi de mener ces travaux jusqu'à leur terme malgré les conditions que nous connaissons tous aujourd'hui (qui commence par "CO-" et se termine par "-VID"). 
+	Je remercie de même l'INP-Toulouse et l'École Doctorale Système (EDSys) pour avoir mis à disposition le cadre pédagogico-institutionnel adapté à la réalisation \cmnt{sereinne et }en bonne et due forme de cette thèse. Merci à Agnan de Bonneval pour son aide et ses conseils dans les diverses procédures. 
+	
+	Je tiens à présenter toute ma reconnaissance envers les examinateurs et rapporteurs, qui ont eu la patience de relire mon manuscrit et être attentif à la restitutions de mes travaux. Vos avis, questions et retours détaillés et réfléchis m'ont été d'une grande aide et un très beau mot de conclusion de tout ce processus.
+	Merci à Liliana Cucu-Grosjean, rapportrice, pour la vague de questions étoffées et très intéressantes que tu m'as soumis . Les discussions qui en ont abouti m'ont permis de prendre confiance sur l'horizon dessiné par les résultats de mes travaux en étoffant les discussions sur les enjeux propres à ce domaine de recherche si complexe. Navré que tu n'ai pas pu partager cet instant conclusif à nos côtés.  
+	Merci à Emmanuel Grolleau, rapporteur, pour tes indications lors de notre long entretien où j'ai pris plaisir à répondre à tes questions. Merci pour tous les efforts fournis pour prendre en main et comprendre les détails de mes travaux avec des recommandations très pertinentes. 
+	Merci à Claire Pagetti et Sébastien Faucou, examinateurs, pour votre écoute attentive et tous les retours que vous avez pu m'apporter. Merci à vous tous de m'avoir fait l'honneur de votre présence et de votre temps. Pour avoir rendu compte de votre expertise sur ma modeste contribution à ce grand domaine dans lequel vous avez déjà largement apporté votre marque. 
+	
+	Aussi, je souhaite du fond du cœur remercier mes encadrants, qui ont pu me guider, me conseiller et m'accompagner, que ce soit dans les moments difficiles mais aussi dans les périodes plus légères. 
+	Merci donc à Jean-Charles Fabre pour les longues discussions que l'on a pu avoir, pour tous ces échanges sur l'enseignement, la pédagogie, mais aussi les bons restos, la science et plein d'autres sujets encore. Merci pour tes conseils avisés, pour avoir apporté ta vision et ta sagesse pour que l'on évite ensemble les trous dans la raquette durant ces travaux, comme qui dirait~! Merci aussi pour cet e-mail de Juillet 2017, qui aura été sans nul doute un tournant dans ma vie suite à un bon mois de réflexion personnelle. Tu es celui qui m'a donné goût à ce qui a occupé plus de 4 ans de ma vie par la suite, et qui a su m'amener vers ce parcours personnel que l'on ne vit qu'une fois.
+	Un grand merci de même à Mickaël pour ton aide précieuse, tes conseils avisés et pour ton optimisme et ta bonne humeur toujours présents qui m'ont permis d'aller de l'avant et tenir jusqu'au bout. Merci à vous deux aussi pour vos relectures attentives et pour m'avoir supporté et soutenu pendant ces longues années de travail.
+	Merci aussi à Matthieu Roy qui, malgré les difficultés, a fait de son mieux pour me conseiller et m'apporter ses retours. Je remercie de même Stéphane Korzin puis Enagnon Cédric Klikpo du Technocentre Renault ainsi que François Gœusse et Patricia Guitton-Houhamou de Renault Software Labs pour tous leurs retours techniques ainsi que le temps et l'expertise que vous avez pu me consacrer pour m'aider à mener à bien ces travaux. Merci à vous pour m'avoir conforté dans les directions prises par ma thèse en m'apportant le recul nécessaire pour trouver ma place dans l'état des lieux technologique du domaine automobile. 
+	Sans vous, tout cela n'aurait pas été aussi bien, ni même possible. Et pour tout cela je vous en suis tous entièrement reconnaissant.
+	
+	\renewcommand{\alertColor}{\textcolor{black}}
+\paragraph*{}
+	Mais qu'aurait été cette thèse, sans toutes ces personnes que j'ai croisé le long du chemin~?
+	Merci de tout cœur à tous mes \remove{collaborateurs} collègues, qui ont été la pierre angulaire de la bonne ambiance et du plaisir que j'ai eu à continuer le travail chaque jour \small{(ouvré, non férié, voir conditions particulières\up{a})}. Merci donc à toute l'équipe TSF, dont les permanents Hélène W., Karama K., Jérémie G., Gilles T., Vincent N. et M., Nicolas R., Guillaume A. Eric A et bien sûr Jean-Charles, Michaël et Matthieu une seconde fois... 
+	\break
+	...mais aussi et surtout, merci aux doctorants pour ces instants de soutien, de pauses au bureau, pour les parties de tarot, pour les LANs, et pour toutes les discussions plus profondes sur le monde de la recherche, la politique (à la fois de gauche mais aussi de gauche de la gauche), et plein d'autres sujets plus ou moins barrés ou sérieux. Donc un grand merci à William E., Lola M., Aliénor D., Christophe B., Malcolm B. et Jean I. qui ont terminé leurs aventures avant moi. 
+	Mentions spéciales au trio déchanté~: Matthieu A., Jonathan R. et Guillaume A. avec qui j'ai pu passer des soirées et des week-ends de folie pour décompresser et j'espère pouvoir continuer encore longtemps... tant que mon aĝe le permet~!
+		
+	Merci aussi à Romain C., Lucas S., Raoul S.F., Cyrius N., Florent G., Alexis G., Maria-Laura B.M., Mohamed E.M. et Yassir I.M. qui sont arrivés en cours de route et à qui je souhaite le meilleur pour terminer leur propre aventure. 
+	
+	Et un grand merci et des remerciements tout particuliers à Clément R. et Rémi A.. Nous avons entamé cette aventure ensemble, coude-à-coude, et nous avons vécu des instants de rire et de partage mémorables ! Vous avez été mes piliers, mes supports, mon phare de back-up dans la brume doctorante. 
+	
+	Bref, pour vous tous, merci pour votre soutien, votre bonne humeur et tout simplement votre amitié.
+	
+	Pour finir, je souhaite remercier ma famille du fond du cœur. Mon père, ma mère, ma sœur, mais aussi ma grand-mère qui s'est levée à 5h du matin de l'autre bout du globe pour assister à la consécration de ces travaux. Vous n'avez pas forcément tout compris des péripéties de mes années de thèse, mais vous avez toujours été là pour moi, et ça compte énormément. 
+	
+\paragraph*{}
+	Ce fut une expérience unique, qui n'aurait pas été la même sans toutes les personnes qui m'ont entouré durant ces années. Merci à vous tous que j'ai mentionné ici, et à tous ceux que j'ai probablement oublié (tel que ma coloc, merci Éléonore !), mais qui ont contribué d'une façon ou d'une autre à rendre ces dernières années plus belles qu'elles ne l'étaient déjà pour moi. \textit{Obrigado}.
 	
 
 }
