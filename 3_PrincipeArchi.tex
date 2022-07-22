@@ -52,7 +52,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     
     On notera dès cette première formulation un mélange entre les niveaux de criticité des tâches et des modes de criticité. 
 
-    Le second, d'un point de vue des standards de sûreté de fonctionnement, est largement exploité dans l'industrie. Dans ce cadre-là, la criticité détermine un niveau de confiance que l'on peut accorder à un composant tel que décrit précédemment en~\autoref{sec:SureteDeFonctionnement}. Le niveau de criticité est alors déterminé non pas au regard des contraintes temporelles, mais plutôt avec des analyses de sûreté (Analyses de Risques, AMDEC\footnote{amDeC -- Analyse des Modes de Défaillance, de leurs Effets et de leur Criticité}, FTA\footnote{FTA -- Fault Tolerance Analysis}...) pour obtenir une catégorisation telle que définie par les différentes normes du domaine (un niveau d'ASIL tel que défini dans ISO26262 pour l'automobile par exemple). Elle se définit alors en fonction de critères comme~: 
+    Le second, d'un point de vue des standards de sûreté de fonctionnement, est largement exploité dans l'industrie. Dans ce cadre-là, la criticité détermine un niveau de confiance que l'on peut accorder à un composant tel que décrit précédemment en~\autoref{sec:SureteDeFonctionnement}. Le niveau de criticité est alors déterminé non pas au regard des contraintes temporelles, mais plutôt avec des analyses de sûreté (Analyses de Risques, AMDEC\footnote{AMDEC -- Analyse des Modes de Défaillance, de leurs Effets et de leur Criticité}, FTA\footnote{FTA -- Fault Tolerance Analysis}...) pour obtenir une catégorisation telle que définie par les différentes normes du domaine (un niveau d'ASIL tel que défini dans ISO26262 pour l'automobile par exemple). Elle se définit alors en fonction de critères comme~: 
 \begin{enumerate}[label=\textbf{\alph*)}]
 	\item     l'évaluation des conséquences en cas de défaillance, 
 	\item     la probabilité de défaillance, 
@@ -181,7 +181,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
   		
   		Nous ne considérons pas dans notre modèle d'éventuels délais entre l'instant où une tâche produit sa donnée de sortie et le moment où cette donnée est réellement disponible pour la ou les tâches consommatrices. Il faudrait pour cela ajouter dans notre modèle de précédence une constante de latence correctement estimée selon l'implémentation de la transmission des données entre les tâches. On pourra noter sur ces aspects les travaux de~\cite{friese_estimating_2018} qui ont pu aborder la prise en compte de latences dans différents modèles de chaînes de tâches.
 
-
+\pagebreak
         \paragraph{Temps de réponse bout-en-bout}
 
     La notion de successeur permet de définir le temps de réponse bout-en-bout $R_j$ de la $ j $-ème instance d'exécution d'une chaîne de tâche. Ainsi $R_j$ désigne le temps écoulé entre l'activation du \textit{job} d'entrée $\tau_{1,j}$ de la chaîne, jusqu'à la terminaison du \textit{job} de sortie $\tau_{n, k} = succ^{n-1}(\tau_{1,j})$.
@@ -195,17 +195,17 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
 	L'objectif à présent est de proposer une approche qui permette justement d'exploiter ces contraintes bout-en-bout, de façon à éviter les risques de fautes temporelles au niveau fonctionnel. Cela se traduit par la volonté de prévenir les risques de dépassement d'échéances, non pas au niveau de chaque tâche individuelle, mais plutôt à un niveau d'observation au-dessus qui est en lien direct avec la représentation fonctionnelle.
 	
     
-\section[Mécanisme d'anticipation]{Mécanisme d'anticipation par Surveillance \\ et Contrôle}
+\section{Mécanisme de Surveillance et de Contrôle}%\right \ref{def:TraceExecutionChaine}
     \subsection{Méthode d'anticipation}
     
  %%% Question Grolleau 
  %   Les tâches sont strictement périodiques ? Basées sur même horloge ?
     Je propose donc un mécanisme basé sur la surveillance à l'exécution de l'avancement d'une chaîne de tâches. 
-    Pour ce faire, on introduit les notions d'\textbf{État de Chaîne de Tâches} et de \textbf{Trace d'Exécution de Chaîne de Tâches}. Une chaîne de tâches donnée est associée à un État et plusieurs Traces d'Exécutions. Ces deux éléments évoluant au fil de l'exécution du système, on peut noter $S(t)$ l'État à l'instant t et $ET(j,t)$ la j\up{ème} Trace d'Exécution de la Chaîne de tâches à l'instant t.
+    Pour ce faire, on introduit les notions d'\textbf{État de Chaîne de Tâches} et de \textbf{Trace d'Exécution de Chaîne de Tâches}. Une chaîne de tâches donnée est associée à un chaque instant t à un État et à plusieurs Traces d'Exécutions actives. Ces deux éléments évoluant au fil de l'exécution du système, on peut noter $S(t)$ l'État à l'instant t et $ET(j,t)$ la j\up{ème} Trace d'Exécution de la Chaîne de tâches à l'instant t.
     
     On peut alors définir pour une Chaîne de Tâches dont la tâche d'entrée est $\tau_{1}$, et la tâche de sortie $\tau_{n}$ : 
     \begin{definition} \label{def:TraceExecutionChaine}
-    	Une \textbf{Trace d'Exécution} $ET(j,t)$ se définit par le début d'exécution d'un job d'entrée $s_{1,j}$ ainsi que tous les temps de fin d'exécution $e_{i,j}$ des \textit{successeurs} itératifs de ce job qui ont été identifiés à l'instant $t$.
+    	Une \textbf{Trace d'Exécution} $ET(j,t)$ se définit par le début d'exécution d'un job d'entrée $s_{1,j}$ ainsi que tous les temps de fin d'exécution $e_{i,j}$ des \textit{successeurs} itératifs de ce job qui ont été identifiés à l'instant ~$t$.
     	\begin{equation*}
     		ET(j,t) = \{\: a_{1,j} \:,\: e_{1,j} \:, succ(e_{1,j})\:, \;\dots\; ,\: succ^{n-1}(e_{1,j}) = e_{n,k} \:\}
     	\end{equation*}    	
@@ -214,22 +214,18 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     		ET(j,t)  \quad \textrm{est active ssi}\quad  a_{1,j} \leq t \quad \textrm{et} \quad e_{n,k} > t
     	\end{equation*}
     \end{definition}
-    
-    %Our anticipation mechanism is based on the run-time monitoring of the task chain progress. 
-    %To that end, we introduce the notions of \textbf{Task Chain State} and \textbf{Task Chain Execution Trace} (TCET). 
-    %A TCET contains an entry task job and all the iterative successors of that job. 
-    %At a time $t$ a TCET can be \emph{active}, if its entry task job has been activated and if its exit task job has not yet ended, or \emph{inactive} otherwise. 
-    
-    Il est possible de définir à partir des Traces d'exécution, actives ou inactives à un instant $t$, l'État de la Chaîne de tâches :
+        
+        \pagebreak
+    Il est possible de définir à partir des Traces d'exécution, actives ou inactives à un instant~$t$, l'État de la Chaîne de tâches :
     
     \begin{definition}\label{def:EtatChaine}
-    	L'\textbf{État d'une Chaîne de Tâches} $S(t)$ définit à un instant $t$ l'état d'avancement de l'exécution de la chaîne de tâches qui est toujours en cours et qui a été activée la plus anciennement. Autrement dit, $\pmb{S(t) =\langle t_0, \tau_p\rangle}$ basé sur la Trace d'Exécution la plus ancienne active $ ET(j,t) $ tel que~:
+    	L'\textbf{État d'une Chaîne de Tâches} $S(t)$ définit à un instant ~$t$ l'état d'avancement de l'exécution de la chaîne de tâches qui est toujours en cours et qui a été activée la plus anciennement. Autrement dit, $\pmb{S(t) =\langle t_0, \tau_p\rangle}$ basé sur la Trace d'Exécution la plus ancienne active $ ET(j,t) $ tel que~:
     	\begin{equation*} 
     		\left|
 			\begin{array}{ll}
 				\displaystyle	t_0 &= \displaystyle\min_{j \in \mathbb{N}^*} \left\{ a_{1,j} \mid
 			    	  					a_{1,j} \leq t \wedge succ^{n-1}(e_{1,j}) > t \right\}		\\
-			    \displaystyle	\tau_p = succ^{\,p}(\tau_{1,j}) &= \displaystyle\min_{l\,\in\,[\![0;n-2]\!] } \left\{ succ^{\,l+1}(\tau_{1,j}) \mid succ^{\,l}(e_{1,j}) \leq t \right\}
+			    \displaystyle	\tau_p = succ^{\,p}(\tau_{1,j}) &= \displaystyle\min_{p\,\in\,[\![0;n-2]\!] } \left\{ succ^{\,p+1}(\tau_{1,j}) \mid succ^{\,p}(e_{1,j}) \leq t \right\}
 			\end{array}
     	  	\right.
     	\end{equation*}
@@ -238,9 +234,9 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
 
     De cette façon, l'État d'une chaîne de tâches indique quelles sont les tâches restantes à exécuter dans la chaîne à un instant donné et son temps de réponse partiel actuel que l'on notera $RT(t) = t - t_0$. L'état de la chaîne se focalise sur la chaîne active la plus ancienne, donc la plus longue ce qui implique que c'est la plus à même de dépasser l'échéance.
     
-    Pour finir, au regard de l'État d'une chaîne de tâches, on peut s'intéresser au temps restant jusqu'à la complétion de cette chaîne. Il est possible d'estimer le temps qu'il faudra pour aller jusqu'à exécuter la tâche de sortie de la chaîne qui fait partie de la Trace d'Exécution active observée, c'est-à-dire $succ^{\,n-1}(\tau_{1,j}) = \tau_{n,j}$. Et si, de plus, cette estimation est faite dans les hypothèses d'estimation de Temps d'Exécution Pire Cas, on obtient alors une estimation de \textbf{\emph}{Pire Temps de Réponse restant} $rWCRT(t)$ à l'instant $t$ pour terminer l'exécution de la trace d'exécution active la plus longue.
+    Pour finir, au regard de l'État d'une chaîne de tâches, on peut s'intéresser au temps restant jusqu'à la complétion de cette chaîne. Il est possible d'estimer le temps qu'il faudra pour aller jusqu'à exécuter la tâche de sortie de la chaîne qui fait partie de la Trace d'Exécution active observée, c'est-à-dire $succ^{\,n-1}(\tau_{1,j}) = \tau_{n,j}$. Et si, de plus, cette estimation est faite dans les hypothèses d'estimation de Temps d'Exécution Pire Cas, on obtient alors une estimation de \textbf{\emph}{Pire Temps de Réponse restant} $rWCRT(t)$ à l'instant ~$t$ pour terminer l'exécution de la trace d'exécution active la plus longue.
     
-    Alors, en combinant l'État à un instant $t$ avec une estimation du Temps de Réponse Pire Cas restant, on peut donc estimer une borne haute garantie de temps de réponse de la chaîne de tâche. C'est là que l'on peut faire entrer en jeu un mécanisme d'anticipation. 
+    Alors, en combinant l'État à un instant ~$t$ avec une estimation du Temps de Réponse Pire Cas restant, on peut donc estimer une borne haute garantie de temps de réponse de la chaîne de tâche. C'est là que l'on peut faire entrer en jeu un mécanisme d'anticipation. 
     On dispose pour une chaîne de tâches donnée de son temps de réponse partiel actuel ainsi qu'une estimation de temps de réponse restant en pire cas. Il est alors possible de déterminer s'il y a un risque de défaillance par dépassement de l'échéance bout-en-bout $D_c$.
     \begin{theorem}[Risque de dépassement d'échéance]
     	Si à un instant donné $t$, l'inéquation suivante est respectée, alors il y a risque de dépassement d'échéance.
@@ -249,11 +245,11 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
     	\end{equation*}
     \end{theorem}
 
-	Pour illustrer cette logique, on peut voir sur le chronogramme~\ref{fig:chronogram_rWCRT_example} à nouveau un exemple avec une chaîne de tâches $\tau_1 \rightarrow \tau_2 \rightarrow \tau_3$. À l'instant $t=18$ indiqué, il y a deux Traces d'Exécution actives (chaînes reliées par une flèche de succession). On a de ce constat l'État de la chaîne $S(t) = \langle \tau_0, \tau_2\rangle = \langle 4, \tau_{2} \rangle $.
+	Pour illustrer cette logique, on peut voir sur le chronogramme~\ref{fig:chronogram_rWCRT_example} à nouveau un exemple avec une chaîne de tâches $\tau_1 \rightarrow \tau_2 \rightarrow \tau_3$. À l'instant ~$t=18$ indiqué, il y a deux Traces d'Exécution actives (chaînes reliées par une flèche de succession). On a de ce constat l'État de la chaîne $S(t) = \langle \tau_0, \tau_2\rangle = \langle 4, \tau_{2} \rangle $.
 	On en déduit $ RT(18) = t - t_0 = 18-4 = 14 $. Si l'on ajoute à cela une estimation du Temps de Réponse Pire Cas restant $rWCRT(18)$, qui est le temps estimé pour que $\rightarrow \tau_2 \rightarrow \tau_3$ soit exécuté selon les contraintes de précédence, alors on a l'estimation du Pire Temps de Réponse : $ RT(18) + rWCRT(18) = 33$ que l'on peut comparer à la date d'échéance $ D_c = 30 $. Dans cet exemple, il existe donc un risque de dépassement de l'échéance.
-	Il est à noter aussi que dans cet exemple l'instant $t$ a été pris en plein pendant l'exécution de la tâche $ \tau_2 $. Ce qui est pris en considération comme si cette dernière n'était pas exécutée. Si l'on ne prend pas non plus en compte son exécution partielle, c'est parce que d'un point de vue externe à cette tâche, sans l'instrumentaliser il n'est pas possible de le savoir. Et de fait, l'une de nos contraintes est d'être le moins intrusif possible sur le code, notamment pour les cas où certains logiciels ne sont pas modifiables (black-box ou legacy). 
+	Il est à noter aussi que dans cet exemple l'instant ~$t$ a été pris en plein pendant l'exécution de la tâche $ \tau_2 $. Ce qui est pris en considération comme si cette dernière n'était pas exécutée. Si l'on ne prend pas non plus en compte son exécution partielle, c'est parce que d'un point de vue externe à cette tâche, sans l'instrumentaliser il n'est pas possible de le savoir. Et de fait, l'une de nos contraintes est d'être le moins intrusif possible sur le code, notamment pour les cas où certains logiciels ne sont pas modifiables (black-box ou legacy). 
 	
-    \begin{figure}[ht]
+	\begin{figure}[ht]
 		\centering 
 		\includegraphics[width=0.7\linewidth]{Chronogrammes-rWCRT-example}
 		\caption{Chronogramme de calcul du risque de dépassement à un instant t}
@@ -292,6 +288,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
 		\item 	$ t_{SW} $ Le délai maximum nécessaire à la transition du mode nominal au mode dégradé
 		\item 	$ rWCRT(\tau_i) $ pour chaque $\tau_i$ de la chaîne de tâche, les Temps de Réponses Pire Cas restant en mode dégradé
 	\end{itemize}
+
 	Il est alors possible de calculer la somme du temps de réponse partiel actuel avec ces trois métriques. Tant que cette somme reste inférieure à l'échéance bout-en-bout, alors on peut conserver le système en mode nominal. En revanche, à partir du moment où cela dépasse l'échéance, alors c'est le moment où il n'est plus sûr de rester en mode nominal, et il faut donc déclencher le mode dégradé pour garantir le respect de l'échéance. Cela correspond en conséquence à surveiller que l'inéquation suivante reste vraie pour savoir l'instant critique auquel il faut passer en mode dégradé~:
 	
 	\begin{theorem}[Condition de passage en mode dégradé]
@@ -339,7 +336,7 @@ Pour finir, nous verrons dans quelle mesure notre proposition se positionne vis-
 		\label{fig:rwcrtchronogram}
 	\end{figure}
 
-    En conclusion, grâce au calcul d'anticipation de risque de dépassement d'échéance, il nous est possible d'identifier l'instant $t$ auquel il est nécessaire de passer en Mode Dégradé. La démarche que suit notre mécanisme d'anticipation est illustrée en~\autoref{fig:rwcrtchronogram} avec l'hypothèse d'une chaîne de tâche~:    \[ \tau_{0} \rightarrow \tau_{1} \rightarrow \tau_{2} \rightarrow \tau_{3} \rightarrow \tau_{4} \rightarrow \tau_{5} \rightarrow \tau_{6} \] 
+    En conclusion, grâce au calcul d'anticipation de risque de dépassement d'échéance, il nous est possible d'identifier l'instant ~$t$ auquel il est nécessaire de passer en Mode Dégradé. La démarche que suit notre mécanisme d'anticipation est illustrée en~\autoref{fig:rwcrtchronogram} avec l'hypothèse d'une chaîne de tâche~:    \[ \tau_{0} \rightarrow \tau_{1} \rightarrow \tau_{2} \rightarrow \tau_{3} \rightarrow \tau_{4} \rightarrow \tau_{5} \rightarrow \tau_{6} \] 
      
      À chaque point de Surveillance, le mécanisme anticipe le risque en calculant l'inégalité \ref{eq:safe_cond} comme reconstitué en~\autoref{sufig:chrono_risque_defaillance}. Si l'inégalité n'est plus respectée et donc que le risque est manifeste comme sur le chronogramme, alors le passage en mode dégradé est effectué, de façon à ce que ce soit le scénario représenté en~\autoref{sufig:chrono_risque_ModeDegrade} qui se réalise, et donc éviter le dépassement d'échéance potentiel. On notera la présence de la tâche non critique $t_0$ qui s'exécute sur le même cœur mais n'influe pas sur le calcul d'anticipation qui est fait.
 	%La méthode de réglage de la période de surveillance sera discuté dans le~\autoref{chap:4_ProtocolExpe}.

@@ -2,7 +2,7 @@
 \else
 \documentclass[french, a4paper, 11pt, twoside, pdftex]{StyleThese}
 \include{formatAndDefs}
-\DeclareUnicodeCharacter{202F}{\,}
+
 \sloppy
 
 \begin{document}
@@ -17,21 +17,16 @@
 La conception des systèmes embarqués, typiquement automobiles, a subi de fortes évolutions orientées vers de nouvelles fonctionnalités centrées sur le logiciel.
 Ces évolutions demandent des capacités de calcul de plus en plus importantes et donc des architectures matérielles pour supporter la demande grandissante en fonctionnalités.
 Par ailleurs le contexte industriel mène à la disparition des calculateurs d'antan, monocœurs, pour se focaliser sur des calculateurs plus complexes et puissants, multicœurs.
-Cette tendance au multicœur provient à la fois d'une limitation technologique et d'un besoin grandissant~: la façon d'augmenter les capacités de calculs par les méthodes classiques (montée en fréquence) atteint ses limites et les capacités d'exécution concourante de logiciel est de plus en plus demandée dans un contexte aux contraintes financières et de \textit{time-to-market} fortes.
+Cette tendance provient à la fois d'une limitation technologique et d'un besoin grandissant~: la façon d'augmenter les capacités de calculs par les méthodes classiques atteint ses limites et les capacités d'exécution concourante de logiciel est de plus en plus demandée dans un contexte industriel aux contraintes fortes.
 
-C'est ainsi que naît la volonté de passer sur des architectures électriques et électroniques plus centralisées via l'utilisation d'une quantité réduite d'unités de calcul, mais intégrant un plus grand nombre de fonctionnalités de traitement en leur sein ; en un mot, des processeurs multicœurs. Cette volonté implique cependant une superposition des difficultés inhérentes aux architectures matérielles plus complexes avec les contraintes de sûreté de fonctionnement du logiciel. Nous faisons donc face à des systèmes à criticité mixte exécutés sur des calculateurs aux mécanismes complexes.
+C'est ainsi que naît la volonté de passer sur des architectures électriques et électroniques plus centralisées via l'utilisation d'une quantité réduite d'unités de calcul, mais intégrant un plus grand nombre de fonctionnalités en leur sein ; en un mot, des processeurs multicœurs. Cette volonté implique cependant une superposition des difficultés inhérentes aux architectures matérielles plus complexes avec les contraintes de sûreté de fonctionnement du logiciel. Nous faisons donc face à des systèmes à criticité mixte exécutés sur des calculateurs aux mécanismes complexes.
 
-Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce contexte et ses spécificités à prendre en compte pour proposer de nouveaux éléments de réponse dans la conception de systèmes à criticité mixte sur processeurs multicœurs. Nous conclurons cette partie avec la présentation de la problématique à laquelle nous tenterons de répondre ainsi qu'une vue d'ensemble des différents chapitres qui structurent cette thèse.
+Nous verrons ainsi dans ce chapitre le contexte et ses spécificités à prendre en compte pour proposer de nouveaux éléments de réponse dans la conception de systèmes à criticité mixte sur processeurs multicœurs. Nous conclurons cette partie avec la présentation de la problématique à laquelle nous tenterons de répondre.
 
 \section{Évolutions des Systèmes embarqués}
 	\subsection{Nouveaux systèmes intelligents et connectés}
 		Si l'on prend le cas du domaine automobile, depuis près de trente ans l'industrie n'a cessé de faire évoluer la façon de concevoir les véhicules et notamment leurs systèmes sous-jacents. Comme illustré avec le  diagramme~\ref{fig:evo_sys_automobile}, la transition s'est faite de modifications purement mécaniques vers des évolutions électriques, puis électroniques et de plus en plus intelligentes. Les systèmes de divertissement du consommateur ont été les premiers, dans le milieu des années 1920, à introduire des composants électroniques au sein des véhicules sous la forme de récepteurs radio à lampes~! Si l’apparition de transistors, dans les années 1950, a contribué à	l’amélioration des capacités techniques des appareils et à la diffusion massive des autoradios au sein des automobiles, le concept de base a peu évolué jusqu'à la fin des années 1970. L’introduction des premiers systèmes de navigation dans les années 1980, puis des systèmes multimédia dans les années 2000 a changé la donne. Désormais, l'ancienne façade de l’autoradio devient un écran de commande nommée \emph{head unit} et concentre 70\% du code du véhicule.	Les voitures se sont modernisées avec l'ajout de calculateurs dédiés à des fonctions internes ou des services. Le développement des technologies de l'industrie {4.0} mène à une augmentation exponentielle du logiciel embarqué dans l'automobile au cours des 15 dernières années~\cite{blanchet_industrie_2016}, avec la présence de plus de 50 calculateurs embarqués dans certains modèles~\cite{juliussen_navigating_2022}. Les contrôles mécaniques et autres systèmes électriques "simples" cèdent la place au monde du numérique. Les équipements électroniques et logiciels se multiplient au sein du véhicule pour l’aide à la conduite (\textit{Advanced Driver-Assistance System -- ADAS}) et l’ajout de services~\cite{schmidt_automotive_2010}. De fait, le système multimédia moderne a un rôle qui va bien au-delà de celui du simple autoradio~: il devient l'interaction principale entre le consommateur et le véhicule et devient un critère de choix prépondérant à l'achat.
 
-		Ainsi, du simple Système Anti-blocage des roues (ABS), on a introduit des Assistants à la Conduite tels que le Freinage d'Urgence (\textit{Emergency Braking System}) ou encore le Système de Gestion de Ligne (\textit{Lane Support System}) qui permet à la fois l'Avertissement de Dépassement de Ligne (\textit{Lane Departure Warning}), l'Assistant de Maintien de Ligne (\textit{Lane Keeping Assist}) et le Maintien de Ligne d'Urgence (\textit{Emergency Lane Keeping})... et il ne s'agit là que de 2 fonctionnalités supplémentaires~! En parallèle, la voiture devient de plus en plus automatisée, voire autonome. Elle gagne en connectivité avec la prise en compte de données extérieures possiblement avec un lien direct au cloud pour proposer une diversité de services~: météo, divertissement, trafic routier, pour n'en citer que quelques exemples.
-		Les systèmes embarqués deviennent par conséquent aussi connectés. On parle de communications \emph{car-to-car} entre véhicules ou \emph{car-to-infrastructure} entre véhicule et infrastructures routières par exemple.
-		
-		Cette ouverture du système à son environnement est à double tranchant. D'une part cela offre de nouveaux horizons de fonctionnalités et optimisations de conduite, avec des possibilités d'évolutivité simplifiée. Mais d'autre part la complexité va grandissante avec les enjeux d'ingénierie que cela implique.
-		
 		% le nombre de fonctionnalité d'aide à la conduite a explosé. 
 		\begin{figure}[ht!]
 			\centering
@@ -39,6 +34,12 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 			\caption[Évolutions des Systèmes Automobiles]{Principaux domaines d'évolution des systèmes automobiles au fil du temps}
 			\label{fig:evo_sys_automobile}
 		\end{figure}
+
+		Ainsi, du simple Système Anti-blocage des roues (ABS), on a introduit des Assistants à la Conduite tels que le Freinage d'Urgence (\textit{Emergency Braking System}) ou encore le Système de Gestion de Ligne (\textit{Lane Support System}) qui permet à la fois l'Avertissement de Dépassement de Ligne (\textit{Lane Departure Warning}), l'Assistant de Maintien de Ligne (\textit{Lane Keeping Assist}) et le Maintien de Ligne d'Urgence (\textit{Emergency Lane Keeping})... \\ et il ne s'agit là que de 2 fonctionnalités supplémentaires~! En parallèle, la voiture devient de plus en plus automatisée, voire autonome. Elle gagne en connectivité avec la prise en compte de données extérieures possiblement avec un lien direct au cloud pour proposer une diversité de services~: météo, divertissement, trafic routier, pour n'en citer que quelques exemples.
+		Les systèmes embarqués deviennent par conséquent aussi connectés. On parle de communications \emph{car-to-car} entre véhicules ou \emph{car-to-infrastructure} entre véhicule et infrastructures routières par exemple.
+		
+		Cette ouverture du système à son environnement est à double tranchant. D'une part cela offre de nouveaux horizons de fonctionnalités et optimisations de conduite, avec des possibilités d'évolutivité simplifiée. Mais d'autre part la complexité va grandissante avec les enjeux d'ingénierie que cela implique.
+	
 	
 		%%%%%%%%% Emergence des architectures EE actuelles GENERALISATION 
 		De façon plus générale, le contexte industriel actuel fait émerger de nouvelles technologies basées sur des logiciels de plus en plus complexes et performants. Cela est rendu possible via l'émergence d'architectures matérielles toujours plus puissantes et performantes. Ces améliorations permettent le développement et la mise en application de nouvelles technologies comme les réseaux de communication sans fil haute performance ou encore l'usage d'intelligences artificielles. On retrouve ainsi un nombre grandissant de fonctionnalités directement embarquées dans l'automobile, l'avion, le train pour répondre à la fois à de nouveaux besoins fonctionnels~: assistance à la conduite/pilotage, tableaux de bord, etc. et à des besoins de confort d'usage~: info-divertissement, connectivité, automatisations...
@@ -48,14 +49,15 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 	\subsection{Nouvelles architectures Matérielles}
 
 		D'un point de vue matériel, il y a de fortes convergences sur les architectures employées dans les différents domaines. Historiquement, on retrouvait en premier lieu des calculateurs monocœurs. Cependant, les diverses évolutions d'exigences ont fait apparaître des limites en capacité de calcul. La montée en fréquence de fonctionnement atteint un seuil maximum à cause de l'augmentation de température et la consommation que cela implique. De fait les processeurs ne peuvent dépasser un certain seuil de température de fonctionnement (typiquement au-delà de 90°C) sans risque de dégradations irréversibles. Par ailleurs, l'augmentation du nombre de transistors qui composent les processeurs arrive aux abords des limites physiques~: la taille de gravure du silicium arrive au même ordre de grandeur que la taille des atomes de silicium dont elle est composé. De fait, jusqu'à récemment encore, la Loi de Moore~\cite{thompson_moores_2006} sur la puissance des processeurs s'est vérifiée. Des premiers microprocesseurs Intel en 1971, avec quelques milliers de transistors de \SI{10}{\micro\metre}, l'on est aujourd'hui à plus de 1 milliards de transistors de près de \SI{10}{\nano\metre}. Mais à l'aune d'une gravure proche des \SI{2}{\nano\metre}, on environne les dimensions de 10 à 15 atomes et les effets de la physique quantique entrent en jeu. Par conséquent, l'on se dirige vers les limites des technologies actuelles pour poursuivre ces améliorations de puissance. Pour ces raisons, le plus grand levier de progression disponible aujourd'hui repose sur la parallélisation des unités de calcul, et donc la notion de calculateur multicœur, qui est apparue dès les années 1950~\cite{smotherman_history_2005}. Les fondeurs s'orientent vers des processeurs où la montée en puissance est assurée par la multiplication des unités de calcul (dit "cœurs") parallèles dans le processeur. On passe ainsi de monocœurs toujours plus petits et compacts à des duals/quadri cœurs... et l'on va aujourd'hui jusqu'à des supercalculateurs à plus de 128 cœurs. 
-		
+				\pagebreak
+				
 		\begin{figure}[ht!]
 			\centering
 			\includegraphics[width=0.8\linewidth]{graphiques/processors_trend}
 			\caption[Évolution des processeurs]{48 Ans d'évolution des processeurs - Tendances}
 			\label{fig:processorstrend}
 		\end{figure}
-	
+
 		Tous ces changements se visualisent parfaitement avec l'évolution des caractéristiques des processeurs au fil des années en~\autoref{fig:processorstrend}, tel qu'agrégé par K. Rupp~\cite{rupp_48_2020}. Ces évolutions sont les bienvenues dans tous les secteurs concernés, allant du grand public dans les ordinateurs, téléphones et autres multimédias jusqu'aux applications industrielles en passant par les usages de serveurs réseaux et centres de calculs. %
 
 		
@@ -171,6 +173,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 		
 		Chaque faute peut provoquer une ou des erreurs différentes pouvant entraîner la défaillance du système. Malgré l’application des techniques de prévention et d’élimination des fautes, certaines subsistent et sont à même d’être activées.
 		
+		\pagebreak
 		Un système tolérant aux fautes doit pouvoir assurer à l’utilisateur un service correct en dépit des fautes pouvant altérer ses composants, durant sa conception ou son interaction avec d’autres systèmes~\cite{avizienis_basic_2004}. La Tolérance aux fautes est mise en œuvre grâce aux moyens de \textbf{détection} d’erreurs, c.-à-d., l’identification des déviations du service correct, et de \textbf{recouvrement}, c.-à-d., les techniques permettant en cas d’erreur détectée de passer d’un état de système fautif à un état assurant un service nominal ou dégradé.
 		
 		La détection d’erreur peut être soit concurrente et se déroulant pendant l’exécution du système soit anticipée en vérifiant les paramètres du système lors de la suspension de son exécution. Une fois cette erreur détectée, les techniques de recouvrement peuvent être employées, d’une part pour assurer le service désiré et éviter la propagation de l’erreur (traitement des erreurs) et d’autre part pour isoler le composant fautif, diagnostiquer l’erreur, trouver et déterminer la faute originelle pour assurer une opération de maintenance (traitement des fautes).
@@ -261,9 +264,11 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 	
 		\subsection{Standards industriels et Concept de Criticité}	
 		Les processus de développement de systèmes embarqués sont régis par des standards et normes qui suggèrent, voire imposent des garanties sur le bon fonctionnement et donc vis-à-vis du respect des contraintes non fonctionnelles. Il s'agit notamment de toutes les contraintes que nous avons présentées jusqu'alors de sûreté de fonctionnement, qui ne sont pas des spécifications directement liées aux fonctions qui doivent être réalisées par le système. Ces standards recommandent des directives de développement qui suivent toute la durée du processus, de la spécification jusqu'aux tests de validation et d'intégration. Une des normes "mères" de la sûreté de fonctionnement des architectures électriques et électroniques est IEC-61508~\cite{iec61508}. Il s'agit d'un standard européen générique qui touche donc à de nombreux domaines tels que le ferroviaire, l'automobile, l'aéronautique, etc. Il s'agit en particulier des systèmes où il existe des risques pour les personnes ou sur l'environnement en cas de défaillances. Ce standard définit des niveaux de criticité SIL (\textit{Safety Integrity Level}). Cela fournit des niveaux de fiabilité requis pour chaque niveau de criticité ainsi que les méthodes applicables pour atteindre cet objectif. Ce standard a été par la suite décliné suivant les domaines. Dans l'automobile est ainsi apparue en 2011 la première version d'ISO 26262, "Véhicules Routiers - Sécurité fonctionnelle~\cite{iso_tc22sc3wg16_iso_2011}. 
-
-		
+		\smallbreak
+		\smallbreak
 		La norme ISO 26262 est la norme de référence pour la sûreté de fonctionnement dans le domaine automobile. Elle recommande des méthodes et mécanismes, applicables durant toutes les phases de développement du véhicule, pour atteindre et justifier son niveau de sûreté de fonctionnement. La norme préconise d’effectuer une phase d’analyse des risques pour identifier les situations dangereuses et les classifier en 4 niveaux de criticités nommés ASIL (\textit{Automotive Safety Integrity Level}) allant du moins critique (ASIL A) au plus critique (ASIL D). Pour la détermination de ces niveaux, trois critères sont pris en compte: la sévérité, la probabilité d'accomplissement et la contrôlabilité.
+		
+		\pagebreak
 		
 		\begin{itemize}
 			\item 		\textbf{La Sévérité -- }
@@ -388,6 +393,7 @@ Nous verrons ainsi dans ce chapitre quels sont les aspects essentiels de ce cont
 	
 	Cela nous mènera dans le~\autoref{chap:4_ProtocolExpe} suivant à développer notre mécanisme de Surveillance et Contrôle basé sur ces chaînes, son architecture et ce que cela implique en terme d'implémentation. Cette approche se basera sur la surveillance des contraintes temporelles de chaînes de tâches dans un système à criticité duale, exécuté sur un multicœur bien entendu. L'objectif étant de stopper temporairement des tâches non critiques pour éviter des interférences qui risqueraient de provoquer des fautes temporelles.
 	
+	\pagebreak
 	Enfin, nous verrons au~\autoref{chap:5_ImplementationCase} un cas d'implémentation qui a pu être réalisé sur une plateforme d'essai. Cette plateforme se voulant être une preuve de concept, l'objectif est de voir l'influence et les tenants et aboutissants du mécanisme proposé. Nous utiliserons pour cela des tâches d'une suite de benchmark sur laquelle on pourra implémenter le mécanisme, le calibrer et en tirer des mesures de performance.
 	Nous ferons alors un bilan des résultats obtenus avec des perspectives d'utilisation, ainsi que des pistes de recherche. 
     

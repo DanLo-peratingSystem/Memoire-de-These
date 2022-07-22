@@ -240,7 +240,7 @@ L'objectif de cette seconde phase de caractérisation consiste justement à cara
     		
     		Cette dernière condition de l'~\autoref{eq:conditionsMemoireControle} est donc suffisantes, mais pas nécessaire. Elle fournit un premier couple de valeurs de période d'exécution $T_{ccc}$ et de taille de mémoire tampon $L_{buf}$ simples et fonctionnels. Dans un cadre où la contrainte de mémoire disponible est très contraignante, il est probable que selon la chaîne de tâches étudiée, on puisse réduire taille de mémoire tampon en utilisant donc la condition complète précédente, qui requiert les valeurs des pires temps de réponses des tâches critiques.
     		
-    		\pagebreak
+    		%\pagebreak
     		
     		Maintenant que ces valeurs sont fixées, le mécanisme de surveillance est activé pour conserver les traces d'exécution de la chaîne de tâches $ET(j,t)$, de façon à déterminer expérimentalement les $rWCRT(\tau_i)$ nécessaires au Contrôle.
     		Pour rappel, chaque trace d'exécution enregistre le timestamps de fin d'exécution de toutes les tâches de la chaîne selon le respect de la contrainte de précédence dans la chaîne. On reconstitue donc à partir de ces traces les temps d'exécution intermédiaires de la chaîne de tâche~: \\

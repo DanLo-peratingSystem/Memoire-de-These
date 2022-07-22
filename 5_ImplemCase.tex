@@ -18,7 +18,7 @@
 %%%% INTRO %%%%
 Nous avons jusqu'alors présenté notre contribution pour garantir le respect d'échéances temporelles ciblées sur des tâches critiques par le biais d'un mécanisme de surveillance et de contrôle. Suite à cela nous avons proposé deux protocoles expérimentaux qui permettent de caractériser un jeu de tâches de façon à constituer un cas de test expérimental d'une part et pour configurer le-dit mécanisme d'autre part. À présent nous proposons la mise en application de tous ces éléments, par l'utilisation d'un jeu de tâches issus d'une suite de benchmark, MiBench. L'objectif est de tester et caractériser le comportement de ce mécanisme de surveillance et de contrôle sur un cas de test. Cette mise en œuvre consiste à développer un framework de configuration et d'exécution d'un jeu de tâches sur une plateforme Linux grand-public qui intègre le mécanisme ainsi que des patchs pour s'approcher d'une plate-forme temps-réel. L'objectif de ce framework est de proposer un environnement expérimental de mesures comportementales du mécanisme sur un cas de test modulable. On présentera dans un premier temps la plateforme de développement matérielle et logicielle. Nous verrons dans un second temps les détails d'implémentation du mécanisme de contrôle sur cette plateforme et comment le benchmark MiBench a été exploité dans ce contexte en application du protocole expérimental détaillé précédemment.
 
-
+\newpage
 \section{Plateforme de développement}
     
         \subsection{Plateforme Matérielle}
@@ -47,7 +47,7 @@ Nous avons jusqu'alors présenté notre contribution pour garantir le respect d'
 		
 		Au regard de ce constat, il convient donc de réaliser ces études de façon progressive et donc de ne pas impliquer directement la totalité des mécanismes d'optimisation mis à disposition par les processeurs, qui apportent chacun une couche de complexité supplémentaire.
 		
-		\pagebreak
+		%\pagebreak
         \subsection{Support Logiciel}
         
         \paragraph{Système d'exploitation Linux --}
@@ -171,7 +171,7 @@ Nous avons jusqu'alors présenté notre contribution pour garantir le respect d'
     
     \begin{table}[ht]
     	%% increase table row spacing, adjust to taste
-    	\renewcommand{\arraystretch}{1.3}
+    	%\renewcommand{\arraystretch}{1.3}
     	\caption{Tâches MiBench conservées}
     	\label{tab:MiBench_final}
     	\centering
@@ -252,7 +252,7 @@ ComputeTraj   7  ./ComputeTraj.in      187       RM
 \end{lstlisting}
 
 	Aussi, chaque groupe dans ce fichier de configuration pointe vers des fichiers de configuration secondaires \texttt{tasks.in} qui donnent la liste de toutes les tâches de ce groupe à être exécutées avec les paramètres de chacune d'elles. Un exemple d'un tel fichier de configuration secondaire est donné en~\autoref{code:task.in}.
-	\pagebreak
+	%\pagebreak
 	\begin{lstlisting}[caption={Fichier d'entrée pour une chaine de tâche}, label={code:task.in}]
 ID name         rWCRT    T   P  A prec FUNC     ARGS
 1  fft_S       129000   40  10  1   0  fft      8 2048 [...]
@@ -323,9 +323,11 @@ ID name         rWCRT    T   P  A prec FUNC     ARGS
 	\begin{equation}~\label{Cond:sizeBuffers}
 		\forall~\tau_i, \  i \in [\![ 1, n ]\!],  \qquad L_i = \left\lceil \frac{\sum_{j=i}^{n}(C_j + T_j)-T_i}{T_i} \right\rceil
 	\end{equation}
+
+\pagebreak
 	On notera que pour $i=n$, la tâche terminale, on trouve bien $L_n=1$ qui est logique cas dès qu'un job de la tâche terminale s'exécute, elle est directement délestée dans le mécanisme de Contrôle par la terminaison de l'exécution bout-en-bout correspondante. Il n'y aura donc jamais plus d'un timestamp de la tâche terminale de stockée, et il sera immédiatement retiré par définition des traces d'exécutions actives, qui sont les seuls conservées pour le suivi à un instant t.
 	
-	\pagebreak
+%	\pagebreak
 	
 	Nous avons fait ce choix d'implémentation en deux composantes de façon à ce que la liaison entre l'Agent de Contrôle et les Wrappers se résume à un envoi de message, avec une tâche dédiée très simple qui a pour seul rôle de mettre ces messages en mémoire tampon pour être traités périodiquement par le CCC. Ainsi, une erreur dans l'envoi de ces messages ou dans leur réception n'empêche pas au module de Contrôle d'effectuer la vérification périodique. Cela évite aussi le partage de ressources entre les Wrappers et l'Agent de Contrôle. Et l'unique ressource partagée est interne à ce dernier, en la présence de la mémoire tampon. En conclusion, la modélisation de l'ensemble figure dans le diagramme de classe simplifié en~\autoref{fig:implementationdiagrammedeclasse}.
 	
@@ -334,6 +336,7 @@ ID name         rWCRT    T   P  A prec FUNC     ARGS
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=\linewidth]{schemas/Implementation_DiagrammeDeClasse}
+		\vspace{-25pt}
 		\caption{Architecture Logicielle du Framework}
 		\label{fig:implementationdiagrammedeclasse}
 	\end{figure}
@@ -484,14 +487,14 @@ Cette phase est dédiée à la configuration des paramètres du Core Control Com
 
 \subsubsection{Paramétrage de l'agent de contrôle (\ctxt{3} et \ctxt{4})}
 
-\paragraph{Constantes d'exécution du CCC}
+\paragraph{Constantes d'exécution du CCC --}
 En ce qui concerne les constantes de fonctionnement du Core Control Component, qui sont pour rappel $t_{SW}$ et $W_{max}$, les choses sont relativement simples. Tout d'abord, pour la période de fonctionnement de l'Agent de Contrôle, au regard de la chaîne de tâches choisie la période maximale qu'il serait possible d'employer serait toutes les 40~ms, avec une mémoire tampon de 5 timestamps. Il s'agit respectivement de la période la plus courte des tâches de la chaîne et du nombre de tâches dans la chaîne, pour garantir qu'aucun timestamp d'exécution des tâches critiques ne soient perdus.
 
 Cependant, de façon à mesurer l'impact de l'exécution du CCC sur l'utilisation des ressources de façon plus conséquente, et pour avoir des points de contrôle plus proches les uns des autres (et donc une meilleure réactivité du mécanisme), nous fixons $W_{max} = 2$\,ms. Autrement dit toutes les 2\,ms, le module de contrôle mettra à jour l'État courant de la chaîne de tâches critiques et recalculera l'inégalité d'anticipation du risque de dépassement d'échéance. Avec les tests en situation nominale du jeu de tâches complet, on pourra mesurer le temps d'exécution total du CCC et donc son empreinte sur le système, qui devra être la plus limitée possible
 
 Pour finir, il reste à déterminer le temps de passage en mode dégradé $t_{SW}$. Pour cela, on va mesurer le temps qu'il faut entre l'instant où le CCC prend la décision de passer en mode dégradé et le moment où toutes les tâches non-critiques ont reçu le signal de stop. De même que pour la mesure de l'empreinte du mécanisme, cela se fera dans l'étape \ctxt{5} où le système est lancé avec la totalité des tâches (critiques et non critiques) sélectionnées, avec la surveillance (réception des timestamps) mais sans le Contrôle. 
 
-\paragraph{Pire Temps d'Exécution restants en mode dégradé} En complément du test précédent effectué sur la chaîne de tâches critiques en isolation, les paramètres de l'Agent de Surveillance et Contrôle peuvent être définis. En effet, lors de la phase \ctxt{3} en isolation, on enregistre de façon détaillée les dates de début et fin des tâches critiques. Cela sert au mécanisme de reconstituer les exécutions de chaînes avec la contrainte de précédence. Cette trace nous est aussi utile pour estimer les valeurs de $rWCRT(\tau_i)$ nécessaires au fonctionnement du mécanisme. 
+\paragraph{Pire Temps d'Exécution restants en mode dégradé --} En complément du test précédent effectué sur la chaîne de tâches critiques en isolation, les paramètres de l'Agent de Surveillance et Contrôle peuvent être définis. En effet, lors de la phase \ctxt{3} en isolation, on enregistre de façon détaillée les dates de début et fin des tâches critiques. Cela sert au mécanisme de reconstituer les exécutions de chaînes avec la contrainte de précédence. Cette trace nous est aussi utile pour estimer les valeurs de $rWCRT(\tau_i)$ nécessaires au fonctionnement du mécanisme. 
 En effet, avec cette trace d'exécution, on peut recalculer les durées d'exécution restantes à partir des dates de terminaison de chacune des tâches jusqu'à la fin de la chaîne, tel qu'illustré dans le schéma \ref{fig:chronogrammes-rwcrt-example}.
 
 \begin{figure}[ht]
@@ -543,7 +546,7 @@ On obtient ainsi 5 mesures de temps d'exécution restant constaté pour chaque i
 	\end{tabular}
 \end{table}
 
-%\pagebreak
+\pagebreak
 \subsubsection{Vérification du jeu de tâches complet (\ctxt{5})}
 
 En complément de la chaîne de tâches critiques il a bien sûr fallu faire une sélection de tâches pour représenter la partie non critique du système et en fixer l'allocation sur les cœurs, les périodes d'exécution, etc.
